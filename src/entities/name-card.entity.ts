@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { User } from './user.entity';
 
 @Entity({ name: 'name_card' })
 export class NameCard extends BaseEntity {
@@ -48,4 +49,9 @@ export class NameCard extends BaseEntity {
   @IsOptional()
   @Column({ nullable: true })
   contact5: string;
+
+  @ManyToOne(() => User, {
+    cascade: true,
+  })
+  user: User;
 }
