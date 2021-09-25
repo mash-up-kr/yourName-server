@@ -50,6 +50,7 @@ export class NameCard extends BaseEntity {
   @Column({ nullable: true })
   contact5: string;
 
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, {
     cascade: true,
   })
