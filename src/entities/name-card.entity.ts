@@ -2,7 +2,7 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
-
+import { NameCardTmi } from './name-card-tmi.entity';
 @Entity({ name: 'name_card' })
 export class NameCard extends BaseEntity {
   @IsString()
@@ -60,4 +60,6 @@ export class NameCard extends BaseEntity {
     onDelete: 'CASCADE',
   })
   user: User;
+  @OneToMany(() => NameCardTmi, (NameCardTmi) => NameCardTmi.nameCard)
+  nameCardTmis: NameCardTmi[];
 }
