@@ -18,13 +18,13 @@ export class Collection extends BaseEntity {
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, {
-    cascade: true,
+    onDelete: 'CASCADE',
   })
   user: User;
 
   @JoinColumn({ name: 'nameCardId', referencedColumnName: 'id' })
   @ManyToOne(() => NameCard, {
-    cascade: true,
+    onDelete: 'CASCADE',
   })
   nameCard: NameCard;
 }

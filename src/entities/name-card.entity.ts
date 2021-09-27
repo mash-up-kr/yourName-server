@@ -57,7 +57,7 @@ export class NameCard extends BaseEntity {
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, {
-    cascade: true,
+    onDelete: 'CASCADE',
   })
   user: User;
 }
