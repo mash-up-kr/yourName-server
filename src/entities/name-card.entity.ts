@@ -5,6 +5,7 @@ import { User } from './user.entity';
 import { NameCardTmi } from './name-card-tmi.entity';
 import { NameCardContact } from './name-card-contact.entity';
 import { NameCardBgColor } from './name-card-bg-color.entity';
+
 @Entity({ name: 'name_card' })
 export class NameCard extends BaseEntity {
   @IsString()
@@ -43,9 +44,6 @@ export class NameCard extends BaseEntity {
   })
   user: User;
 
-  @OneToMany(() => NameCardTmi, (nameCardTmi) => nameCardTmi.nameCard)
-  tmis: NameCardTmi[];
-
   @OneToMany(
     () => NameCardContact,
     (nameCardContact) => nameCardContact.nameCard,
@@ -57,4 +55,7 @@ export class NameCard extends BaseEntity {
     (NameCardBgColor) => NameCardBgColor.nameCard,
   )
   bgColors: NameCardBgColor;
+
+  @OneToMany(() => NameCardTmi, (NameCardTmi) => NameCardTmi.nameCard)
+  nameCardTmis: NameCardTmi[];
 }
