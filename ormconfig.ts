@@ -18,7 +18,7 @@ const config: TypeOrmModuleOptions = {
   autoLoadEntities: true,
   charset: 'utf8mb4',
   synchronize: false,
-  logging: false,
+  logging: process.env.NODE_ENV !== 'production',
 };
 
 export = config;
