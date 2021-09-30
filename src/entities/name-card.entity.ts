@@ -36,8 +36,10 @@ export class NameCard extends BaseEntity {
     onDelete: 'CASCADE',
   })
   user: User;
-  @OneToMany(() => NameCardTmi, (NameCardTmi) => NameCardTmi.nameCard)
-  nameCardTmis: NameCardTmi[];
+
+  @OneToMany(() => NameCardTmi, (nameCardTmi) => nameCardTmi.nameCard)
+  tmis: NameCardTmi[];
+
   @OneToMany(
     () => NameCardContact,
     (nameCardContact) => nameCardContact.nameCard,
