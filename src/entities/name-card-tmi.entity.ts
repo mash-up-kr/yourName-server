@@ -17,7 +17,7 @@ export class NameCardTmi extends BaseEntity {
   tmiId: number;
 
   @JoinColumn([{ name: 'nameCardId', referencedColumnName: 'id' }])
-  @ManyToOne(() => NameCard, (nameCard) => nameCard.nameCardTmis, {
+  @ManyToOne(() => NameCard, (nameCard) => nameCard.tmis, {
     onDelete: 'CASCADE',
   })
   nameCard: NameCard;
