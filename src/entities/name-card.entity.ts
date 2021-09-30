@@ -3,6 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
 import { NameCardTmi } from './name-card-tmi.entity';
+import { NameCardContact } from './name-card-contact.entity';
 @Entity({ name: 'name_card' })
 export class NameCard extends BaseEntity {
   @IsString()
@@ -25,31 +26,6 @@ export class NameCard extends BaseEntity {
   @Column()
   introduce: string;
 
-  @IsString()
-  @IsOptional()
-  @Column({ nullable: true })
-  contact1: string;
-
-  @IsString()
-  @IsOptional()
-  @Column({ nullable: true })
-  contact2: string;
-
-  @IsString()
-  @IsOptional()
-  @Column({ nullable: true })
-  contact3: string;
-
-  @IsString()
-  @IsOptional()
-  @Column({ nullable: true })
-  contact4: string;
-
-  @IsString()
-  @IsOptional()
-  @Column({ nullable: true })
-  contact5: string;
-
   @IsNumber()
   @IsNotEmpty()
   @Column()
@@ -62,4 +38,9 @@ export class NameCard extends BaseEntity {
   user: User;
   @OneToMany(() => NameCardTmi, (NameCardTmi) => NameCardTmi.nameCard)
   nameCardTmis: NameCardTmi[];
+  @OneToMany(
+    () => NameCardContact,
+    (nameCardContact) => nameCardContact.nameCard,
+  )
+  contacts: NameCardContact;
 }
