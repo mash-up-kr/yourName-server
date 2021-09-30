@@ -1,9 +1,10 @@
-import { CreateDateColumn } from 'typeorm';
+import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity } from './base.entity';
 
-export class DateTimeEntity {
+export class DateTimeEntity extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updatedAt: Date;
 }
