@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
 import {
   Column,
   Entity,
@@ -41,6 +41,11 @@ export class NameCard extends DateTimeEntity {
   @IsNotEmpty()
   @Column()
   userId: number;
+
+  @IsNumber()
+  @IsOptional()
+  @Column()
+  imageId: string;
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, {
