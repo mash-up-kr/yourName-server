@@ -9,7 +9,7 @@ export class PersonalSkill extends BaseEntity {
   @IsNumber()
   @IsNotEmpty()
   @Column()
-  level: string;
+  level: number;
 
   @IsNumber()
   @IsNotEmpty()
