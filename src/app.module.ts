@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { NameCardModule } from './modules/name-card/name-card.module';
 import * as ormconfig from '../ormconfig';
 import * as Joi from 'joi';
 import { TmisModule } from './modules/tmis/tmis.module';
@@ -22,7 +23,11 @@ import { TmisModule } from './modules/tmis/tmis.module';
       }),
     }),
     TypeOrmModule.forRoot(ormconfig),
+<<<<<<< HEAD
     TmisModule,
+=======
+    NameCardModule,
+>>>>>>> f91d214... Wip: 명함 생성 api 테스트 중
   ],
   controllers: [AppController],
   providers: [AppService],
