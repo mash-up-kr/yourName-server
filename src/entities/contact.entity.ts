@@ -8,4 +8,9 @@ export class Contact extends BaseEntity {
   @IsString()
   @Column()
   name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Column()
+  iconUrl: string;
 }
