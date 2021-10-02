@@ -18,11 +18,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'name_card' })
 export class NameCard extends DateTimeEntity {
-  @IsString()
-  @IsOptional()
-  @Column({ nullable: true })
-  imageUrl: string;
-
   @ApiProperty({ example: '거뇌 명함' })
   @IsString()
   @IsNotEmpty()
@@ -50,8 +45,8 @@ export class NameCard extends DateTimeEntity {
   //@todo: uniqueCode 함수 적용 후 optional type 해제
   @IsOptional()
   @IsString()
-  @Column({ nullable: true })
-  uniqueCode?: string;
+  @Column()
+  uniqueCode: string;
 
   @ApiProperty({ example: 1 })
   @IsNumber()
