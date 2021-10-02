@@ -16,7 +16,7 @@ export class NameCardBgColor extends BaseEntity {
   })
   @IsNotEmpty()
   @IsString()
-  @Column({ length: 7 })
+  @Column()
   hexCode: string;
 
   @IsNotEmpty()

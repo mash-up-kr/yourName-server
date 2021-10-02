@@ -8,10 +8,6 @@ export class NameCardController {
 
   @Post()
   async createNameCard(@Body() createNameCardDto: CreateNameCardDto) {
-    console.log('hi');
-    return;
-    const nameCardId = await this.nameCardService.createNameCard(
-      createNameCardDto,
-    );
+    return await this.nameCardService.createNameCard(createNameCardDto);
   }
 }
