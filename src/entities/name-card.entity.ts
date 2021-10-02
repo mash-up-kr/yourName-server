@@ -1,19 +1,22 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { User } from './user.entity';
 import { NameCardTmi } from './name-card-tmi.entity';
 import { NameCardContact } from './name-card-contact.entity';
 import { NameCardBgColor } from './name-card-bg-color.entity';
 import { PersonalSkill } from './personal-skill.entity';
 import { DateTimeEntity } from './date-time.entity';
+import { Image } from './image.entity';
 
 @Entity({ name: 'name_card' })
 export class NameCard extends DateTimeEntity {
-  @IsString()
-  @IsOptional()
-  @Column({ nullable: true })
-  imageUrl: string;
-
   @IsString()
   @IsNotEmpty()
   @Column()
@@ -64,4 +67,8 @@ export class NameCard extends DateTimeEntity {
     cascade: true,
   })
   personalSkills: PersonalSkill[];
+
+  @OneToOne(() => Image)
+  @JoinColumn()
+  image: Image;
 }
