@@ -53,14 +53,14 @@ export class NameCard extends DateTimeEntity {
 
   @OneToMany(
     () => NameCardBgColor,
-    (NameCardBgColor) => NameCardBgColor.nameCard,
+    (nameCardContact) => nameCardContact.nameCard,
   )
   bgColors: NameCardBgColor;
 
-  @OneToMany(() => NameCardTmi, (NameCardTmi) => NameCardTmi.nameCard)
+  @OneToMany(() => NameCardTmi, (nameCardTmi) => nameCardTmi.nameCard)
   nameCardTmis: NameCardTmi[];
 
-  @OneToMany(() => PersonalSkill, (PersonalSkill) => PersonalSkill.namecard, {
+  @OneToMany(() => PersonalSkill, (personalSkill) => personalSkill.namecard, {
     cascade: true,
   })
   personalSkills: PersonalSkill[];
