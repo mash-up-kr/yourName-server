@@ -17,7 +17,7 @@ export class NameCardService {
     @InjectRepository(NameCard)
     private nameCardRepository: Repository<NameCard>,
     @InjectRepository(NameCardContact)
-    private nameContactRepository: Repository<NameCardContact>,
+    private nameCardContactRepository: Repository<NameCardContact>,
     @InjectRepository(Contact)
     private contactRepository: Repository<Contact>,
     @InjectRepository(NameCardTmi)
@@ -35,7 +35,14 @@ export class NameCardService {
   async getMyNameCards(userId: number) {
     return await this.nameCardRepository.find({
       where: { userId },
-      relations: ['user', 'contacts', 'bgColors', 'tmis', 'personalSkills'],
+      relations: [
+        'user',
+        'contacts',
+        'contacts.contact',
+        'bgColors',
+        'tmis',
+        'personalSkills',
+      ],
     });
   }
 
@@ -67,7 +74,7 @@ export class NameCardService {
     });
 
     await Promise.all(
-      contacts.map(async (contact, i) => {
+      contacts.map(async (contact) => {
         const _contact = await this.contactRepository.findOne({
           category: contact.category,
         });
@@ -75,9 +82,8 @@ export class NameCardService {
         if (!_contact) {
           throw '존재하지 않는 Contact Category';
         }
-        await this.nameContactRepository.save({
+        await this.nameCardContactRepository.save({
           value: contact.value,
-          order: i,
           nameCardId: nameCard.id,
           contactId: _contact.id,
         });
@@ -99,17 +105,17 @@ export class NameCardService {
     );
 
     await Promise.all(
-      bgColors.map(async (bgColor, i) => {
+      bgColors.map(async (bgColor) => {
         await this.nameCardBgColorRepository.save({
           nameCardId: nameCard.id,
-          hexCode: bgColor,
-          order: i,
+          hexCode: bgColor.hexCode,
+          order: bgColor.order,
         });
       }),
     );
 
     await Promise.all(
-      skills.map(async (skill, i) => {
+      skills.map(async (skill) => {
         let _skill = await this.skillRepository.findOne({ name: skill.name });
 
         if (!_skill) {
@@ -120,12 +126,20 @@ export class NameCardService {
           namecardId: nameCard.id,
           skiilId: _skill.id,
           level: skill.level,
+          order: skill.order,
         });
       }),
     );
 
     return await this.nameCardRepository.findOne(nameCard.id, {
-      relations: ['user', 'contacts', 'bgColors', 'tmis', 'personalSkills'],
+      relations: [
+        'user',
+        'contacts',
+        'contacts.contact',
+        'bgColors',
+        'tmis',
+        'personalSkills',
+      ],
     });
   }
 }

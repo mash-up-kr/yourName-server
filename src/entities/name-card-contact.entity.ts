@@ -11,11 +11,6 @@ export class NameCardContact extends BaseEntity {
   @Column()
   value: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  @Column()
-  order: number;
-
   @IsNumber()
   @IsNotEmpty()
   @Column()

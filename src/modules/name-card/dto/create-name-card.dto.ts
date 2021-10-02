@@ -26,10 +26,13 @@ export class CreateNameCardDto extends PickType(NameCard, [
   contacts?: CreateContactDto[];
 
   @ApiProperty({
-    example: ['#181818', '#101010'],
+    example: [
+      { hexCode: '#181818', order: 1 },
+      { hexCode: '#111110', order: 2 },
+    ],
   })
   @IsNotEmpty()
-  bgColors: string[];
+  bgColors: CreateBgColorDto[];
 
   @IsOptional()
   @ApiProperty({
@@ -43,6 +46,7 @@ export class CreateNameCardDto extends PickType(NameCard, [
       {
         name: '죽은 척 하기',
         level: 2,
+        order: 1,
       },
     ],
   })
@@ -64,7 +68,12 @@ class CreateContactDto {
 
 // class CreateBgColorDto extends PickType(NameCardBgColor, ['hexCode']) {}
 class CreateTmiDto extends PickType(Tmi, ['id']) {}
+class CreateBgColorDto extends PickType(NameCardBgColor, [
+  'hexCode',
+  'order',
+]) {}
 class CreateSkillDto {
   name: string;
   level: number;
+  order: number;
 }
