@@ -27,6 +27,11 @@ export class NameCard extends BaseEntity {
   @Column()
   introduce: string;
 
+  @IsNotEmpty()
+  @IsString()
+  @Column()
+  uniqueCode: string;
+
   @IsNumber()
   @IsNotEmpty()
   @Column()
