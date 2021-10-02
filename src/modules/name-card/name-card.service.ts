@@ -32,6 +32,13 @@ export class NameCardService {
     private personalSkillRepository: Repository<PersonalSkill>,
   ) {}
 
+  async getMyNameCards(userId: number) {
+    return await this.nameCardRepository.find({
+      where: { userId },
+      relations: ['user', 'contacts', 'bgColors', 'tmis', 'personalSkills'],
+    });
+  }
+
   //@todo: Transaction 처리
   async createNameCard(
     createNameCardDto: CreateNameCardDto,
