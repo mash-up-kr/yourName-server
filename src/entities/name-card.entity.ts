@@ -57,7 +57,7 @@ export class NameCard extends DateTimeEntity {
   @IsNumber()
   @IsOptional()
   @Column()
-  imageId: string;
+  imageId: number;
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, {
