@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as ormconfig from '../ormconfig';
 import * as Joi from 'joi';
+import { TmisModule } from './modules/tmis/tmis.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import * as Joi from 'joi';
       }),
     }),
     TypeOrmModule.forRoot(ormconfig),
+    TmisModule,
   ],
   controllers: [AppController],
   providers: [AppService],
