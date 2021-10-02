@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
@@ -10,6 +11,9 @@ export class NameCardBgColor extends BaseEntity {
   @Column()
   nameCardId: number;
 
+  @ApiProperty({
+    example: ['#181818', '#101010'],
+  })
   @IsNotEmpty()
   @IsString()
   @Column({ length: 7 })
