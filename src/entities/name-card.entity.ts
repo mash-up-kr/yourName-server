@@ -1,13 +1,17 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
 import { NameCardTmi } from './name-card-tmi.entity';
+<<<<<<< HEAD
 import { NameCardContact } from './name-card-contact.entity';
 import { NameCardBgColor } from './name-card-bg-color.entity';
+=======
+import { PersonalSkill } from './personal-skill.entity';
+import { DateTimeEntity } from './date-time.entity';
+>>>>>>> a81689d (Chore: skill, 개인별skill, 명함 관계 재설정)
 
 @Entity({ name: 'name_card' })
-export class NameCard extends BaseEntity {
+export class NameCard extends DateTimeEntity {
   @IsString()
   @IsOptional()
   @Column({ nullable: true })
@@ -44,6 +48,7 @@ export class NameCard extends BaseEntity {
   })
   user: User;
 
+<<<<<<< HEAD
   @OneToMany(
     () => NameCardContact,
     (nameCardContact) => nameCardContact.nameCard,
@@ -58,4 +63,13 @@ export class NameCard extends BaseEntity {
 
   @OneToMany(() => NameCardTmi, (NameCardTmi) => NameCardTmi.nameCard)
   nameCardTmis: NameCardTmi[];
+=======
+  @OneToMany(() => NameCardTmi, (NameCardTmi) => NameCardTmi.nameCard)
+  nameCardTmis: NameCardTmi[];
+
+  @OneToMany(() => PersonalSkill, (PersonalSkill) => PersonalSkill.namecard, {
+    cascade: true,
+  })
+  personalSkills: PersonalSkill[];
+>>>>>>> a81689d (Chore: skill, 개인별skill, 명함 관계 재설정)
 }
