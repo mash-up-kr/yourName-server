@@ -53,7 +53,7 @@ export class NameCard extends DateTimeEntity {
 
   @OneToMany(
     () => NameCardBgColor,
-    (nameCardContact) => nameCardContact.nameCard,
+    (nameCardBgColor) => nameCardBgColor.nameCard,
   )
   bgColors: NameCardBgColor;
 
