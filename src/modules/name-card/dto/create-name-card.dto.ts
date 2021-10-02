@@ -7,12 +7,12 @@ import { Tmi } from 'src/entities/tmi.entity';
 
 // @todo: 기존 엔티티에서 가져와서 합칠 수 있도록 리팩토링 해보기
 export class CreateNameCardDto extends PickType(NameCard, [
-  'imageUrl',
   'name',
   'role',
   'personality',
   'introduce',
   'userId',
+  'imageId',
 ]) {
   @IsOptional()
   @ApiProperty({

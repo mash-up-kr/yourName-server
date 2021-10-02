@@ -50,86 +50,16 @@ export class NameCardService {
   async createNameCard(
     createNameCardDto: CreateNameCardDto,
   ): Promise<NameCard> {
-    const {
-      imageUrl,
-      name,
-      role,
-      introduce,
-      userId,
-      personality,
-      contacts,
-      tmiIds,
-      bgColors,
-      skills,
-    } = createNameCardDto;
+    const { contacts, tmiIds, bgColors, skills, ...nameCardData } =
+      createNameCardDto;
 
     //@todo: UniqueCode 코드
-    const nameCard = await this.nameCardRepository.save({
-      name,
-      role,
-      introduce,
-      userId,
-      personality,
-      imageUrl,
-    });
+    const nameCard = await this.nameCardRepository.save(nameCardData);
 
-    await Promise.all(
-      contacts.map(async (contact) => {
-        const _contact = await this.contactRepository.findOne({
-          category: contact.category,
-        });
-
-        if (!_contact) {
-          throw '존재하지 않는 Contact Category';
-        }
-        await this.nameCardContactRepository.save({
-          value: contact.value,
-          nameCardId: nameCard.id,
-          contactId: _contact.id,
-        });
-      }),
-    );
-
-    await Promise.all(
-      tmiIds.map(async (tmiId) => {
-        const tmi = await this.tmiRepository.findOne(tmiId);
-
-        if (!tmi) {
-          throw '존재하지 않는 TMI 유형입니다';
-        }
-        await this.nameCardTmiRepository.save({
-          nameCardId: nameCard.id,
-          tmiId: tmi.id,
-        });
-      }),
-    );
-
-    await Promise.all(
-      bgColors.map(async (bgColor) => {
-        await this.nameCardBgColorRepository.save({
-          nameCardId: nameCard.id,
-          hexCode: bgColor.hexCode,
-          order: bgColor.order,
-        });
-      }),
-    );
-
-    await Promise.all(
-      skills.map(async (skill) => {
-        let _skill = await this.skillRepository.findOne({ name: skill.name });
-
-        if (!_skill) {
-          _skill = await this.skillRepository.save({ name: skill.name });
-        }
-
-        await this.personalSkillRepository.save({
-          namecardId: nameCard.id,
-          skiilId: _skill.id,
-          level: skill.level,
-          order: skill.order,
-        });
-      }),
-    );
+    await this._saveContacts(nameCard.id, contacts);
+    await this._saveTmis(nameCard.id, tmiIds);
+    await this._saveBgColors(nameCard.id, bgColors);
+    await this._saveSkills(nameCard.id, skills);
 
     return await this.nameCardRepository.findOne(nameCard.id, {
       relations: [
@@ -141,5 +71,71 @@ export class NameCardService {
         'personalSkills',
       ],
     });
+  }
+
+  async _saveContacts(nameCardId, contacts) {
+    await Promise.all(
+      contacts.map(async (contact) => {
+        const _contact = await this.contactRepository.findOne({
+          category: contact.category,
+        });
+
+        if (!_contact) {
+          throw '존재하지 않는 Contact Category';
+        }
+        await this.nameCardContactRepository.save({
+          value: contact.value,
+          nameCardId: nameCardId,
+          contactId: _contact.id,
+        });
+      }),
+    );
+  }
+
+  async _saveTmis(nameCardId, tmiIds) {
+    await Promise.all(
+      tmiIds.map(async (tmiId) => {
+        const tmi = await this.tmiRepository.findOne(tmiId);
+
+        if (!tmi) {
+          throw '존재하지 않는 TMI 유형입니다';
+        }
+        await this.nameCardTmiRepository.save({
+          nameCardId: nameCardId,
+          tmiId: tmi.id,
+        });
+      }),
+    );
+  }
+
+  async _saveBgColors(nameCardId, bgColors) {
+    await Promise.all(
+      bgColors.map(async (bgColor) => {
+        await this.nameCardBgColorRepository.save({
+          nameCardId: nameCardId,
+          hexCode: bgColor.hexCode,
+          order: bgColor.order,
+        });
+      }),
+    );
+  }
+
+  async _saveSkills(nameCardId, skills) {
+    await Promise.all(
+      skills.map(async (skill) => {
+        let _skill = await this.skillRepository.findOne({ name: skill.name });
+
+        if (!_skill) {
+          _skill = await this.skillRepository.save({ name: skill.name });
+        }
+
+        await this.personalSkillRepository.save({
+          namecardId: nameCardId,
+          skiilId: _skill.id,
+          level: skill.level,
+          order: skill.order,
+        });
+      }),
+    );
   }
 }
