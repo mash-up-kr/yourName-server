@@ -7,7 +7,7 @@ export class Contact extends BaseEntity {
   @IsNotEmpty()
   @IsString()
   @Column()
-  name: string;
+  category: string;
 
   @IsNotEmpty()
   @IsString()
