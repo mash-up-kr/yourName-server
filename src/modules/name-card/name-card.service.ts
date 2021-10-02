@@ -5,6 +5,8 @@ import { NameCardBgColor } from 'src/entities/name-card-bg-color.entity';
 import { NameCardContact } from 'src/entities/name-card-contact.entity';
 import { NameCardTmi } from 'src/entities/name-card-tmi.entity';
 import { NameCard } from 'src/entities/name-card.entity';
+import { PersonalSkill } from 'src/entities/personal-skill.entity';
+import { Skill } from 'src/entities/skill.entity';
 import { Tmi } from 'src/entities/tmi.entity';
 import { Repository } from 'typeorm';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
@@ -24,9 +26,16 @@ export class NameCardService {
     private tmiRepository: Repository<Tmi>,
     @InjectRepository(NameCardBgColor)
     private nameCardBgColorRepository: Repository<NameCardBgColor>,
+    @InjectRepository(Skill)
+    private skillRepository: Repository<Skill>,
+    @InjectRepository(PersonalSkill)
+    private personalSkillRepository: Repository<PersonalSkill>,
   ) {}
 
-  async createNameCard(createNameCardDto: CreateNameCardDto) {
+  //@todo: Transaction 처리
+  async createNameCard(
+    createNameCardDto: CreateNameCardDto,
+  ): Promise<NameCard> {
     const {
       imageUrl,
       name,
@@ -37,10 +46,10 @@ export class NameCardService {
       contacts,
       tmiIds,
       bgColors,
+      skills,
     } = createNameCardDto;
 
     //@todo: UniqueCode 코드
-
     const nameCard = await this.nameCardRepository.save({
       name,
       role,
@@ -56,6 +65,9 @@ export class NameCardService {
           category: contact.category,
         });
 
+        if (!_contact) {
+          throw '존재하지 않는 Contact Category';
+        }
         await this.nameContactRepository.save({
           value: contact.value,
           order: i,
@@ -65,23 +77,13 @@ export class NameCardService {
       }),
     );
 
-    const tmis: Tmi[] = await Promise.all(
+    await Promise.all(
       tmiIds.map(async (tmiId) => {
-        return await this.tmiRepository.findOne(tmiId);
-      }),
-    );
+        const tmi = await this.tmiRepository.findOne(tmiId);
 
-    await Promise.all(
-      tmis.map(async (tmi) => {
-        await this.nameCardTmiRepository.save({
-          nameCardId: nameCard.id,
-          tmiId: tmi.id,
-        });
-      }),
-    );
-
-    await Promise.all(
-      tmis.map(async (tmi) => {
+        if (!tmi) {
+          throw '존재하지 않는 TMI 유형입니다';
+        }
         await this.nameCardTmiRepository.save({
           nameCardId: nameCard.id,
           tmiId: tmi.id,
@@ -98,5 +100,25 @@ export class NameCardService {
         });
       }),
     );
+
+    await Promise.all(
+      skills.map(async (skill, i) => {
+        let _skill = await this.skillRepository.findOne({ name: skill.name });
+
+        if (!_skill) {
+          _skill = await this.skillRepository.save({ name: skill.name });
+        }
+
+        await this.personalSkillRepository.save({
+          namecardId: nameCard.id,
+          skiilId: _skill.id,
+          level: skill.level,
+        });
+      }),
+    );
+
+    return await this.nameCardRepository.findOne(nameCard.id, {
+      relations: ['user', 'contacts', 'bgColors', 'tmis', 'personalSkills'],
+    });
   }
 }

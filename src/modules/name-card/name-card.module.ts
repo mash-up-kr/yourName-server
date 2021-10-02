@@ -8,6 +8,8 @@ import { Tmi } from 'src/entities/tmi.entity';
 import { NameCardContact } from 'src/entities/name-card-contact.entity';
 import { NameCardTmi } from 'src/entities/name-card-tmi.entity';
 import { NameCardBgColor } from 'src/entities/name-card-bg-color.entity';
+import { PersonalSkill } from 'src/entities/personal-skill.entity';
+import { Skill } from 'src/entities/skill.entity';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { NameCardBgColor } from 'src/entities/name-card-bg-color.entity';
       NameCardTmi,
       Tmi,
       NameCardBgColor,
+      Skill,
+      PersonalSkill,
     ]),
   ],
   controllers: [NameCardController],

@@ -47,10 +47,11 @@ export class NameCard extends DateTimeEntity {
   @Column()
   introduce: string;
 
-  @IsNotEmpty()
+  //@todo: uniqueCode 함수 적용 후 optional type 해제
+  @IsOptional()
   @IsString()
-  @Column()
-  uniqueCode: string;
+  @Column({ nullable: true })
+  uniqueCode?: string;
 
   @ApiProperty({ example: 1 })
   @IsNumber()
@@ -73,7 +74,7 @@ export class NameCard extends DateTimeEntity {
     () => NameCardContact,
     (nameCardContact) => nameCardContact.nameCard,
   )
-  contacts: NameCardContact;
+  contacts?: NameCardContact;
 
   @OneToMany(
     () => NameCardBgColor,
@@ -82,7 +83,7 @@ export class NameCard extends DateTimeEntity {
   bgColors: NameCardBgColor;
 
   @OneToMany(() => NameCardTmi, (nameCardTmi) => nameCardTmi.nameCard)
-  tmis: NameCardTmi[];
+  tmis?: NameCardTmi[];
 
   @OneToMany(() => PersonalSkill, (personalSkill) => personalSkill.namecard, {
     cascade: true,
