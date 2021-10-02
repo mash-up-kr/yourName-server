@@ -4,7 +4,7 @@ import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
 import { NameCardTmi } from './name-card-tmi.entity';
 import { NameCardContact } from './name-card-contact.entity';
-import { NameCardBgColor } from './name-card-bg.entity';
+import { NameCardBgColor } from './name-card-bg-color.entity';
 @Entity({ name: 'name_card' })
 export class NameCard extends BaseEntity {
   @IsString()
