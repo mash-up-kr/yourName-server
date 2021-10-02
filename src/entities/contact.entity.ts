@@ -10,12 +10,9 @@ export class Contact extends BaseEntity {
   @IsString()
   @Column()
   category: string;
-<<<<<<< HEAD
 
   @IsNotEmpty()
   @IsString()
   @Column()
   iconUrl: string;
-=======
->>>>>>> f91d214... Wip: 명함 생성 api 테스트 중
 }

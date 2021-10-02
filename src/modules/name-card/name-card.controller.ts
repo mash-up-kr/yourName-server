@@ -11,7 +11,10 @@ export class NameCardController {
   @ApiOperation({ summary: '내 명함 생성' })
   @Post()
   async createNameCard(@Body() createNameCardDto: CreateNameCardDto) {
-    return await this.nameCardService.createNameCard(createNameCardDto);
+    const nameCard = await this.nameCardService.createNameCard(
+      createNameCardDto,
+    );
+    return { nameCardId: nameCard.id };
   }
 
   // auth guard 붙이면 query.userId 교체

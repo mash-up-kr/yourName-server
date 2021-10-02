@@ -11,9 +11,6 @@ export class NameCardBgColor extends BaseEntity {
   @Column()
   nameCardId: number;
 
-  @ApiProperty({
-    example: ['#181818', '#101010'],
-  })
   @IsNotEmpty()
   @IsString()
   @Column()
@@ -21,7 +18,7 @@ export class NameCardBgColor extends BaseEntity {
 
   @IsNotEmpty()
   @IsNumber()
-  @Column()
+  @Column({ default: 1 })
   order: number;
 
   @ManyToOne(() => NameCard, (nameCard) => nameCard.bgColors, {
