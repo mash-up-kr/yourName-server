@@ -1,6 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Tmi } from 'src/entities/tmi.entity';
+import { ApiOperation } from '@nestjs/swagger';
 import { TmisController } from './tmis.controller';
 
 type SwaggerMethodDoc<T> = {
