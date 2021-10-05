@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
+import { ApiDocs } from './name-card.docs';
 import { NameCardService } from './name-card.service';
 
 @ApiTags('NameCard - 명함')
@@ -8,8 +9,8 @@ import { NameCardService } from './name-card.service';
 export class NameCardController {
   constructor(private readonly nameCardService: NameCardService) {}
 
-  @ApiOperation({ summary: '내 명함 생성' })
   @Post()
+  @ApiDocs.createNameCard('내 명함 생성')
   async createNameCard(@Body() createNameCardDto: CreateNameCardDto) {
     const nameCard = await this.nameCardService.createNameCard(
       createNameCardDto,
@@ -18,14 +19,8 @@ export class NameCardController {
   }
 
   // auth guard 붙이면 query.userId 교체
-  @ApiOperation({
-    summary: '내 명함 가져오기',
-  })
-  @ApiQuery({
-    name: 'userId',
-    required: true,
-  })
   @Get()
+  @ApiDocs.getMyNameCards('내 명함 가져오기')
   async getMyNameCards(@Query('userId') userId?: number) {
     return await this.nameCardService.getMyNameCards(userId);
   }

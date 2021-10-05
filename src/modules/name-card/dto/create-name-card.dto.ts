@@ -18,7 +18,7 @@ export class CreateNameCardDto extends PickType(NameCard, [
   @ApiProperty({
     example: [
       {
-        category: '이메일',
+        category: 'Email.',
         value: 'jkl9510357@gmail.com',
       },
     ],
