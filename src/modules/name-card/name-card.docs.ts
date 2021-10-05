@@ -25,4 +25,11 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
       }),
     );
   },
+  deleteNameCard(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+      }),
+    );
+  },
 };
