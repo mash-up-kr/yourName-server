@@ -23,11 +23,8 @@ import { TmisModule } from './modules/tmis/tmis.module';
       }),
     }),
     TypeOrmModule.forRoot(ormconfig),
-<<<<<<< HEAD
     TmisModule,
-=======
     NameCardModule,
->>>>>>> f91d214... Wip: 명함 생성 api 테스트 중
   ],
   controllers: [AppController],
   providers: [AppService],
