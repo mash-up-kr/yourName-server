@@ -10,6 +10,7 @@ import { Skill } from 'src/entities/skill.entity';
 import { Tmi } from 'src/entities/tmi.entity';
 import { Repository } from 'typeorm';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
+import { UpdateNameCardDto } from './dto/update-name-card.dto';
 
 @Injectable()
 export class NameCardService {
@@ -56,10 +57,12 @@ export class NameCardService {
     //@todo: UniqueCode 코드
     const nameCard = await this.nameCardRepository.save(nameCardData);
 
-    await this._saveContacts(nameCard.id, contacts);
-    await this._saveTmis(nameCard.id, tmiIds);
-    await this._saveBgColors(nameCard.id, bgColors);
-    await this._saveSkills(nameCard.id, skills);
+    await Promise.all([
+      this._saveContacts(nameCard.id, contacts),
+      this._saveTmis(nameCard.id, tmiIds),
+      this._saveBgColors(nameCard.id, bgColors),
+      this._saveSkills(nameCard.id, skills),
+    ]);
 
     return await this.nameCardRepository.findOne(nameCard.id, {
       relations: [
@@ -73,7 +76,23 @@ export class NameCardService {
     });
   }
 
-  async _saveContacts(nameCardId, contacts) {
+  async updateNameCard(
+    nameCardId: number,
+    updateNameCardDto: UpdateNameCardDto,
+  ) {
+    const { contacts, tmiIds, bgColors, skills, ...nameCardData } =
+      updateNameCardDto;
+
+    await Promise.all([
+      this.nameCardRepository.update(nameCardId, nameCardData),
+      this._saveContacts(nameCardId, contacts),
+      this._saveTmis(nameCardId, tmiIds),
+      this._saveBgColors(nameCardId, bgColors),
+      this._saveSkills(nameCardId, skills),
+    ]);
+  }
+
+  async _saveContacts(nameCardId, contacts = []) {
     await Promise.all(
       contacts.map(async (contact) => {
         const _contact = await this.contactRepository.findOne({
@@ -92,7 +111,7 @@ export class NameCardService {
     );
   }
 
-  async _saveTmis(nameCardId, tmiIds) {
+  async _saveTmis(nameCardId, tmiIds = []) {
     await Promise.all(
       tmiIds.map(async (tmiId) => {
         const tmi = await this.tmiRepository.findOne(tmiId);
@@ -108,7 +127,7 @@ export class NameCardService {
     );
   }
 
-  async _saveBgColors(nameCardId, bgColors) {
+  async _saveBgColors(nameCardId, bgColors = []) {
     await Promise.all(
       bgColors.map(async (bgColor) => {
         await this.nameCardBgColorRepository.save({
@@ -120,7 +139,7 @@ export class NameCardService {
     );
   }
 
-  async _saveSkills(nameCardId, skills) {
+  async _saveSkills(nameCardId, skills = []) {
     await Promise.all(
       skills.map(async (skill) => {
         let _skill = await this.skillRepository.findOne({ name: skill.name });

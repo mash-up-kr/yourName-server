@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Param,
+  Req,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
+import { UpdateNameCardDto } from './dto/update-name-card.dto';
 import { ApiDocs } from './name-card.docs';
 import { NameCardService } from './name-card.service';
 
@@ -24,5 +35,14 @@ export class NameCardController {
   @ApiDocs.getMyNameCards('내 명함 가져오기')
   async getMyNameCards(@Req() req: any) {
     return await this.nameCardService.getMyNameCards(req.user.userId);
+  }
+
+  @Put(':id')
+  @ApiDocs.updateNameCard('명함 수정')
+  async updateNameCard(
+    @Param('id') nameCardId: number,
+    @Body() updateNameCardDto: UpdateNameCardDto,
+  ) {
+    await this.nameCardService.updateNameCard(nameCardId, updateNameCardDto);
   }
 }
