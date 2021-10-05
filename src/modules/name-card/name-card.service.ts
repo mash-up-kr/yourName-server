@@ -92,6 +92,10 @@ export class NameCardService {
     ]);
   }
 
+  async deleteNameCard(nameCardId: number) {
+    await this.nameCardRepository.delete(nameCardId);
+  }
+
   async _saveContacts(nameCardId, contacts = []) {
     await Promise.all(
       contacts.map(async (contact) => {
