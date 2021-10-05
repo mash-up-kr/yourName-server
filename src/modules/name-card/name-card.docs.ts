@@ -18,4 +18,11 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
       }),
     );
   },
+  updateNameCard(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+      }),
+    );
+  },
 };
