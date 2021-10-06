@@ -8,6 +8,7 @@ import * as ormconfig from '../ormconfig';
 import * as Joi from 'joi';
 import { TmisModule } from './modules/tmis/tmis.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ImagesModule } from './modules/images/images.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthModule } from './modules/auth/auth.module';
     TmisModule,
     NameCardModule,
     AuthModule,
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
