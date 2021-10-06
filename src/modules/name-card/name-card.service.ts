@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Contact } from 'src/entities/contact.entity';
 import { NameCardBgColor } from 'src/entities/name-card-bg-color.entity';
@@ -104,7 +104,13 @@ export class NameCardService {
         });
 
         if (!_contact) {
-          throw '존재하지 않는 Contact Category';
+          throw new HttpException(
+            {
+              status: HttpStatus.NOT_FOUND,
+              error: '존재하지 않는 Contact Category',
+            },
+            HttpStatus.NOT_FOUND,
+          );
         }
         await this.nameCardContactRepository.save({
           value: contact.value,
@@ -121,7 +127,13 @@ export class NameCardService {
         const tmi = await this.tmiRepository.findOne(tmiId);
 
         if (!tmi) {
-          throw '존재하지 않는 TMI 유형입니다';
+          throw new HttpException(
+            {
+              status: HttpStatus.NOT_FOUND,
+              error: '존재하지 않는 TMI 유형입니다',
+            },
+            HttpStatus.NOT_FOUND,
+          );
         }
         await this.nameCardTmiRepository.save({
           nameCardId: nameCardId,
