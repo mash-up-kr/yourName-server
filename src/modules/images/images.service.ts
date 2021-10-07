@@ -46,7 +46,9 @@ export class ImageService {
         })
         .promise();
       const ContentsArr = objectArr.Contents;
-      const KeyArr = ContentsArr.map((e) => e.Key);
+      const KeyArr = ContentsArr.map((e) => e.Key).filter((e) => {
+        return e != 'profile/';
+      });
       console.log(KeyArr);
       const result = KeyArr.map((e) => this.addPrefix(e));
       return result;
