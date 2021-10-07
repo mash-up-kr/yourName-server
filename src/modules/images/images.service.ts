@@ -36,4 +36,26 @@ export class ImageService {
       throw new InternalServerErrorException(error.message, error);
     }
   }
+
+  async findListObjects(): Promise<any> {
+    try {
+      const objectArr = await this._s3
+        .listObjects({
+          Bucket: process.env.AWS_S3_BUCKT_NAME,
+          Prefix: 'profile/',
+        })
+        .promise();
+      const ContentsArr = objectArr.Contents;
+      const KeyArr = ContentsArr.map((e) => e.Key);
+      console.log(KeyArr);
+      const result = KeyArr.map((e) => this.addPrefix(e));
+      return result;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, error);
+    }
+  }
+
+  addPrefix(element: string) {
+    return process.env.AWS_S3_PREFIX + element;
+  }
 }
