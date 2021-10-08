@@ -10,11 +10,11 @@ export class TmisService {
     private tmisRepository: Repository<Tmi>,
   ) {}
 
-  async findBehaviorTmis() {
+  async findBehaviorTmis(): Promise<Tmi[]> {
     return this.tmisRepository.find({ where: { type: '취미 / 관심사' } });
   }
 
-  async findCharacterTmis() {
+  async findCharacterTmis(): Promise<Tmi[]> {
     return this.tmisRepository.find({ where: { type: '성격' } });
   }
 }
