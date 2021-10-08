@@ -36,7 +36,7 @@ export class ImageService {
         })
         .promise();
       return {
-        imageUrl: process.env.AWS_S3_PREFIX + key,
+        key: key,
       };
     } catch (error) {
       throw new InternalServerErrorException(error.message, error);
@@ -56,8 +56,7 @@ export class ImageService {
         return e != 'profile/';
       });
       console.log(KeyArr);
-      const result = KeyArr.map((e) => this.addPrefix(e));
-      return result;
+      return KeyArr;
     } catch (error) {
       throw new InternalServerErrorException(error.message, error);
     }
@@ -75,9 +74,5 @@ export class ImageService {
   async compareUrl(s3: string[], db: string[]) {
     const result = db.filter((e) => !s3.includes(e));
     return result;
-  }
-
-  addPrefix(element: string) {
-    return process.env.AWS_S3_PREFIX + element;
   }
 }
