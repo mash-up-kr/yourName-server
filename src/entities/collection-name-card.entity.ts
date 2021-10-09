@@ -23,6 +23,8 @@ export class CollectionNameCard extends BaseEntity {
   nameCard: NameCard;
 
   @JoinColumn({ name: 'collectionId', referencedColumnName: 'id' })
-  @ManyToOne(() => Collection, (collection) => collection.collectionNameCards)
+  @ManyToOne(() => Collection, (collection) => collection.collectionNameCards, {
+    onDelete: 'CASCADE',
+  })
   collection: Collection;
 }
