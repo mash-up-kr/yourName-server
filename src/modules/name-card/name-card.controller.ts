@@ -23,13 +23,6 @@ export class NameCardController {
   @Get()
   @ApiDocs.getMyNameCards('내 명함 가져오기')
   async getMyNameCards(@Req() req: any) {
-    return await this.nameCardService.getMyNameCards(req.body.user.userId);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  @ApiDocs.getProfile('프로필 조회')
-  getProfile(@Req() req: any) {
-    return req.user;
+    return await this.nameCardService.getMyNameCards(req.user.userId);
   }
 }
