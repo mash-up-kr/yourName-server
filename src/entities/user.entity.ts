@@ -9,11 +9,6 @@ export class User extends BaseEntity {
   @Column({ length: 20 })
   nickName: string;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @Column()
-  providerID: number;
-
   @IsString()
   @IsNotEmpty()
   @Column()

@@ -8,9 +8,7 @@ export class CreateInitialUserData implements Seeder {
       .createQueryBuilder()
       .insert()
       .into(User)
-      .values([
-        { id: 1, nickName: '거뇌', providerID: 12345, providerName: 'IOS' },
-      ])
+      .values([{ id: 1, nickName: '거뇌', providerName: 'IOS' }])
       .execute();
   }
 }
