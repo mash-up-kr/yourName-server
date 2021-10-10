@@ -8,32 +8,14 @@ export class CreateInitialCollectionData implements Seeder {
     await connection
       .createQueryBuilder()
       .insert()
-      .into(User)
-      .values([{ id: 1, nickName: 'user1', providerName: 'Kakao' }])
-      .execute();
-    await connection
-      .createQueryBuilder()
-      .insert()
       .into(Collection)
       .values([{ id: 1, userId: 1 }])
       .execute();
     await connection
       .createQueryBuilder()
       .insert()
-      .into(User)
-      .values([{ id: 2, nickName: 'user2', providerName: 'Apple' }])
-      .execute();
-    await connection
-      .createQueryBuilder()
-      .insert()
       .into(Collection)
       .values([{ id: 2, userId: 2 }])
-      .execute();
-    await connection
-      .createQueryBuilder()
-      .insert()
-      .into(User)
-      .values([{ id: 3, nickName: 'user3', providerName: 'Apple' }])
       .execute();
     await connection
       .createQueryBuilder()
