@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { ApiDocs } from './name-card.docs';
 import { NameCardService } from './name-card.service';
@@ -18,10 +19,17 @@ export class NameCardController {
     return { nameCardId: nameCard.id };
   }
 
-  // auth guard 붙이면 query.userId 교체
+  @UseGuards(JwtAuthGuard)
   @Get()
   @ApiDocs.getMyNameCards('내 명함 가져오기')
-  async getMyNameCards(@Query('userId') userId?: number) {
-    return await this.nameCardService.getMyNameCards(userId);
+  async getMyNameCards(@Req() req: any) {
+    return await this.nameCardService.getMyNameCards(req.body.user.userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  @ApiDocs.getProfile('프로필 조회')
+  getProfile(@Req() req: any) {
+    return req.user;
   }
 }
