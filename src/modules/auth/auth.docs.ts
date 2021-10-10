@@ -1,10 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
+import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { AuthController } from './auth.controller';
-
-type SwaggerMethodDoc<T> = {
-  [K in keyof T]: (description: string) => MethodDecorator;
-};
 
 export const ApiDocs: SwaggerMethodDoc<AuthController> = {
   kakaoLogin(summary: string) {

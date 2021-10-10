@@ -1,10 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
+import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { TmisController } from './tmis.controller';
-
-type SwaggerMethodDoc<T> = {
-  [K in keyof T]: (description: string) => MethodDecorator;
-};
 
 export const ApiDocs: SwaggerMethodDoc<TmisController> = {
   getBehaviorTmis(summary) {

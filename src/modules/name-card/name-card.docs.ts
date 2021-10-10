@@ -1,10 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiQuery } from '@nestjs/swagger';
+import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { NameCardController } from './name-card.controller';
-
-type SwaggerMethodDoc<T> = {
-  [K in keyof T]: (description: string) => MethodDecorator;
-};
 
 export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
   createNameCard(summary: string) {
