@@ -7,6 +7,7 @@ import { NameCardModule } from './modules/name-card/name-card.module';
 import * as ormconfig from '../ormconfig';
 import * as Joi from 'joi';
 import { TmisModule } from './modules/tmis/tmis.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TmisModule } from './modules/tmis/tmis.module';
     TypeOrmModule.forRoot(ormconfig),
     TmisModule,
     NameCardModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
