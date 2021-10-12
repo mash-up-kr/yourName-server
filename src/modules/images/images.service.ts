@@ -55,7 +55,6 @@ export class ImageService {
       const KeyArr = ContentsArr.map((e) => e.Key).filter((e) => {
         return e != 'profile/';
       });
-      console.log(KeyArr);
       return KeyArr;
     } catch (error) {
       throw new InternalServerErrorException(error.message, error);
@@ -71,8 +70,31 @@ export class ImageService {
     }
   }
 
-  async compareKey(s3: string[], db: string[]) {
+  async compareKey(s3: string[], db: string[]): Promise<string[]> {
     const result = s3.filter((e) => !db.includes(e));
     return result;
+  }
+
+  async deleteObjects() {
+    try {
+      const keys = await this.getComparedList();
+      const objects = keys.map((e) => ({ Key: e }));
+      await this._s3
+        .deleteObjects({
+          Bucket: process.env.AWS_S3_BUCKT_NAME,
+          Delete: { Objects: objects },
+        })
+        .promise();
+      return 'success';
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, error);
+    }
+  }
+
+  async getComparedList(): Promise<string[]> {
+    const keyArrInDB = await this.findListImagesUrl();
+    const keyArrInS3 = await this.findListObjects();
+    const comparedArr = await this.compareKey(keyArrInS3, keyArrInDB);
+    return comparedArr;
   }
 }
