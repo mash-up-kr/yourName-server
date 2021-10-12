@@ -71,7 +71,7 @@ export class ImageService {
     }
   }
 
-  async compareUrl(s3: string[], db: string[]) {
+  async compareKey(s3: string[], db: string[]) {
     const result = s3.filter((e) => !db.includes(e));
     return result;
   }
