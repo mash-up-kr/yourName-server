@@ -9,8 +9,8 @@ export class CreateInitialImageData implements Seeder {
       .insert()
       .into(Image)
       .values([
-        { id: 1, url: 'testurl' },
-        { id: 2, url: 'testurl2' },
+        { id: 1, key: 'testurl' },
+        { id: 2, key: 'testurl2' },
       ])
       .execute();
   }

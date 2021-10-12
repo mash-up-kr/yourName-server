@@ -7,5 +7,5 @@ export class Image extends BaseEntity {
   @IsString()
   @IsNotEmpty()
   @Column()
-  url: string;
+  key: string;
 }
