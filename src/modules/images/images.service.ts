@@ -43,7 +43,7 @@ export class ImageService {
     }
   }
 
-  async findListObjects(): Promise<any> {
+  async findListObjects(): Promise<string[]> {
     try {
       const objectArr = await this._s3
         .listObjects({
@@ -62,9 +62,9 @@ export class ImageService {
     }
   }
 
-  async findListImagesUrl(): Promise<Image[]> {
+  async findListImagesUrl(): Promise<string[]> {
     try {
-      const images = await this.imageRepository.find();
+      const images = (await this.imageRepository.find()).map((e) => e.key);
       return images;
     } catch (error) {
       throw new InternalServerErrorException(error.message, error);
