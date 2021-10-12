@@ -9,6 +9,7 @@ import * as Joi from 'joi';
 import { TmisModule } from './modules/tmis/tmis.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ImagesModule } from './modules/images/images.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ImagesModule } from './modules/images/images.module';
       }),
     }),
     TypeOrmModule.forRoot(ormconfig),
+    ScheduleModule.forRoot(),
     TmisModule,
     NameCardModule,
     AuthModule,
