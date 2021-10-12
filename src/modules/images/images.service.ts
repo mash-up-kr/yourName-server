@@ -72,7 +72,7 @@ export class ImageService {
   }
 
   async compareUrl(s3: string[], db: string[]) {
-    const result = db.filter((e) => !s3.includes(e));
+    const result = s3.filter((e) => !db.includes(e));
     return result;
   }
 }
