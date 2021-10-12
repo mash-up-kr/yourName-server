@@ -78,6 +78,9 @@ export class ImageService {
   async deleteObjects() {
     try {
       const keys = await this.getComparedList();
+      if (Array.isArray(keys) && keys.length === 0) {
+        return;
+      }
       const objects = keys.map((e) => ({ Key: e }));
       await this._s3
         .deleteObjects({
