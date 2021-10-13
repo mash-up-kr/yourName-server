@@ -8,7 +8,7 @@ import { KakaoAuthGuard } from './guards/kakao-auth.guard';
 import { ProviderDataSchema } from './interfaces/interfaces';
 
 @Controller()
-@ApiTags('Auth API')
+@ApiTags('Auth - 인증')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
