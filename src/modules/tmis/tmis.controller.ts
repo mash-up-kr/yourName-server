@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { ApiDocs } from './tmis.docs';
 import { TmisService } from './tmis.service';
 
-@ApiTags('tmi')
+@ApiTags('Tmi')
 @Controller('tmis')
 export class TmisController {
   constructor(private tmisService: TmisService) {}
