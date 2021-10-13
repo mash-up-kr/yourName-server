@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as AWS from 'aws-sdk';
 import { Image } from 'src/entities/image.entity';
@@ -6,6 +11,7 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ImageService {
+  private readonly logger = new Logger(ImageService.name);
   private readonly _s3: AWS.S3;
 
   constructor(
@@ -75,10 +81,13 @@ export class ImageService {
     return result;
   }
 
+  @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT)
   async deleteObjects() {
     try {
+      this.logger.log('Search :: images not in use');
       const keys = await this.getComparedList();
       if (Array.isArray(keys) && keys.length === 0) {
+        this.logger.log('Success :: No images not in use');
         return;
       }
       const objects = keys.map((e) => ({ Key: e }));
@@ -88,7 +97,8 @@ export class ImageService {
           Delete: { Objects: objects },
         })
         .promise();
-      return 'success';
+      this.logger.log('Success :: Deleted images not in use');
+      return;
     } catch (error) {
       throw new InternalServerErrorException(error.message, error);
     }
