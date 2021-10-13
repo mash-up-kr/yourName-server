@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as AWS from 'aws-sdk';
 import { Image } from 'src/entities/image.entity';
@@ -11,7 +6,6 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ImageService {
-  private readonly logger = new Logger(ImageService.name);
   private readonly _s3: AWS.S3;
 
   constructor(
@@ -49,65 +43,12 @@ export class ImageService {
     }
   }
 
-  async findListObjects(): Promise<string[]> {
-    try {
-      const objectArr = await this._s3
-        .listObjects({
-          Bucket: process.env.AWS_S3_BUCKT_NAME,
-          Prefix: 'profile/',
-        })
-        .promise();
-      const ContentsArr = objectArr.Contents;
-      const KeyArr = ContentsArr.map((e) => e.Key).filter((e) => {
-        return e != 'profile/';
-      });
-      return KeyArr;
-    } catch (error) {
-      throw new InternalServerErrorException(error.message, error);
-    }
-  }
-
-  async findListImagesUrl(): Promise<string[]> {
+  async findImageKeys(): Promise<string[]> {
     try {
       const images = (await this.imageRepository.find()).map((e) => e.key);
       return images;
     } catch (error) {
       throw new InternalServerErrorException(error.message, error);
     }
-  }
-
-  async compareKey(s3: string[], db: string[]): Promise<string[]> {
-    const result = s3.filter((e) => !db.includes(e));
-    return result;
-  }
-
-  @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT)
-  async deleteObjects() {
-    try {
-      this.logger.log('Search :: images not in use');
-      const keys = await this.getComparedList();
-      if (Array.isArray(keys) && keys.length === 0) {
-        this.logger.log('Success :: No images not in use');
-        return;
-      }
-      const objects = keys.map((e) => ({ Key: e }));
-      await this._s3
-        .deleteObjects({
-          Bucket: process.env.AWS_S3_BUCKT_NAME,
-          Delete: { Objects: objects },
-        })
-        .promise();
-      this.logger.log('Success :: Deleted images not in use');
-      return;
-    } catch (error) {
-      throw new InternalServerErrorException(error.message, error);
-    }
-  }
-
-  async getComparedList(): Promise<string[]> {
-    const keyArrInDB = await this.findListImagesUrl();
-    const keyArrInS3 = await this.findListObjects();
-    const comparedArr = await this.compareKey(keyArrInS3, keyArrInDB);
-    return comparedArr;
   }
 }

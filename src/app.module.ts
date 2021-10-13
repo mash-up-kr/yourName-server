@@ -10,6 +10,7 @@ import { TmisModule } from './modules/tmis/tmis.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ImagesModule } from './modules/images/images.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { TasksModule } from './modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     NameCardModule,
     AuthModule,
     ImagesModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
