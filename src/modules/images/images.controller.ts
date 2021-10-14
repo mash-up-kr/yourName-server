@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
+import { IFile } from 'src/interfaces/files.interface.ts';
 import { ApiDocs } from './images.docs';
 import { ImageService } from './images.service';
 
@@ -17,7 +18,7 @@ export class ImageController {
   @ApiDocs.uploadFile('이미지 업로드')
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  async uploadFile(@UploadedFile() image) {
+  async uploadFile(@UploadedFile() image: IFile) {
     return await this.imageService.uploadImage(image);
   }
 }
