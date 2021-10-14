@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as AWS from 'aws-sdk';
 import { Image } from 'src/entities/image.entity';
 import { Repository } from 'typeorm';
+import { IFile } from '../../interfaces/files.interface.ts';
 
 @Injectable()
 export class ImageService {
@@ -23,7 +24,7 @@ export class ImageService {
     this._s3 = new AWS.S3(options);
   }
 
-  async uploadImage(image): Promise<any> {
+  async uploadImage(image: IFile): Promise<any> {
     try {
       const key = 'profile/' + image.originalname;
       await this._s3
