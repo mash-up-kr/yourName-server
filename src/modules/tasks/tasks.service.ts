@@ -32,8 +32,7 @@ export class TasksService {
           Prefix: 'profile/',
         })
         .promise();
-      const ContentsArr = objectArr.Contents;
-      const KeyArr = ContentsArr.map((e) => e.Key).filter((e) => {
+      const KeyArr = objectArr.Contents.map((e) => e.Key).filter((e) => {
         return e != 'profile/';
       });
       return KeyArr;
