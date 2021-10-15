@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as AWS from 'aws-sdk';
 import { Image } from 'src/entities/image.entity';
 import { Repository } from 'typeorm';
-import { IFile } from '../../interfaces/files.interface.ts';
+import { IFile } from '../../interfaces/files.interface';
 
 @Injectable()
 export class ImageService {
