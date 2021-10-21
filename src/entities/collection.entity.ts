@@ -16,6 +16,11 @@ export class Collection extends BaseEntity {
   @Column()
   name: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @Column({ length: 20 })
+  description: string;
+
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, {
     onDelete: 'CASCADE',
