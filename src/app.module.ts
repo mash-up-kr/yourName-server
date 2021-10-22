@@ -17,8 +17,9 @@ import { TasksModule } from './modules/tasks/tasks.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
-        process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev',
+        process.env.NODE_ENV === 'development' ? '.env.dev' : '.env.prod',
       validationSchema: Joi.object({
+        NODE_ENV: Joi.string().valid('development', 'production').required(),
         DB_HOST: Joi.string().required(),
         DB_PORT: Joi.number().required(),
         DB_USERNAME: Joi.string().required(),
