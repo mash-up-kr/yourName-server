@@ -2,7 +2,6 @@ import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { NameCardBgColor } from 'src/entities/name-card-bg-color.entity';
 import { NameCard } from 'src/entities/name-card.entity';
-import { Skill } from 'src/entities/skill.entity';
 import { Tmi } from 'src/entities/tmi.entity';
 
 // @todo: 기존 엔티티에서 가져와서 합칠 수 있도록 리팩토링 해보기
