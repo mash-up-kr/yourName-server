@@ -12,6 +12,7 @@ import { ImagesModule } from './modules/images/images.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { CollectionModule } from './modules/collection/collection.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { CollectionModule } from './modules/collection/collection.module';
     ImagesModule,
     TasksModule,
     CollectionModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
