@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { BaseEntity } from './base.entity';
+import { UserOnboarding } from './user-onboarding.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -18,4 +19,7 @@ export class User extends BaseEntity {
   @IsOptional()
   @Column({ nullable: true })
   refreshToken?: string;
+
+  @OneToOne(() => UserOnboarding)
+  onboarding: UserOnboarding;
 }
