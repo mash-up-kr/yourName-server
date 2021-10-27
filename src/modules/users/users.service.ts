@@ -17,4 +17,11 @@ export class UsersService {
     const onboarding = await this.userOnboardingRepository.findOne({ userId });
     return onboarding;
   }
+
+  async doneOnboarding(userId, onboardingType) {
+    const onboarding = await this.userOnboardingRepository.findOne({ userId });
+    onboarding[onboardingType] = true;
+
+    await this.userOnboardingRepository.save(onboarding);
+  }
 }

@@ -8,12 +8,28 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
     return applyDecorators(
       ApiOperation({
         summary,
-        description: '',
       }),
       ApiParam({
         name: 'id',
         required: true,
         description: '유저 id',
+      }),
+    );
+  },
+  doneOnboarding(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+      }),
+      ApiParam({
+        name: 'id',
+        required: true,
+        description: '유저 id',
+      }),
+      ApiParam({
+        name: 'type',
+        required: true,
+        description: '온보딩 퀘스트 타입',
       }),
     );
   },
