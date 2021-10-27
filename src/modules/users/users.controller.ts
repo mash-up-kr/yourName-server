@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiDocs } from './users.docs';
 import { UsersService } from './users.service';
@@ -18,5 +18,13 @@ export class UsersController {
   @Get(':id/onboarding')
   async getOnboarding(@Param('id') userId: number) {
     return await this.usersService.getOnboarding(userId);
+  }
+
+  @Post(':id/onboarding/:type')
+  async doneOnboarding(
+    @Param('id') userId: number,
+    @Param('type') onboardingType: string,
+  ) {
+    await this.usersService.doneOnboarding(userId, onboardingType);
   }
 }
