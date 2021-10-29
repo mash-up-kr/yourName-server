@@ -3,18 +3,19 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { Collection } from './collection.entity';
 import { NameCard } from './name-card.entity';
+import { User } from './user.entity';
 
 @Entity({ name: 'collection_name_card' })
 export class CollectionNameCard extends BaseEntity {
   @IsNumber()
   @IsNotEmpty()
   @Column()
-  collectionId: number;
+  nameCardId: number;
 
   @IsNumber()
   @IsNotEmpty()
   @Column()
-  nameCardId: number;
+  userId: User;
 
   @JoinColumn({ name: 'nameCardId', referencedColumnName: 'id' })
   @ManyToOne(() => NameCard, {
@@ -27,4 +28,10 @@ export class CollectionNameCard extends BaseEntity {
     onDelete: 'CASCADE',
   })
   collection: Collection;
+
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+  @ManyToOne(() => User, {
+    onDelete: 'CASCADE',
+  })
+  user: User;
 }

@@ -11,15 +11,15 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ImagesModule } from './modules/images/images.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from './modules/tasks/tasks.module';
+import { CollectionModule } from './modules/collection/collection.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
-        process.env.NODE_ENV === 'development' ? '.env.dev' : '.env.prod',
+        process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev',
       validationSchema: Joi.object({
-        NODE_ENV: Joi.string().valid('development', 'production').required(),
         DB_HOST: Joi.string().required(),
         DB_PORT: Joi.number().required(),
         DB_USERNAME: Joi.string().required(),
@@ -34,6 +34,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
     AuthModule,
     ImagesModule,
     TasksModule,
+    CollectionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
