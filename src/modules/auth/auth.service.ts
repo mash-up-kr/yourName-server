@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Collection } from 'src/entities/collection.entity';
+import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,9 @@ export class AuthService {
 
     @InjectRepository(Collection)
     private readonly collectionRepository: Repository<Collection>,
+
+    @InjectRepository(UserOnboarding)
+    private readonly userOnboardingRepository: Repository<UserOnboarding>,
 
     private readonly jwtService: JwtService,
   ) {}
@@ -35,6 +39,10 @@ export class AuthService {
     const collection = new Collection();
     collection.user = user;
     await this.collectionRepository.save(collection);
+
+    const userOnboarding = new UserOnboarding();
+    userOnboarding.userId = user.id;
+    await this.userOnboardingRepository.save(userOnboarding);
 
     return user;
   }

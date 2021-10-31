@@ -14,27 +14,27 @@ export class UserOnboarding extends BaseEntity {
 
   @IsNotEmpty()
   @IsBoolean()
-  @Column()
+  @Column({ default: false })
   makeFirstNameCard: boolean;
 
   @IsNotEmpty()
   @IsBoolean()
-  @Column()
+  @Column({ default: false })
   shareNameCard: boolean;
 
   @IsNotEmpty()
   @IsBoolean()
-  @Column()
+  @Column({ default: false })
   addNameCollectionNameCard: boolean;
 
   @IsNotEmpty()
   @IsBoolean()
-  @Column()
+  @Column({ default: false })
   makeCollection: boolean;
 
   @IsNotEmpty()
   @IsBoolean()
-  @Column()
+  @Column({ default: false })
   makeNamCards: boolean;
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
