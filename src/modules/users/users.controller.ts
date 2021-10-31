@@ -20,6 +20,7 @@ export class UsersController {
     return await this.usersService.getOnboarding(userId);
   }
 
+  @ApiDocs.doneOnboarding('온보딩 퀘스트 완료하기')
   @Post(':id/onboarding/:type')
   async doneOnboarding(
     @Param('id') userId: number,
