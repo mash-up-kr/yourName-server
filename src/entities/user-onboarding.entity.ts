@@ -1,8 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsNotEmpty, IsBoolean } from 'class-validator';
+import { IsNumber, IsNotEmpty, IsBoolean, IsString } from 'class-validator';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
+
+type status = 'WAIT' | 'DONE_WAIT' | 'DONE';
 
 @Entity({ name: 'user_onboarding' })
 export class UserOnboarding extends BaseEntity {
@@ -13,29 +15,29 @@ export class UserOnboarding extends BaseEntity {
   userId: number;
 
   @IsNotEmpty()
-  @IsBoolean()
-  @Column({ default: false })
-  makeFirstNameCard: boolean;
+  @IsString()
+  @Column({ default: 'WAIT' })
+  makeFirstNameCard: status;
 
   @IsNotEmpty()
-  @IsBoolean()
-  @Column({ default: false })
-  shareNameCard: boolean;
+  @IsString()
+  @Column({ default: 'WAIT' })
+  shareNameCard: status;
 
   @IsNotEmpty()
-  @IsBoolean()
-  @Column({ default: false })
-  addNameCollectionNameCard: boolean;
+  @IsString()
+  @Column({ default: 'WAIT' })
+  addNameCollectionNameCard: status;
 
   @IsNotEmpty()
-  @IsBoolean()
-  @Column({ default: false })
-  makeCollection: boolean;
+  @IsString()
+  @Column({ default: 'WAIT' })
+  makeCollection: status;
 
   @IsNotEmpty()
-  @IsBoolean()
-  @Column({ default: false })
-  makeNamCards: boolean;
+  @IsString()
+  @Column({ default: 'WAIT' })
+  makeNamCards: status;
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @OneToOne(() => User, {
