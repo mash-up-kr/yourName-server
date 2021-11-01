@@ -8,9 +8,17 @@ import { NameCard } from 'src/entities/name-card.entity';
 import { PersonalSkill } from 'src/entities/personal-skill.entity';
 import { Skill } from 'src/entities/skill.entity';
 import { Tmi } from 'src/entities/tmi.entity';
+import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { Repository } from 'typeorm';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
+
+type updateType =
+  | 'makeFirstNameCard'
+  | 'shareNameCard'
+  | 'addNameCollectionNameCard'
+  | 'makeCollection'
+  | 'makeNamCards';
 
 @Injectable()
 export class NameCardService {
@@ -31,6 +39,8 @@ export class NameCardService {
     private skillRepository: Repository<Skill>,
     @InjectRepository(PersonalSkill)
     private personalSkillRepository: Repository<PersonalSkill>,
+    @InjectRepository(UserOnboarding)
+    private userOnboardingRepository: Repository<UserOnboarding>,
   ) {}
 
   async getMyNameCards(userId: number) {
@@ -62,6 +72,7 @@ export class NameCardService {
       this._saveTmis(nameCard.id, tmiIds),
       this._saveBgColors(nameCard.id, bgColors),
       this._saveSkills(nameCard.id, skills),
+      this._updateUserOnboarding(nameCardData.userId, 'makeFirstNameCard'),
     ]);
 
     return await this.nameCardRepository.findOne(nameCard.id, {
@@ -172,5 +183,16 @@ export class NameCardService {
         });
       }),
     );
+  }
+
+  async _updateUserOnboarding(userId, updateType: updateType) {
+    const userOnboarding = await this.userOnboardingRepository.findOne({
+      userId: userId,
+    });
+
+    if (userOnboarding[updateType] === 'WAIT') {
+      userOnboarding[updateType] = 'DONE_WAIT';
+      this.userOnboardingRepository.save(userOnboarding);
+    }
   }
 }
