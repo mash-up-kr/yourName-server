@@ -73,6 +73,7 @@ export class NameCardService {
       this._saveBgColors(nameCard.id, bgColors),
       this._saveSkills(nameCard.id, skills),
       this._updateUserOnboarding(nameCardData.userId, 'makeFirstNameCard'),
+      this._updateUserOnboarding(nameCardData.userId, 'makeNamCards'),
     ]);
 
     return await this.nameCardRepository.findOne(nameCard.id, {
@@ -186,13 +187,23 @@ export class NameCardService {
   }
 
   async _updateUserOnboarding(userId, updateType: updateType) {
+    const flag = await this._checkCondition(userId, updateType);
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId: userId,
     });
 
-    if (userOnboarding[updateType] === 'WAIT') {
+    if (flag && userOnboarding[updateType] === 'WAIT') {
       userOnboarding[updateType] = 'DONE_WAIT';
       this.userOnboardingRepository.save(userOnboarding);
+    }
+  }
+
+  async _checkCondition(userId, updateType: updateType) {
+    if (updateType === 'makeFirstNameCard') {
+      return true;
+    } else if (updateType === 'makeNamCards') {
+      const namecards = await this.getMyNameCards(userId);
+      return namecards.length >= 3 ? true : false;
     }
   }
 }
