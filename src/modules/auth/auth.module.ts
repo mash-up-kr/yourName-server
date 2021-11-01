@@ -12,6 +12,7 @@ import { KaKaoStrategy } from './strategies/kakao.strategy';
 import { AppleStrategy } from './strategies/apple.strategy';
 import { AxiosClient } from './axios-client';
 import { Collection } from 'src/entities/collection.entity';
+import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { Collection } from 'src/entities/collection.entity';
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
       signOptions: { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRATION },
     }),
-    TypeOrmModule.forFeature([User, Collection]),
+    TypeOrmModule.forFeature([User, Collection, UserOnboarding]),
   ],
   controllers: [AuthController],
   providers: [
