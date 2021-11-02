@@ -10,7 +10,7 @@ import {
 import { User } from './user.entity';
 import { NameCardTmi } from './name-card-tmi.entity';
 import { NameCardContact } from './name-card-contact.entity';
-import { NameCardBgColor } from './name-card-bg-color.entity';
+import { BgColor } from './bg-color.entity';
 import { PersonalSkill } from './personal-skill.entity';
 import { DateTimeEntity } from './date-time.entity';
 import { Image } from './image.entity';
@@ -54,6 +54,12 @@ export class NameCard extends DateTimeEntity {
   @Column()
   userId: number;
 
+  @ApiProperty({ example: 1 })
+  @IsNumber()
+  @IsNotEmpty()
+  @Column()
+  bgColorId: number;
+
   @IsOptional()
   @IsNumber()
   @Column({ nullable: true })
@@ -65,17 +71,15 @@ export class NameCard extends DateTimeEntity {
   })
   user: User;
 
+  @JoinColumn({ name: 'bgColorId', referencedColumnName: 'id' })
+  @ManyToOne(() => BgColor, (bgColor) => bgColor.nameCards)
+  bgColor: BgColor;
+
   @OneToMany(
     () => NameCardContact,
     (nameCardContact) => nameCardContact.nameCard,
   )
   contacts?: NameCardContact;
-
-  @OneToMany(
-    () => NameCardBgColor,
-    (nameCardBgColor) => nameCardBgColor.nameCard,
-  )
-  bgColors: NameCardBgColor;
 
   @OneToMany(() => NameCardTmi, (nameCardTmi) => nameCardTmi.nameCard)
   tmis?: NameCardTmi[];
