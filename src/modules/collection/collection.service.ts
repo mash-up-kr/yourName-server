@@ -8,6 +8,7 @@ import { getConnection, Repository } from 'typeorm';
 import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.dto';
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
 import { CreateCollectionDto } from './dto/create-collection.dto';
+import { BgColor } from 'src/entities/bg-color.entity';
 
 @Injectable()
 export class CollectionService {
@@ -23,13 +24,17 @@ export class CollectionService {
 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(BgColor)
+    private readonly bgColorRepository: Repository<BgColor>,
   ) {}
 
   async getCollections(userId: number): Promise<Collection[]> {
     try {
       const collections: Collection[] = await this.collectionRepository.find({
-        select: ['id', 'name', 'description'],
+        select: ['id', 'name', 'description', 'bgColor'],
         where: { userId: userId },
+        relations: ['bgColor'],
       });
 
       return collections;
@@ -43,12 +48,16 @@ export class CollectionService {
     collectionData: CreateCollectionDto,
   ): Promise<Collection> {
     try {
-      const user = await this.userRepository.findOne({ where: { id: userId } });
+      const user: User = await this.userRepository.findOne({
+        where: { id: userId },
+      });
+      const bgColor: BgColor = await this._saveBgColor(collectionData);
 
-      const collection = this.collectionRepository.create({
+      const collection: Collection = this.collectionRepository.create({
         user: user,
         name: collectionData.name,
         description: collectionData.description,
+        bgColor: bgColor,
       });
 
       return await this.collectionRepository.save(collection);
@@ -57,18 +66,61 @@ export class CollectionService {
     }
   }
 
+  async _saveBgColor(collectionData: CreateCollectionDto): Promise<BgColor> {
+    try {
+      const bgColor: BgColor = this.bgColorRepository.create({
+        color1: collectionData.bgcolor.color1,
+        color2: collectionData.bgcolor.color2,
+        color3: collectionData.bgcolor.color3,
+      });
+
+      return await this.bgColorRepository.save(bgColor);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   async updateCollection(
     collectionId: number,
-    createCollectionDto: CreateCollectionDto,
+    collectionData: CreateCollectionDto,
   ): Promise<void> {
     try {
+      const collection: Collection = await this.collectionRepository.findOne({
+        id: collectionId,
+      });
+      const bgColor: BgColor = await this._updateBgColor(
+        collection.bgColorId,
+        collectionData,
+      );
+
       await this.collectionRepository.update(
         { id: collectionId },
         {
-          name: createCollectionDto.name,
-          description: createCollectionDto.description,
+          name: collectionData.name,
+          description: collectionData.description,
+          bgColor: bgColor,
         },
       );
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async _updateBgColor(
+    bgColorId: number,
+    collectionData: CreateCollectionDto,
+  ): Promise<BgColor> {
+    try {
+      await this.bgColorRepository.update(
+        { id: bgColorId },
+        {
+          color1: collectionData.bgcolor.color1,
+          color2: collectionData.bgcolor.color2,
+          color3: collectionData.bgcolor.color3,
+        },
+      );
+
+      return await this.bgColorRepository.findOne({ id: bgColorId });
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -90,7 +142,7 @@ export class CollectionService {
           'user',
           'contacts',
           'contacts.contact',
-          'bgColors',
+          'bgColor',
           'tmis',
           'personalSkills',
         ],
