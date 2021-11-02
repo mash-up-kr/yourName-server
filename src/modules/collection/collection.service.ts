@@ -161,23 +161,27 @@ export class CollectionService {
   }
 
   async isAddedNameCard(userId: number, namecard: NameCard): Promise<boolean> {
-    const isNamecardAdded: CollectionNameCard = await getConnection()
-      .createQueryBuilder()
-      .select('collectionNamecard')
-      .from(CollectionNameCard, 'collectionNamecard')
-      .where(
-        'collectionNamecard.userId = :userId and collectionNamecard.nameCardId = :nameCardId',
-        {
-          userId: userId,
-          nameCardId: namecard.id,
-        },
-      )
-      .getOne();
+    try {
+      const isNamecardAdded: CollectionNameCard = await getConnection()
+        .createQueryBuilder()
+        .select('collectionNamecard')
+        .from(CollectionNameCard, 'collectionNamecard')
+        .where(
+          'collectionNamecard.userId = :userId and collectionNamecard.nameCardId = :nameCardId',
+          {
+            userId: userId,
+            nameCardId: namecard.id,
+          },
+        )
+        .getOne();
 
-    if (isNamecardAdded) {
-      return true;
+      if (isNamecardAdded) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return false;
   }
 
   async addNamecardToCollections(
