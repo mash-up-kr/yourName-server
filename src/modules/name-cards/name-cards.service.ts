@@ -35,7 +35,7 @@ export class NameCardService {
   ) {}
 
   async getMyNameCards(userId: number) {
-    return await this.nameCardRepository.find({
+    const nameCards = await this.nameCardRepository.find({
       where: { userId },
       relations: [
         'user',
@@ -46,6 +46,25 @@ export class NameCardService {
         'personalSkills',
       ],
     });
+
+    nameCards.map((nameCard) => {
+      nameCard.bgColor.value = [
+        nameCard.bgColor.color1,
+        nameCard.bgColor.color2,
+        nameCard.bgColor.color3,
+        nameCard.bgColor.color4,
+        nameCard.bgColor.color5,
+      ].filter((value) => value);
+
+      delete nameCard.bgColor.color1;
+      delete nameCard.bgColor.color2;
+      delete nameCard.bgColor.color3;
+      delete nameCard.bgColor.color4;
+      delete nameCard.bgColor.color5;
+      delete nameCard.bgColor.userOnboardingField;
+    });
+
+    return nameCards;
   }
 
   //@todo: Transaction 처리
