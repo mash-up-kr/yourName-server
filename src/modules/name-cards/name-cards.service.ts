@@ -55,6 +55,8 @@ export class NameCardService {
     const { contacts, tmiIds, skills, ...nameCardData } = createNameCardDto;
 
     //@todo: UniqueCode 코드
+    nameCardData.uniqueCode = await this._getUniqueCode();
+
     const nameCard = await this.nameCardRepository.save(nameCardData);
 
     await Promise.all([
@@ -177,8 +179,33 @@ export class NameCardService {
     if (updateType === 'makeFirstNameCard') {
       return true;
     } else if (updateType === 'makeNamCards') {
-      const namecards = await this.getMyNameCards(userId);
-      return namecards.length >= 3 ? true : false;
+      const nameCards = await this.getMyNameCards(userId);
+      return nameCards.length >= 3 ? true : false;
     }
+  }
+
+  async _getUniqueCode() {
+    let uniqueCode = this._makeRandomString();
+
+    const nameCard = await this.nameCardRepository.findOne({ uniqueCode });
+
+    if (nameCard) {
+      uniqueCode = await this._getUniqueCode();
+    }
+
+    return uniqueCode;
+  }
+
+  _makeRandomString(length = 6) {
+    let randomString = '';
+    const possible =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < length; i++)
+      randomString += possible.charAt(
+        Math.floor(Math.random() * possible.length),
+      );
+
+    return randomString;
   }
 }
