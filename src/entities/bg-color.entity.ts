@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { Collection } from './collection.entity';
@@ -11,15 +17,32 @@ export class BgColor extends BaseEntity {
   @Column()
   color1: string;
 
-  @IsOptional()
   @IsString()
-  @Column()
-  color2: string;
+  @IsOptional()
+  @Column({ nullable: true })
+  color2?: string;
+
+  @IsString()
+  @IsOptional()
+  @Column({ nullable: true })
+  color3?: string;
+
+  @IsNumber()
+  @IsOptional()
+  @Column({ nullable: true })
+  userOnboardingField?:
+    | 'makeFirstNameCard'
+    | 'shareNameCard'
+    | 'addNameCollectionNameCard'
+    | 'makeCollection'
+    | 'makeNamCards';
 
   @IsOptional()
-  @IsString()
-  @Column()
-  color3: string;
+  value: string[];
+
+  @IsOptional()
+  @IsBoolean()
+  isLock: boolean;
 
   @OneToMany(() => NameCard, (nameCard) => nameCard.bgColor, {
     onDelete: 'RESTRICT',
