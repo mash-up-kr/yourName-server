@@ -14,18 +14,18 @@ export class UsersController {
    * - 온보딩 완료하기
    * - 쓸 수 있는 색깔
    */
-  @ApiDocs.getOnboarding('온보딩 목록 및 달성 여부 가져오기')
+  @ApiDocs.getUserOnboarding('온보딩 목록 및 달성 여부 가져오기')
   @Get(':id/onboarding')
-  async getOnboarding(@Param('id') userId: number) {
-    return await this.usersService.getOnboarding(userId);
+  async getUserOnboarding(@Param('id') userId: number) {
+    return await this.usersService.getUserOnboarding(userId);
   }
 
-  @ApiDocs.doneOnboarding('온보딩 퀘스트 완료하기')
+  @ApiDocs.doneUserOnboarding('온보딩 퀘스트 완료하기')
   @Post(':id/onboarding/:type')
-  async doneOnboarding(
+  async doneUserOnboarding(
     @Param('id') userId: number,
     @Param('type') onboardingType: string,
   ) {
-    await this.usersService.doneOnboarding(userId, onboardingType);
+    await this.usersService.doneUserOnboarding(userId, onboardingType);
   }
 }

@@ -13,15 +13,20 @@ export class UsersService {
     private userOnboardingRepository: Repository<UserOnboarding>,
   ) {}
 
-  async getOnboarding(userId) {
-    const onboarding = await this.userOnboardingRepository.findOne({ userId });
-    return onboarding;
+  async getUserOnboardings(userId) {
+    const userOnboarding = await this.userOnboardingRepository.findOne({
+      userId,
+    });
+    return userOnboarding;
   }
 
-  async doneOnboarding(userId, onboardingType) {
-    const onboarding = await this.userOnboardingRepository.findOne({ userId });
-    onboarding[onboardingType] = true;
+  async doneUserOnboarding(userId, onboardingType) {
+    const userOnboarding = await this.userOnboardingRepository.findOne({
+      userId,
+    });
+    userOnboarding[onboardingType] = true;
 
-    await this.userOnboardingRepository.save(onboarding);
+    await this.userOnboardingRepository.save(userOnboarding);
+  }
   }
 }

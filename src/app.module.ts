@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { NameCardModule } from './modules/name-card/name-card.module';
+import { NameCardModule } from './modules/name-cards/name-card.module';
 import * as ormconfig from '../ormconfig';
 import * as Joi from 'joi';
 import { TmisModule } from './modules/tmis/tmis.module';
