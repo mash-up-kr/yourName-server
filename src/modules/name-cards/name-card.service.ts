@@ -13,7 +13,7 @@ import { Repository } from 'typeorm';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
 
-type updateType =
+type userOnboardingUpdateType =
   | 'makeFirstNameCard'
   | 'shareNameCard'
   | 'addNameCollectionNameCard'
@@ -168,7 +168,7 @@ export class NameCardService {
     );
   }
 
-  async _updateUserOnboarding(userId, updateType: updateType) {
+  async _updateUserOnboarding(userId, updateType: userOnboardingUpdateType) {
     const flag = await this._checkCondition(userId, updateType);
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId: userId,
@@ -180,7 +180,7 @@ export class NameCardService {
     }
   }
 
-  async _checkCondition(userId, updateType: updateType) {
+  async _checkCondition(userId, updateType: userOnboardingUpdateType) {
     if (updateType === 'makeFirstNameCard') {
       return true;
     } else if (updateType === 'makeNamCards') {
