@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
-import { NameCardController } from './name-card.controller';
+import { NameCardController } from './name-cards.controller';
 
 export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
   createNameCard(summary: string) {

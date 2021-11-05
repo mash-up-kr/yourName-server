@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { NameCardService } from './name-card.service';
-import { NameCardController } from './name-card.controller';
+import { NameCardService } from './name-cards.service';
+import { NameCardController } from './name-cards.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NameCard } from 'src/entities/name-card.entity';
 import { Contact } from 'src/entities/contact.entity';
