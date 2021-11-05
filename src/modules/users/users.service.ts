@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
-import { User } from 'src/entities/user.entity';
 import { BgColor } from 'src/entities/bg-color.entity';
 import { Repository } from 'typeorm';
 import userOnboardingImageUrlMap from 'src/constants/userOnboardingImageUrlMap';
@@ -9,8 +8,6 @@ import userOnboardingImageUrlMap from 'src/constants/userOnboardingImageUrlMap';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
     @InjectRepository(UserOnboarding)
     private userOnboardingRepository: Repository<UserOnboarding>,
     @InjectRepository(BgColor)
@@ -38,7 +35,6 @@ export class UsersService {
     });
     userOnboarding[onboardingType] = 'DONE';
 
-    console.log(userOnboarding);
     await this.userOnboardingRepository.save(userOnboarding);
   }
 
