@@ -14,6 +14,7 @@ export class CreateInitialCollectionData implements Seeder {
           name: '전체 미츄',
           description: '전체 미츄가 있는 도감이츄',
           userId: 1,
+          bgColorId: 1,
         },
       ])
       .execute();
@@ -27,6 +28,7 @@ export class CreateInitialCollectionData implements Seeder {
           name: '매시업 노드팀',
           description: '매시업 노드팀원들이츄',
           userId: 2,
+          bgColorId: 2,
         },
       ])
       .execute();
@@ -35,7 +37,13 @@ export class CreateInitialCollectionData implements Seeder {
       .insert()
       .into(Collection)
       .values([
-        { id: 3, name: '너의 이름은팀', description: '나이스미츄', userId: 3 },
+        {
+          id: 3,
+          name: '너의 이름은팀',
+          description: '나이스미츄',
+          userId: 3,
+          bgColorId: 3,
+        },
       ])
       .execute();
   }
