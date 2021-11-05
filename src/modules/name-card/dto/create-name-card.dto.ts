@@ -1,6 +1,5 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { NameCardBgColor } from 'src/entities/name-card-bg-color.entity';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { NameCard } from 'src/entities/name-card.entity';
 import { Tmi } from 'src/entities/tmi.entity';
 
@@ -11,6 +10,7 @@ export class CreateNameCardDto extends PickType(NameCard, [
   'personality',
   'introduce',
   'userId',
+  'bgColorId',
   'imageId',
 ]) {
   @IsOptional()
@@ -23,15 +23,6 @@ export class CreateNameCardDto extends PickType(NameCard, [
     ],
   })
   contacts?: CreateContactDto[];
-
-  @ApiProperty({
-    example: [
-      { hexCode: '#181818', order: 1 },
-      { hexCode: '#111110', order: 2 },
-    ],
-  })
-  @IsNotEmpty()
-  bgColors: CreateBgColorDto[];
 
   @IsOptional()
   @ApiProperty({
@@ -67,10 +58,6 @@ class CreateContactDto {
 
 // class CreateBgColorDto extends PickType(NameCardBgColor, ['hexCode']) {}
 class CreateTmiDto extends PickType(Tmi, ['id']) {}
-class CreateBgColorDto extends PickType(NameCardBgColor, [
-  'hexCode',
-  'order',
-]) {}
 class CreateSkillDto {
   name: string;
   level: number;

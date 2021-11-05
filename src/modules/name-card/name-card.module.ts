@@ -7,7 +7,6 @@ import { Contact } from 'src/entities/contact.entity';
 import { Tmi } from 'src/entities/tmi.entity';
 import { NameCardContact } from 'src/entities/name-card-contact.entity';
 import { NameCardTmi } from 'src/entities/name-card-tmi.entity';
-import { NameCardBgColor } from 'src/entities/name-card-bg-color.entity';
 import { PersonalSkill } from 'src/entities/personal-skill.entity';
 import { Skill } from 'src/entities/skill.entity';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
@@ -20,7 +19,6 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
       Contact,
       NameCardTmi,
       Tmi,
-      NameCardBgColor,
       Skill,
       PersonalSkill,
       UserOnboarding,
