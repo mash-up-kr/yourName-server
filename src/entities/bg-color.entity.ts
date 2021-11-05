@@ -27,6 +27,16 @@ export class BgColor extends BaseEntity {
   @Column({ nullable: true })
   color3?: string;
 
+  @IsString()
+  @IsOptional()
+  @Column({ nullable: true })
+  color4?: string;
+
+  @IsString()
+  @IsOptional()
+  @Column({ nullable: true })
+  color5?: string;
+
   @IsNumber()
   @IsOptional()
   @Column({ nullable: true })

@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Contact } from 'src/entities/contact.entity';
-import { BgColor } from 'src/entities/bg-color.entity';
 import { NameCardContact } from 'src/entities/name-card-contact.entity';
 import { NameCardTmi } from 'src/entities/name-card-tmi.entity';
 import { NameCard } from 'src/entities/name-card.entity';
@@ -12,13 +11,7 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { Repository } from 'typeorm';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
-
-type userOnboardingUpdateType =
-  | 'makeFirstNameCard'
-  | 'shareNameCard'
-  | 'addNameCollectionNameCard'
-  | 'makeCollection'
-  | 'makeNamCards';
+import { userOnboardingType } from 'src/utils/types';
 
 @Injectable()
 export class NameCardService {
@@ -168,7 +161,7 @@ export class NameCardService {
     );
   }
 
-  async _updateUserOnboarding(userId, updateType: userOnboardingUpdateType) {
+  async _updateUserOnboarding(userId, updateType: userOnboardingType) {
     const flag = await this._checkCondition(userId, updateType);
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId: userId,
@@ -180,7 +173,7 @@ export class NameCardService {
     }
   }
 
-  async _checkCondition(userId, updateType: userOnboardingUpdateType) {
+  async _checkCondition(userId, updateType: userOnboardingType) {
     if (updateType === 'makeFirstNameCard') {
       return true;
     } else if (updateType === 'makeNamCards') {

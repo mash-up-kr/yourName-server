@@ -1,10 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsNotEmpty, IsString } from 'class-validator';
+import { userOnboardingStatusType } from 'src/utils/types';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
-
-type status = 'WAIT' | 'DONE_WAIT' | 'DONE';
 
 @Entity({ name: 'user_onboarding' })
 export class UserOnboarding extends BaseEntity {
@@ -17,27 +16,27 @@ export class UserOnboarding extends BaseEntity {
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  makeFirstNameCard: status;
+  makeFirstNameCard: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  shareNameCard: status;
+  shareNameCard: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  addNameCollectionNameCard: status;
+  addNameCollectionNameCard: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  makeCollection: status;
+  makeCollection: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  makeNamCards: status;
+  makeNamCards: userOnboardingStatusType;
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @OneToOne(() => User, {

@@ -34,9 +34,39 @@ export class CreateInitialBgColorData implements Seeder {
         },
         {
           id: 7,
-          color1: '#B4ECFE',
-          color2: '#CFFDBA',
+          color1: '#CAADFF',
+          color2: '#B4ECFE',
           userOnboardingField: 'makeFirstNameCard',
+        },
+        {
+          id: 8,
+          color1: '#A6E9FF',
+          color2: '#CFFDBA',
+          userOnboardingField: 'shareNameCard',
+        },
+        {
+          id: 9,
+          color1: '#FFF3A6',
+          color2: '#CFFDBA',
+          color3: '#B4ECFE',
+          color4: '#FFCBFD',
+          userOnboardingField: 'addNameCollectionNameCard',
+        },
+        {
+          id: 10,
+          color1: '#FFC5C5',
+          color2: '#FFF199',
+          color3: '#BFFFA1',
+          userOnboardingField: 'makeCollection',
+        },
+        {
+          id: 11,
+          color1: '#DDB3FF',
+          color2: '#FFD1F5',
+          color3: '#FFCFCF',
+          color4: '#FFF4AB',
+          color5: '#D9FFC8',
+          userOnboardingField: 'makeNamCards',
         },
       ])
       .execute();

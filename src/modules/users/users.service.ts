@@ -4,36 +4,10 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { User } from 'src/entities/user.entity';
 import { BgColor } from 'src/entities/bg-color.entity';
 import { Repository } from 'typeorm';
+import userOnboardingImageUrlMap from 'src/constants/userOnboardingImageUrlMap';
 
 @Injectable()
 export class UsersService {
-  private userOnboardingImageUrlMap = {
-    makeFirstNameCard: {
-      WAIT: '',
-      DONE_WAIT: '',
-      DONE: '',
-    },
-    shareNameCard: {
-      WAIT: '',
-      DONE_WAIT: '',
-      DONE: '',
-    },
-    addNameCollectionNameCard: {
-      WAIT: '',
-      DONE_WAIT: '',
-      DONE: '',
-    },
-    makeCollection: {
-      WAIT: '',
-      DONE_WAIT: '',
-      DONE: '',
-    },
-    makeNamCards: {
-      WAIT: '',
-      DONE_WAIT: '',
-      DONE: '',
-    },
-  };
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
@@ -48,10 +22,10 @@ export class UsersService {
       userId,
     });
 
-    const list = Object.keys(this.userOnboardingImageUrlMap).map((key) => {
+    const list = Object.keys(userOnboardingImageUrlMap).map((key) => {
       return {
         status: userOnboarding[key],
-        imageUrl: this.userOnboardingImageUrlMap[key][userOnboarding[key]],
+        imageUrl: userOnboardingImageUrlMap[key][userOnboarding[key]],
       };
     });
 
@@ -84,9 +58,13 @@ export class UsersService {
     let bgColors = await this.bgColorRepository.find();
 
     bgColors = bgColors.map((bgColor) => {
-      bgColor.value = [bgColor.color1, bgColor.color2, bgColor.color3].filter(
-        (value) => value,
-      );
+      bgColor.value = [
+        bgColor.color1,
+        bgColor.color2,
+        bgColor.color3,
+        bgColor.color4,
+        bgColor.color5,
+      ].filter((value) => value);
 
       bgColor.isLock =
         bgColor.value.length > 1 &&
@@ -97,6 +75,8 @@ export class UsersService {
       delete bgColor.color1;
       delete bgColor.color2;
       delete bgColor.color3;
+      delete bgColor.color4;
+      delete bgColor.color5;
       delete bgColor.userOnboardingField;
 
       return bgColor;
