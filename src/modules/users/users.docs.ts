@@ -4,7 +4,7 @@ import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { UsersController } from './users.controller';
 
 export const ApiDocs: SwaggerMethodDoc<UsersController> = {
-  getOnboarding(summary: string) {
+  getUserOnboarding(summary: string) {
     return applyDecorators(
       ApiOperation({
         summary,
@@ -16,7 +16,7 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
       }),
     );
   },
-  doneOnboarding(summary: string) {
+  doneUserOnboarding(summary: string) {
     return applyDecorators(
       ApiOperation({
         summary,
