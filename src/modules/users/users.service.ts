@@ -7,6 +7,33 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
+  private userOnboardingImageUrlMap = {
+    makeFirstNameCard: {
+      WAIT: '',
+      DONE_WAIT: '',
+      DONE: '',
+    },
+    shareNameCard: {
+      WAIT: '',
+      DONE_WAIT: '',
+      DONE: '',
+    },
+    addNameCollectionNameCard: {
+      WAIT: '',
+      DONE_WAIT: '',
+      DONE: '',
+    },
+    makeCollection: {
+      WAIT: '',
+      DONE_WAIT: '',
+      DONE: '',
+    },
+    makeNamCards: {
+      WAIT: '',
+      DONE_WAIT: '',
+      DONE: '',
+    },
+  };
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
@@ -20,7 +47,15 @@ export class UsersService {
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId,
     });
-    return userOnboarding;
+
+    const list = Object.keys(this.userOnboardingImageUrlMap).map((key) => {
+      return {
+        status: userOnboarding[key],
+        imageUrl: this.userOnboardingImageUrlMap[key][userOnboarding[key]],
+      };
+    });
+
+    return { list };
   }
 
   async doneUserOnboarding(userId, onboardingType) {
@@ -33,7 +68,9 @@ export class UsersService {
   }
 
   async getBgColors(userId) {
-    const userOnboarding = await this.getUserOnboardings(userId);
+    const userOnboarding = await this.userOnboardingRepository.findOne({
+      userId,
+    });
     let bgColors = await this.bgColorRepository.find();
 
     bgColors = bgColors.map((bgColor) => {
