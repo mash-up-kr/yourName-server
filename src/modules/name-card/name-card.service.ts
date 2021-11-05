@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Contact } from 'src/entities/contact.entity';
-import { NameCardBgColor } from 'src/entities/name-card-bg-color.entity';
+import { BgColor } from 'src/entities/bg-color.entity';
 import { NameCardContact } from 'src/entities/name-card-contact.entity';
 import { NameCardTmi } from 'src/entities/name-card-tmi.entity';
 import { NameCard } from 'src/entities/name-card.entity';
@@ -33,8 +33,6 @@ export class NameCardService {
     private nameCardTmiRepository: Repository<NameCardTmi>,
     @InjectRepository(Tmi)
     private tmiRepository: Repository<Tmi>,
-    @InjectRepository(NameCardBgColor)
-    private nameCardBgColorRepository: Repository<NameCardBgColor>,
     @InjectRepository(Skill)
     private skillRepository: Repository<Skill>,
     @InjectRepository(PersonalSkill)
@@ -50,7 +48,7 @@ export class NameCardService {
         'user',
         'contacts',
         'contacts.contact',
-        'bgColors',
+        'bgColor',
         'tmis',
         'personalSkills',
       ],
@@ -61,8 +59,7 @@ export class NameCardService {
   async createNameCard(
     createNameCardDto: CreateNameCardDto,
   ): Promise<NameCard> {
-    const { contacts, tmiIds, bgColors, skills, ...nameCardData } =
-      createNameCardDto;
+    const { contacts, tmiIds, skills, ...nameCardData } = createNameCardDto;
 
     //@todo: UniqueCode 코드
     const nameCard = await this.nameCardRepository.save(nameCardData);
@@ -70,7 +67,6 @@ export class NameCardService {
     await Promise.all([
       this._saveContacts(nameCard.id, contacts),
       this._saveTmis(nameCard.id, tmiIds),
-      this._saveBgColors(nameCard.id, bgColors),
       this._saveSkills(nameCard.id, skills),
       this._updateUserOnboarding(nameCardData.userId, 'makeFirstNameCard'),
       this._updateUserOnboarding(nameCardData.userId, 'makeNamCards'),
@@ -81,7 +77,7 @@ export class NameCardService {
         'user',
         'contacts',
         'contacts.contact',
-        'bgColors',
+        'bgColor',
         'tmis',
         'personalSkills',
       ],
@@ -92,14 +88,12 @@ export class NameCardService {
     nameCardId: number,
     updateNameCardDto: UpdateNameCardDto,
   ) {
-    const { contacts, tmiIds, bgColors, skills, ...nameCardData } =
-      updateNameCardDto;
+    const { contacts, tmiIds, skills, ...nameCardData } = updateNameCardDto;
 
     await Promise.all([
       this.nameCardRepository.update(nameCardId, nameCardData),
       this._saveContacts(nameCardId, contacts),
       this._saveTmis(nameCardId, tmiIds),
-      this._saveBgColors(nameCardId, bgColors),
       this._saveSkills(nameCardId, skills),
     ]);
   }
@@ -150,18 +144,6 @@ export class NameCardService {
         await this.nameCardTmiRepository.save({
           nameCardId: nameCardId,
           tmiId: tmi.id,
-        });
-      }),
-    );
-  }
-
-  async _saveBgColors(nameCardId, bgColors = []) {
-    await Promise.all(
-      bgColors.map(async (bgColor) => {
-        await this.nameCardBgColorRepository.save({
-          nameCardId: nameCardId,
-          hexCode: bgColor.hexCode,
-          order: bgColor.order,
         });
       }),
     );

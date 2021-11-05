@@ -4,7 +4,7 @@ import { BaseEntity } from './base.entity';
 import { Collection } from './collection.entity';
 import { NameCard } from './name-card.entity';
 
-@Entity({ name: 'name_card_bg_color' })
+@Entity({ name: 'bg_color' })
 export class BgColor extends BaseEntity {
   @IsNotEmpty()
   @IsString()
@@ -22,12 +22,12 @@ export class BgColor extends BaseEntity {
   color3: string;
 
   @OneToMany(() => NameCard, (nameCard) => nameCard.bgColor, {
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   })
   nameCards: NameCard[];
 
   @OneToMany(() => Collection, (collection) => collection.bgColor, {
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   })
   collections: Collection[];
 }
