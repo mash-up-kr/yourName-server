@@ -13,8 +13,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
-import { ApiDocs } from './name-card.docs';
-import { NameCardService } from './name-card.service';
+import { ApiDocs } from './name-cards.docs';
+import { NameCardService } from './name-cards.service';
 
 @ApiTags('NameCard - 명함')
 @Controller('namecards')
