@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiDocs } from './users.docs';
 import { UsersService } from './users.service';
@@ -21,12 +21,21 @@ export class UsersController {
   }
 
   @ApiDocs.doneUserOnboarding('온보딩 퀘스트 완료하기')
-  @Post(':id/onboarding/:type')
+  @Put(':id/onboarding/:type/done')
   async doneUserOnboarding(
     @Param('id') userId: number,
     @Param('type') onboardingType: string,
   ) {
     await this.usersService.doneUserOnboarding(userId, onboardingType);
+  }
+
+  @ApiDocs.doneWaitUserOnboarding('온보딩 퀘스트 완료 대기 상태로 변경')
+  @Put(':id/onboarding/:type/done-wait')
+  async doneWaitUserOnboarding(
+    @Param('id') userId: number,
+    @Param('type') onboardingType: string,
+  ) {
+    await this.usersService.doneWaitUserOnboarding(userId, onboardingType);
   }
 
   @ApiDocs.getBgColors('유저가 사용한 컬러 조회')

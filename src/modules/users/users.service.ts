@@ -62,7 +62,17 @@ export class UsersService {
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId,
     });
-    userOnboarding[onboardingType] = true;
+    userOnboarding[onboardingType] = 'DONE';
+
+    console.log(userOnboarding);
+    await this.userOnboardingRepository.save(userOnboarding);
+  }
+
+  async doneWaitUserOnboarding(userId, onboardingType) {
+    const userOnboarding = await this.userOnboardingRepository.findOne({
+      userId,
+    });
+    userOnboarding[onboardingType] = 'DONE_WAIT';
 
     await this.userOnboardingRepository.save(userOnboarding);
   }
@@ -79,7 +89,10 @@ export class UsersService {
       );
 
       bgColor.isLock =
-        userOnboarding[bgColor.userOnboardingField] !== 'DONE' ? true : false;
+        bgColor.value.length > 1 &&
+        userOnboarding[bgColor.userOnboardingField] !== 'DONE'
+          ? true
+          : false;
 
       delete bgColor.color1;
       delete bgColor.color2;
