@@ -112,10 +112,7 @@ export class CollectionService {
         ],
       });
       if (!namecardToFind) {
-        throw new HttpException(
-          'Wrong NameCard Unique Code',
-          HttpStatus.NOT_FOUND,
-        );
+        throw new HttpException('Wrong NameCard Unique Code', 1000); //에러 코드 협의 후 수정
       }
 
       return namecardToFind;
