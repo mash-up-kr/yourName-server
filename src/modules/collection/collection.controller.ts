@@ -7,11 +7,9 @@ import {
   Post,
   Put,
   Req,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
 import { Collection } from 'src/entities/collection.entity';
 import { NameCard } from 'src/entities/name-card.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -29,17 +27,10 @@ export class CollectionController {
 
   @Get()
   @ApiDocs.getCollections('도감들 조회')
-  async getCollections(
-    @Req() req: any,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async getCollections(@Param('id') id: number, @Req() req: any) {
     const collections: Collection[] =
       await this.collectionService.getCollections(req.user.userId);
-    res.status(200).json({
-      status: 200,
-      data: { list: collections },
-      message: 'Success To Get Collections',
-    });
+    return { list: collections };
   }
 
   @Put('/:collectionId')
@@ -47,17 +38,11 @@ export class CollectionController {
   async updateCollection(
     @Param('collectionId') collectionId: number,
     @Body() createCollectionDto: CreateCollectionDto,
-    @Res({ passthrough: true }) res: Response,
   ) {
     await this.collectionService.updateCollection(
       collectionId,
       createCollectionDto,
     );
-    res.status(200).json({
-      status: 200,
-      data: {},
-      message: 'Success To Update Collection',
-    });
   }
 
   @Post()
@@ -65,31 +50,17 @@ export class CollectionController {
   async createCollection(
     @Req() req: any,
     @Body() createCollectionDto: CreateCollectionDto,
-    @Res({ passthrough: true }) res: Response,
   ) {
     await this.collectionService.createCollection(
       req.user.userId,
       createCollectionDto,
     );
-    res.status(201).json({
-      status: 201,
-      data: {},
-      message: 'Success To Create Collection',
-    });
   }
 
   @Delete('/:collectionId')
   @ApiDocs.deleteCollection('도감 삭제')
-  async deleteCollection(
-    @Param('collectionId') collectionId: number,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async deleteCollection(@Param('collectionId') collectionId: number) {
     await this.collectionService.deleteCollection(collectionId);
-    res.status(200).json({
-      status: 200,
-      data: {},
-      message: 'Success To Delete Collection',
-    });
   }
 
   @Get('/namecards/:namecardUniqueCode')
@@ -97,7 +68,6 @@ export class CollectionController {
   async getNamecardByUniqueCode(
     @Param('namecardUniqueCode') uniqueCode: string,
     @Req() req: any,
-    @Res({ passthrough: true }) res: Response,
   ) {
     const namecard: NameCard =
       await this.collectionService.getNamecardByUniqueCode(uniqueCode);
@@ -105,11 +75,7 @@ export class CollectionController {
       req.user.userId,
       namecard,
     );
-    res.status(200).json({
-      status: 200,
-      data: { namecard, isAdded: isAdded },
-      message: 'Success To Get NameCard',
-    });
+    return { namecard, isAdded: isAdded };
   }
 
   @Post('/namecards/:namecardUniqueCode')
@@ -118,18 +84,12 @@ export class CollectionController {
     @Req() req: any,
     @Body() addNameCardToCollectionsData: AddNamecardToCollectionsDto,
     @Param('namecardUniqueCode') namecardUniqueCode: string,
-    @Res({ passthrough: true }) res: Response,
   ) {
     await this.collectionService.addNamecardToCollections(
       req.user.userId,
       addNameCardToCollectionsData,
       namecardUniqueCode,
     );
-    res.status(201).json({
-      status: 201,
-      data: {},
-      message: 'Success To Add NameCard To Collections',
-    });
   }
 
   @Post('/:collectionId/namecards')
@@ -138,49 +98,31 @@ export class CollectionController {
     @Req() req: any,
     @Param('collectionId') collectionId: number,
     @Body() addNamecardsToCollectionData: AddAndRemoveNamecardsDto,
-    @Res({ passthrough: true }) res: Response,
   ) {
     await this.collectionService.addNamecardsToCollection(
       req.user.userId,
       collectionId,
       addNamecardsToCollectionData,
     );
-    res.status(201).json({
-      status: 201,
-      data: {},
-      message: 'Success To Add NameCards To Collection',
-    });
   }
 
   @Get('/namecards')
   @ApiDocs.getAllNamecards('전체 명함 조회')
-  async getAllNamecards(
-    @Req() req: any,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async getAllNamecards(@Req() req: any) {
     const namecards: NameCard[] = await this.collectionService.getAllNamecards(
       req.user.userId,
     );
-    res.status(200).json({
-      status: 200,
-      data: { list: namecards },
-      message: 'Success To Get NameCards',
-    });
+    return { list: namecards };
   }
 
   @Get('/:collectionId/namecards')
   @ApiDocs.getNamecardsFromCollection('도감의 명함들 조회')
   async getNamecardsFromCollection(
     @Param('collectionId') collectionId: number,
-    @Res({ passthrough: true }) res: Response,
   ) {
     const namecards: NameCard[] =
       await this.collectionService.getNamecardsFromCollection(collectionId);
-    res.status(200).json({
-      status: 200,
-      data: { list: namecards },
-      message: 'Success To Get NameCards From Collection',
-    });
+    return { list: namecards };
   }
 
   @Delete('/namecards')
@@ -188,17 +130,11 @@ export class CollectionController {
   async deleteNamecardFromAllCollection(
     @Req() req: any,
     @Body() removeNamecardsFromCollectionDto: AddAndRemoveNamecardsDto,
-    @Res({ passthrough: true }) res: Response,
   ) {
     await this.collectionService.deleteNamecardFromAllCollection(
       req.user.userId,
       removeNamecardsFromCollectionDto,
     );
-    res.status(200).json({
-      status: 200,
-      data: {},
-      message: 'Success To Delete NameCards From All Collection',
-    });
   }
 
   @Delete('/:collectionId/namecards')
@@ -206,16 +142,10 @@ export class CollectionController {
   async deleteNamecardFromCollection(
     @Param('collectionId') collectionId: number,
     @Body() removeNamecardsFromCollectionDto: AddAndRemoveNamecardsDto,
-    @Res({ passthrough: true }) res: Response,
   ) {
     await this.collectionService.deleteNamecardFromCollection(
       collectionId,
       removeNamecardsFromCollectionDto,
     );
-    res.status(200).json({
-      status: 200,
-      data: {},
-      message: 'Success To Delete NameCards From Collection',
-    });
   }
 }
