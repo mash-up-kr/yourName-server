@@ -32,7 +32,7 @@ export class CollectionService {
   async getCollections(userId: number): Promise<Collection[]> {
     try {
       const collections: Collection[] = await this.collectionRepository.find({
-        select: ['id', 'name', 'description', 'bgColor'],
+        select: ['id', 'name', 'description'],
         where: { userId: userId },
         relations: ['bgColor'],
       });
@@ -51,7 +51,9 @@ export class CollectionService {
       const user: User = await this.userRepository.findOne({
         where: { id: userId },
       });
-      const bgColor: BgColor = await this._saveBgColor(collectionData);
+      const bgColor: BgColor = await this.bgColorRepository.findOne({
+        where: { id: collectionData.bgColorId },
+      });
 
       const collection: Collection = this.collectionRepository.create({
         user: user,
@@ -66,32 +68,14 @@ export class CollectionService {
     }
   }
 
-  async _saveBgColor(collectionData: CreateCollectionDto): Promise<BgColor> {
-    try {
-      const bgColor: BgColor = this.bgColorRepository.create({
-        color1: collectionData.bgcolor.color1,
-        color2: collectionData.bgcolor.color2,
-        color3: collectionData.bgcolor.color3,
-      });
-
-      return await this.bgColorRepository.save(bgColor);
-    } catch (err) {
-      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
   async updateCollection(
     collectionId: number,
     collectionData: CreateCollectionDto,
   ): Promise<void> {
     try {
-      const collection: Collection = await this.collectionRepository.findOne({
-        id: collectionId,
+      const bgColor: BgColor = await this.bgColorRepository.findOne({
+        where: { id: collectionData.bgColorId },
       });
-      const bgColor: BgColor = await this._updateBgColor(
-        collection.bgColorId,
-        collectionData,
-      );
 
       await this.collectionRepository.update(
         { id: collectionId },
@@ -101,26 +85,6 @@ export class CollectionService {
           bgColor: bgColor,
         },
       );
-    } catch (err) {
-      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  async _updateBgColor(
-    bgColorId: number,
-    collectionData: CreateCollectionDto,
-  ): Promise<BgColor> {
-    try {
-      await this.bgColorRepository.update(
-        { id: bgColorId },
-        {
-          color1: collectionData.bgcolor.color1,
-          color2: collectionData.bgcolor.color2,
-          color3: collectionData.bgcolor.color3,
-        },
-      );
-
-      return await this.bgColorRepository.findOne({ id: bgColorId });
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
