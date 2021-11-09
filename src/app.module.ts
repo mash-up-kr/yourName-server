@@ -13,9 +13,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { CollectionModule } from './modules/collection/collection.module';
 import { UsersModule } from './modules/users/users.module';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './transform.interceptor';
-import { AllExceptionFilter } from './exception.filter';
 
 @Module({
   imports: [
@@ -47,10 +46,6 @@ import { AllExceptionFilter } from './exception.filter';
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionFilter,
     },
   ],
 })
