@@ -17,7 +17,7 @@ import { ApiDocs } from './collection.docs';
 import { CollectionService } from './collection.service';
 import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.dto';
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
-import { CreateCollectionDto } from './dto/create-collection.dto';
+import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 
 @ApiTags('Collection - 도감')
 @Controller('collections')

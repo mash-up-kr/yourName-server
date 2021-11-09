@@ -7,7 +7,7 @@ import { User } from 'src/entities/user.entity';
 import { getConnection, Repository } from 'typeorm';
 import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.dto';
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
-import { CreateCollectionDto } from './dto/create-collection.dto';
+import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 import { BgColor } from 'src/entities/bg-color.entity';
 
 @Injectable()
@@ -45,7 +45,7 @@ export class CollectionService {
 
   async createCollection(
     userId: number,
-    collectionData: CreateCollectionDto,
+    collectionData: UpsertCollectionDto,
   ): Promise<Collection> {
     try {
       const user: User = await this.userRepository.findOne({
@@ -70,7 +70,7 @@ export class CollectionService {
 
   async updateCollection(
     collectionId: number,
-    collectionData: CreateCollectionDto,
+    collectionData: UpsertCollectionDto,
   ): Promise<void> {
     try {
       const bgColor: BgColor = await this.bgColorRepository.findOne({
