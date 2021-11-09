@@ -1,6 +1,16 @@
 version: '3.0'
 services:
-  meetu:
+  proxy:
+    build:
+      context: ./proxy
+    container_name: proxy
+    ports:
+    - "80:80"
+    depends_on:
+    - server
+    networks:
+      - back_net
+  server:
     build:
       context: .
       dockerfile: ./Dockerfile
