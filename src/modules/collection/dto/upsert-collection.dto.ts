@@ -1,7 +1,7 @@
 import { PickType } from '@nestjs/swagger';
 import { Collection } from '../../../entities/collection.entity';
 
-export class CreateCollectionDto extends PickType(Collection, [
+export class UpsertCollectionDto extends PickType(Collection, [
   'name',
   'description',
   'bgColorId',
