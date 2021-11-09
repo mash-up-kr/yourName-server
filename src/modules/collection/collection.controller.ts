@@ -37,7 +37,7 @@ export class CollectionController {
   @ApiDocs.updateCollection('도감 정보 수정')
   async updateCollection(
     @Param('collectionId') collectionId: number,
-    @Body() createCollectionDto: CreateCollectionDto,
+    @Body() createCollectionDto: UpsertCollectionDto,
   ) {
     await this.collectionService.updateCollection(
       collectionId,
@@ -49,11 +49,11 @@ export class CollectionController {
   @ApiDocs.createCollection('도감 생성')
   async createCollection(
     @Req() req: any,
-    @Body() createCollectionDto: CreateCollectionDto,
+    @Body() updateCollectionDto: UpsertCollectionDto,
   ) {
     await this.collectionService.createCollection(
       req.user.userId,
-      createCollectionDto,
+      updateCollectionDto,
     );
   }
 
