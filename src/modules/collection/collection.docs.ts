@@ -13,54 +13,6 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
     );
   },
 
-  updateCollection(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-        description: '유저의 특정 도감의 정보(이름, 설명, 색깔)를 수정',
-      }),
-      ApiParam({
-        name: 'collectionId',
-        required: true,
-        description: '도감 ID',
-      }),
-    );
-  },
-
-  createCollection(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-        description:
-          '유저가 지정한 이름과 해당 도감에 대한 한줄 설명과 함께 도감을 생성',
-      }),
-      ApiParam({
-        name: 'name',
-        required: true,
-        description: '새로 생성한 도감의 이름',
-      }),
-      ApiParam({
-        name: 'description',
-        required: true,
-        description: '새로 생성한 도감에 대한 설명',
-      }),
-    );
-  },
-
-  deleteCollection(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-        description: '해당 ID를 가진 도감을 삭제',
-      }),
-      ApiParam({
-        name: 'collectionId',
-        required: true,
-        description: '도감 ID',
-      }),
-    );
-  },
-
   getNamecardByUniqueCode(summary: string) {
     return applyDecorators(
       ApiOperation({
@@ -71,45 +23,6 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         name: 'namecardUniqueCode',
         required: true,
         description: '명함의 고유 코드',
-      }),
-    );
-  },
-
-  addNamecardToCollections(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-        description:
-          '해당 ID를 가진 도감들에 해당 고유 코드를 가진 명함을 추가',
-      }),
-      ApiParam({
-        name: 'namecardUniqueCode',
-        required: true,
-        description: '명함의 고유 코드',
-      }),
-      ApiParam({
-        name: 'addNameCardToCollectionsData',
-        required: true,
-        description: 'Collection ID들이 담긴 DTO',
-      }),
-    );
-  },
-
-  addNamecardsToCollection(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-        description: '해당 ID를 가진 명함에 해당 ID를 가진 명함들을 추가',
-      }),
-      ApiParam({
-        name: 'collectionId',
-        required: true,
-        description: '도감 ID',
-      }),
-      ApiParam({
-        name: 'addNamecardsToCollectionData',
-        required: true,
-        description: 'Namecard ID들이 담긴 DTO',
       }),
     );
   },
@@ -138,6 +51,93 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         name: 'collectionId',
         required: true,
         description: 'Collection ID',
+      }),
+    );
+  },
+
+  createCollection(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description:
+          '유저가 지정한 이름과 해당 도감에 대한 한줄 설명과 함께 도감을 생성',
+      }),
+      ApiParam({
+        name: 'name',
+        required: true,
+        description: '새로 생성한 도감의 이름',
+      }),
+      ApiParam({
+        name: 'description',
+        required: true,
+        description: '새로 생성한 도감에 대한 설명',
+      }),
+    );
+  },
+
+  addNamecardsToCollection(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '해당 ID를 가진 명함에 해당 ID를 가진 명함들을 추가',
+      }),
+      ApiParam({
+        name: 'collectionId',
+        required: true,
+        description: '도감 ID',
+      }),
+      ApiParam({
+        name: 'addNamecardsToCollectionData',
+        required: true,
+        description: 'Namecard ID들이 담긴 DTO',
+      }),
+    );
+  },
+
+  addNamecardToCollections(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description:
+          '해당 ID를 가진 도감들에 해당 고유 코드를 가진 명함을 추가',
+      }),
+      ApiParam({
+        name: 'namecardUniqueCode',
+        required: true,
+        description: '명함의 고유 코드',
+      }),
+      ApiParam({
+        name: 'addNameCardToCollectionsData',
+        required: true,
+        description: 'Collection ID들이 담긴 DTO',
+      }),
+    );
+  },
+
+  updateCollection(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '유저의 특정 도감의 정보(이름, 설명, 색깔)를 수정',
+      }),
+      ApiParam({
+        name: 'collectionId',
+        required: true,
+        description: '도감 ID',
+      }),
+    );
+  },
+
+  deleteCollection(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '해당 ID를 가진 도감을 삭제',
+      }),
+      ApiParam({
+        name: 'collectionId',
+        required: true,
+        description: '도감 ID',
       }),
     );
   },
