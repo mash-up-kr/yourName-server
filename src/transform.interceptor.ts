@@ -22,13 +22,14 @@ export class TransformInterceptor<T>
     next: CallHandler,
   ): Observable<Response<T>> {
     const statusCode: number = context.getArgs()[1].statusCode;
+
     return next
       .handle()
       .pipe(
         map((data) =>
           data
             ? { code: statusCode, data: data, message: 'Success' }
-            : { code: 204, data: {}, message: 'Success' },
+            : { code: statusCode, data: {}, message: 'Success' },
         ),
       );
   }
