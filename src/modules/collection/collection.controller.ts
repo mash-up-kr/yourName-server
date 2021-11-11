@@ -18,6 +18,7 @@ import { CollectionService } from './collection.service';
 import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.dto';
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
 import { UpsertCollectionDto } from './dto/upsert-collection.dto';
+import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
 
 @ApiTags('Collection - 도감')
 @Controller('collections')
@@ -51,10 +52,13 @@ export class CollectionController {
     @Req() req: any,
     @Body() updateCollectionDto: UpsertCollectionDto,
   ) {
-    await this.collectionService.createCollection(
-      req.user.userId,
-      updateCollectionDto,
-    );
+    const collection: Collection =
+      await this.collectionService.createCollection(
+        req.user.userId,
+        updateCollectionDto,
+      );
+
+    return collection.id;
   }
 
   @Delete('/:collectionId')
@@ -85,11 +89,14 @@ export class CollectionController {
     @Body() addNameCardToCollectionsData: AddNamecardToCollectionsDto,
     @Param('namecardUniqueCode') namecardUniqueCode: string,
   ) {
-    await this.collectionService.addNamecardToCollections(
-      req.user.userId,
-      addNameCardToCollectionsData,
-      namecardUniqueCode,
-    );
+    const collectionNamecardIds: number[] =
+      await this.collectionService.addNamecardToCollections(
+        req.user.userId,
+        addNameCardToCollectionsData,
+        namecardUniqueCode,
+      );
+
+    return { list: collectionNamecardIds };
   }
 
   @Post('/:collectionId/namecards')
@@ -99,11 +106,14 @@ export class CollectionController {
     @Param('collectionId') collectionId: number,
     @Body() addNamecardsToCollectionData: AddAndRemoveNamecardsDto,
   ) {
-    await this.collectionService.addNamecardsToCollection(
-      req.user.userId,
-      collectionId,
-      addNamecardsToCollectionData,
-    );
+    const collectionNamecardIds: number[] =
+      await this.collectionService.addNamecardsToCollection(
+        req.user.userId,
+        collectionId,
+        addNamecardsToCollectionData,
+      );
+
+    return { list: collectionNamecardIds };
   }
 
   @Get('/namecards')

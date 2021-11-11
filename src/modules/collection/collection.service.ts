@@ -149,7 +149,7 @@ export class CollectionService {
     userId: number,
     addNameCardToCollectionsData: AddNamecardToCollectionsDto,
     namecardUniqueCode: string,
-  ): Promise<CollectionNameCard[]> {
+  ): Promise<number[]> {
     try {
       const user: User = await this.userRepository.findOne({ id: userId });
       const namecardToAdded: NameCard = await this.namecardRepository.findOne({
@@ -170,7 +170,7 @@ export class CollectionService {
             user,
             namecardToAdded,
             collectionId,
-          ).then((res) => res),
+          ).then((res) => res.id),
         ),
       );
     } catch (err) {
@@ -203,7 +203,7 @@ export class CollectionService {
     userId: number,
     collectionId: number,
     addNamecardsToCollectionData: AddAndRemoveNamecardsDto,
-  ): Promise<CollectionNameCard[]> {
+  ): Promise<number[]> {
     try {
       const user: User = await this.userRepository.findOne({ id: userId });
       const collectionToAdd: Collection =
@@ -215,7 +215,7 @@ export class CollectionService {
             user,
             collectionToAdd,
             namecardId,
-          ).then((res) => res),
+          ).then((res) => res.id),
         ),
       );
     } catch (err) {
