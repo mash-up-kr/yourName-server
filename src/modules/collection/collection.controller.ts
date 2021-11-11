@@ -74,6 +74,8 @@ export class CollectionController {
   ) {
     const namecard: NameCard =
       await this.collectionService.getNamecardByUniqueCode(uniqueCode);
+    if (!namecard) return;
+
     const isAdded: boolean = await this.collectionService.isAddedNameCard(
       req.user.userId,
       namecard,

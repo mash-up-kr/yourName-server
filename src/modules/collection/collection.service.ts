@@ -111,9 +111,6 @@ export class CollectionService {
           'personalSkills',
         ],
       });
-      if (!namecardToFind) {
-        throw new HttpException('Wrong NameCard Unique Code', 1000); //에러 코드 협의 후 수정
-      }
 
       return namecardToFind;
     } catch (err) {
