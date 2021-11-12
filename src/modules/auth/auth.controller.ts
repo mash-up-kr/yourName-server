@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { JwtRefreshGuard } from './guards/jwt-refresh-auth.guard';
 import { KakaoAuthGuard } from './guards/kakao-auth.guard';
 import { ProviderDataSchema } from './interfaces/interfaces';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller()
 @ApiTags('Auth - 인증')
@@ -36,10 +37,11 @@ export class AuthController {
     return await this.authService.login(user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('logout')
   @ApiDocs.logout('로그아웃')
   async logout(@Req() req: any): Promise<void> {
-    await this.authService.logout(req.user);
+    await this.authService.logout(req.user.userId);
   }
 
   @UseGuards(JwtRefreshGuard)
