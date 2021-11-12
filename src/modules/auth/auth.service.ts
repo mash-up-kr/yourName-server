@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Collection } from 'src/entities/collection.entity';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
+import { PayloadSchema, TokenSchema } from './interfaces/interfaces';
 
 @Injectable()
 export class AuthService {
@@ -42,7 +43,7 @@ export class AuthService {
     return user;
   }
 
-  async login(user: User) {
+  async login(user: User): Promise<TokenSchema> {
     const payload = { userId: user.id, nickName: user.nickName };
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
@@ -63,16 +64,16 @@ export class AuthService {
     this.userRepository.update({ id: userId }, { refreshToken: '' });
   }
 
-  async isRefreshTokenMatching(payload: any): Promise<any> {
+  async isRefreshTokenMatching(payload: any): Promise<PayloadSchema> {
     const user = await this.userRepository.findOne({ id: payload.userId });
     if (!user) throw new UnauthorizedException();
 
     return { userId: payload.userId, nickName: payload.nickName };
   }
 
-  async refresh(user: User): Promise<any> {
+  async refresh(user: User): Promise<TokenSchema> {
     const payload = { userId: user.id, sub: user.nickName };
     const newAccessToken = this.jwtService.sign(payload);
-    return newAccessToken;
+    return { accessToken: newAccessToken };
   }
 }
