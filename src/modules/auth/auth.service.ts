@@ -59,8 +59,8 @@ export class AuthService {
     return { accessToken: accessToken, refreshToken: refreshToken };
   }
 
-  async logout(user: User): Promise<void> {
-    this.userRepository.update(user, { refreshToken: '' });
+  async logout(userId: number): Promise<void> {
+    this.userRepository.update({ id: userId }, { refreshToken: '' });
   }
 
   async isRefreshTokenMatching(payload: any): Promise<any> {
