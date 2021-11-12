@@ -23,3 +23,13 @@ export interface ApplePublicKeyType {
     [key: string]: string;
   }>;
 }
+
+export interface TokenSchema {
+  accessToken: string;
+  refreshToken?: string;
+}
+
+export interface PayloadSchema {
+  userId: number;
+  nickName: string;
+}

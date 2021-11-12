@@ -48,7 +48,6 @@ export class AuthController {
   @Get('token-refresh')
   @ApiDocs.refreshToken('토큰 리프레시')
   async refreshToken(@Req() req: any) {
-    const newAccessToken = await this.authService.refresh(req.user);
-    return { accessToken: newAccessToken };
+    return await this.authService.refresh(req.user);
   }
 }
