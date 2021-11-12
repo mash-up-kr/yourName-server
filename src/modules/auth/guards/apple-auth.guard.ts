@@ -16,7 +16,7 @@ export class AppleAuthGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token: string = <string>request.headers.identify_token();
+    const token: string = <string>request.headers.authorization;
     if (!token) throw new UnauthorizedException();
 
     const validateTokenResult: IdentityTokenSchema =
