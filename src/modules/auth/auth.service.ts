@@ -36,10 +36,6 @@ export class AuthService {
     user.providerName = providerName;
     await this.userRepository.save(user);
 
-    const collection = new Collection();
-    collection.user = user;
-    await this.collectionRepository.save(collection);
-
     const userOnboarding = new UserOnboarding();
     userOnboarding.userId = user.id;
     await this.userOnboardingRepository.save(userOnboarding);
