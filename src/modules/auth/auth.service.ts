@@ -64,17 +64,11 @@ export class AuthService {
     this.userRepository.update(user, { refreshToken: '' });
   }
 
-  async isRefreshTokenMatching(
-    refreshToken: string,
-    userId: number,
-  ): Promise<User> {
-    const user = await this.userRepository.findOne({ id: userId });
-    const refreshTokenIsMatching = await bcrypt.compare(
-      refreshToken,
-      user.refreshToken,
-    );
-    if (refreshTokenIsMatching) return user;
-    throw new UnauthorizedException();
+  async isRefreshTokenMatching(payload: any): Promise<any> {
+    const user = await this.userRepository.findOne({ id: payload.userId });
+    if (!user) throw new UnauthorizedException();
+
+    return { userId: payload.userId, nickName: payload.nickName };
   }
 
   async refresh(user: User): Promise<any> {
