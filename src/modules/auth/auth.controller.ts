@@ -38,14 +38,14 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('logout')
+  @Post('logout')
   @ApiDocs.logout('로그아웃')
   async logout(@Req() req: any): Promise<void> {
     await this.authService.logout(req.user.userId);
   }
 
   @UseGuards(JwtRefreshGuard)
-  @Get('token-refresh')
+  @Post('token-refresh')
   @ApiDocs.refreshToken('토큰 리프레시')
   async refreshToken(@Req() req: any) {
     return await this.authService.refresh(req.user);
