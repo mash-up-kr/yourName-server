@@ -13,11 +13,6 @@ export class PersonalSkill extends BaseEntity {
 
   @IsNumber()
   @IsNotEmpty()
-  @Column()
-  skiilId: number;
-
-  @IsNumber()
-  @IsNotEmpty()
   @Column({ default: 1 })
   order: number;
 
@@ -28,7 +23,7 @@ export class PersonalSkill extends BaseEntity {
 
   @JoinColumn([{ name: 'skillId', referencedColumnName: 'id' }])
   @ManyToOne(() => Skill)
-  skills: Skill;
+  skill: Skill;
 
   @JoinColumn([{ name: 'namecardId', referencedColumnName: 'id' }])
   @ManyToOne(() => NameCard, {

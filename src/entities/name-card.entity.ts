@@ -79,7 +79,7 @@ export class NameCard extends DateTimeEntity {
     () => NameCardContact,
     (nameCardContact) => nameCardContact.nameCard,
   )
-  contacts?: NameCardContact;
+  contacts?: NameCardContact[];
 
   @OneToMany(() => NameCardTmi, (nameCardTmi) => nameCardTmi.nameCard)
   tmis?: NameCardTmi[];
