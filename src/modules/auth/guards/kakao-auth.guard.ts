@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InvalidTokenError } from 'jwt-decode';
 import { KaKaoStrategy } from '../strategies/kakao.strategy';
-import { ProviderDataSchema } from '../interfaces/interfaces';
+import { ProviderDataSchema } from '../../../interfaces/auth.interface';
 
 @Injectable()
 export class KakaoAuthGuard implements CanActivate {

@@ -8,7 +8,7 @@ import { AppleStrategy } from '../strategies/apple.strategy';
 import {
   IdentityTokenSchema,
   ProviderDataSchema,
-} from '../interfaces/interfaces';
+} from '../../../interfaces/auth.interface';
 
 @Injectable()
 export class AppleAuthGuard implements CanActivate {
