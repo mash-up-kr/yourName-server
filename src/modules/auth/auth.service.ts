@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Collection } from 'src/entities/collection.entity';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
-import { PayloadSchema, TokenSchema } from './interfaces/interfaces';
+import { PayloadSchema, TokenSchema } from '../../interfaces/auth.interface';
 
 @Injectable()
 export class AuthService {

@@ -6,8 +6,8 @@ import { AxiosClient } from '../axios-client';
 import {
   IdentityTokenHeader,
   IdentityTokenSchema,
-} from '../interfaces/interfaces';
-import { ApplePublicKeyType } from '../interfaces/interfaces';
+  ApplePublicKeyType,
+} from '../../../interfaces/auth.interface';
 
 @Injectable()
 export class AppleStrategy {
