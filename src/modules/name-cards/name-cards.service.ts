@@ -35,7 +35,7 @@ export class NameCardService {
   ) {}
 
   async getMyNameCards(userId: number) {
-    const nameCards = await this.nameCardRepository.find({
+    const _nameCards = await this.nameCardRepository.find({
       where: { userId },
       relations: [
         'user',
@@ -43,25 +43,25 @@ export class NameCardService {
         'contacts.contact',
         'bgColor',
         'tmis',
+        'tmis.tmi',
         'personalSkills',
+        'personalSkills.skill',
       ],
     });
 
-    nameCards.map((nameCard) => {
-      nameCard.bgColor.value = [
-        nameCard.bgColor.color1,
-        nameCard.bgColor.color2,
-        nameCard.bgColor.color3,
-        nameCard.bgColor.color4,
-        nameCard.bgColor.color5,
-      ].filter((value) => value);
+    const nameCards = _nameCards.map((nameCard) => {
+      const bgColor = this._formatingBgColor(nameCard);
+      const contacts = this._formatingContact(nameCard);
+      const tmis = this._formatingTmi(nameCard);
+      const personalSkills = this._formatingPersonalSkill(nameCard);
 
-      delete nameCard.bgColor.color1;
-      delete nameCard.bgColor.color2;
-      delete nameCard.bgColor.color3;
-      delete nameCard.bgColor.color4;
-      delete nameCard.bgColor.color5;
-      delete nameCard.bgColor.userOnboardingField;
+      return {
+        ...nameCard,
+        bgColor,
+        contacts,
+        tmis,
+        personalSkills,
+      };
     });
 
     return nameCards;
@@ -226,5 +226,51 @@ export class NameCardService {
       );
 
     return randomString;
+  }
+
+  _formatingBgColor(nameCard: NameCard) {
+    const value = [
+      ...Object.keys(nameCard.bgColor)
+        .filter((key) => key.includes('color'))
+        .map((color) => nameCard.bgColor[color]),
+    ].filter((value) => value);
+
+    return {
+      id: nameCard.bgColor.id,
+      value,
+    };
+  }
+
+  _formatingContact(nameCard: NameCard) {
+    const contact = nameCard.contacts.map((contact) => {
+      return {
+        category: contact.contact.category,
+        value: contact.value,
+        iconUrl: contact.contact.iconUrl,
+      };
+    });
+
+    return contact;
+  }
+
+  _formatingTmi(nameCard: NameCard) {
+    const tmis = nameCard.tmis.map((tmi) => {
+      return {
+        type: tmi.tmi.type,
+        name: tmi.tmi.name,
+      };
+    });
+
+    return tmis;
+  }
+
+  _formatingPersonalSkill(nameCard: NameCard) {
+    const personalSkills = nameCard.personalSkills.map((personalSkill) => {
+      return {
+        name: personalSkill.skill.name,
+        level: personalSkill.level,
+      };
+    });
+    return personalSkills;
   }
 }
