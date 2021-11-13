@@ -20,5 +20,9 @@ export const setupSwagger = (app: INestApplication) => {
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(SWAGGER_API_ROOT, app, document);
+  SwaggerModule.setup(SWAGGER_API_ROOT, app, document, {
+    swaggerOptions: {
+      operationsSorter: 'method',
+    },
+  });
 };
