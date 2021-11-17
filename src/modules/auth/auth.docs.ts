@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiParam } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { AuthController } from './auth.controller';
 
@@ -10,10 +10,13 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         summary,
         description: '카카오 로그인 API',
       }),
-      ApiParam({
-        name: 'req',
-        required: true,
-        description: '카카오 로그인 Request Body',
+      ApiResponse({
+        status: 201,
+        description: 'access token + refresh token',
+      }),
+      ApiHeader({
+        name: 'authorization',
+        description: '카카오에서 발급받은 access token',
       }),
     );
   },
@@ -23,10 +26,13 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         summary,
         description: '애플 로그인 API',
       }),
-      ApiParam({
-        name: 'req',
-        required: true,
-        description: '애플 로그인 Request Body',
+      ApiResponse({
+        status: 201,
+        description: 'access token + refresh token',
+      }),
+      ApiHeader({
+        name: 'authorization',
+        description: '애플에서 발급받은 Idedntity token',
       }),
     );
   },
@@ -36,10 +42,13 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         summary,
         description: '로그아웃을 수행하여 리프레시 토큰 저장소에서 삭제',
       }),
-      ApiParam({
-        name: 'req',
-        required: true,
-        description: '로그아웃 Request Body에서 사용자 정보 가져옴',
+      ApiResponse({
+        status: 201,
+        description: '빈 data 객체 + Success Message',
+      }),
+      ApiHeader({
+        name: 'authorization',
+        description: '유저의 access token',
       }),
     );
   },
@@ -50,10 +59,13 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         description:
           '리프레시 토큰의 검증을 수행하고 유효하다면 엑세스 토큰을 재발급',
       }),
-      ApiParam({
-        name: 'req',
-        required: true,
-        description: '토큰 리프레시 Request Body에서 사용자 정보를 가져옴',
+      ApiResponse({
+        status: 201,
+        description: 'new access token',
+      }),
+      ApiHeader({
+        name: 'authorization',
+        description: '유저의 refresh token',
       }),
     );
   },
