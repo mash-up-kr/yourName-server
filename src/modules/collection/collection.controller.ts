@@ -30,6 +30,7 @@ export class CollectionController {
   async getCollections(@Param('id') id: number, @Req() req: any) {
     const collections: Collection[] =
       await this.collectionService.getCollections(req.user.userId);
+    if (collections.length == 0) return;
     return { list: collections };
   }
 
