@@ -1,4 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { number, string } from 'joi';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { BgColor } from './bg-color.entity';
@@ -9,21 +11,33 @@ import { User } from './user.entity';
 export class Collection extends BaseEntity {
   @IsNumber()
   @IsNotEmpty()
+  @ApiProperty({ type: number, description: '유저 ID', example: '1' })
   @Column()
   userId: number;
 
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({
+    type: string,
+    description: '도감 이름',
+    example: '매쉬업 너의 이름은 팀',
+  })
   @Column()
   name: string;
 
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({
+    type: string,
+    description: '도감에 대한 설명',
+    example: '매쉬업 11기 해커톤 팀 너의 이름은',
+  })
   @Column({ length: 20 })
   description: string;
 
   @IsNumber()
   @IsNotEmpty()
+  @ApiProperty({ type: number, description: '배경색 ID', example: '1' })
   @Column()
   bgColorId: number;
 
