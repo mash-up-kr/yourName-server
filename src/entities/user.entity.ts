@@ -4,7 +4,6 @@ import { BaseEntity } from './base.entity';
 import { UserOnboarding } from './user-onboarding.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { string } from 'joi';
-import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -35,7 +34,6 @@ export class User extends BaseEntity {
     description: '리프레시 토큰',
     example: 'qwe123e32easfd!@#@45?23r2w',
   })
-  @Exclude()
   @Column({ nullable: true, select: false })
   refreshToken?: string;
 
