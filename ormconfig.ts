@@ -1,16 +1,16 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
-import { Collection } from 'src/entities/collection.entity';
-import { Contact } from 'src/entities/contact.entity';
-import { Image } from 'src/entities/image.entity';
-import { NameCardContact } from 'src/entities/name-card-contact.entity';
-import { NameCardTmi } from 'src/entities/name-card-tmi.entity';
-import { NameCard } from 'src/entities/name-card.entity';
-import { PersonalSkill } from 'src/entities/personal-skill.entity';
-import { Skill } from 'src/entities/skill.entity';
-import { Tmi } from 'src/entities/tmi.entity';
-import { User } from 'src/entities/user.entity';
+import { CollectionNameCard } from './src/entities/collection-name-card.entity';
+import { Collection } from './src/entities/collection.entity';
+import { Contact } from './src/entities/contact.entity';
+import { Image } from './src/entities/image.entity';
+import { NameCardContact } from './src/entities/name-card-contact.entity';
+import { NameCardTmi } from './src/entities/name-card-tmi.entity';
+import { NameCard } from './src/entities/name-card.entity';
+import { PersonalSkill } from './src/entities/personal-skill.entity';
+import { Skill } from './src/entities/skill.entity';
+import { Tmi } from './src/entities/tmi.entity';
+import { User } from './src/entities/user.entity';
 import { UserOnboarding } from './src/entities/user-onboarding.entity';
 import { BgColor } from './src/entities/bg-color.entity';
 
