@@ -57,7 +57,18 @@ export class AuthService {
     const currentHashedRefreshToken = await hash(refreshToken, 10);
     user.refreshToken = currentHashedRefreshToken;
     await this.userRepository.save(user);
-    return { accessToken: accessToken, refreshToken: refreshToken };
+
+    const userOnboarding: UserOnboarding =
+      await this.userOnboardingRepository.findOne({
+        where: { userId: user.id },
+        relations: ['user'],
+      });
+
+    return {
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      userOnboarding: userOnboarding,
+    };
   }
 
   async logout(userId: number): Promise<void> {
