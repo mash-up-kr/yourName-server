@@ -124,6 +124,7 @@ export class CollectionController {
     const namecards: NameCard[] = await this.collectionService.getAllNamecards(
       req.user.userId,
     );
+    if (namecards.length == 0) return;
     return { list: namecards };
   }
 
@@ -134,6 +135,7 @@ export class CollectionController {
   ) {
     const namecards: NameCard[] =
       await this.collectionService.getNamecardsFromCollection(collectionId);
+    if (namecards.length == 0) return;
     return { list: namecards };
   }
 
