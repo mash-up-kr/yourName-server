@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { userOnboardingType } from 'src/utils/types';
 import { ApiDocs } from './users.docs';
 import { UsersService } from './users.service';
 
@@ -24,7 +25,7 @@ export class UsersController {
   @Put(':id/onboarding/:type/done')
   async doneUserOnboarding(
     @Param('id') userId: number,
-    @Param('type') onboardingType: string,
+    @Param('type') onboardingType: userOnboardingType,
   ) {
     await this.usersService.doneUserOnboarding(userId, onboardingType);
   }
@@ -33,7 +34,7 @@ export class UsersController {
   @Put(':id/onboarding/:type/done-wait')
   async doneWaitUserOnboarding(
     @Param('id') userId: number,
-    @Param('type') onboardingType: string,
+    @Param('type') onboardingType: userOnboardingType,
   ) {
     await this.usersService.doneWaitUserOnboarding(userId, onboardingType);
   }

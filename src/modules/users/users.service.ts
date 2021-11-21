@@ -4,6 +4,7 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { BgColor } from 'src/entities/bg-color.entity';
 import { Repository } from 'typeorm';
 import userOnboardingImageUrlMap from 'src/constants/userOnboardingImageUrlMap';
+import { userOnboardingType } from 'src/utils/types';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +15,7 @@ export class UsersService {
     private bgColorRepository: Repository<BgColor>,
   ) {}
 
-  async getUserOnboardings(userId) {
+  async getUserOnboardings(userId: number) {
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId,
     });
@@ -29,7 +30,7 @@ export class UsersService {
     return { list };
   }
 
-  async doneUserOnboarding(userId, onboardingType) {
+  async doneUserOnboarding(userId: number, onboardingType: userOnboardingType) {
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId,
     });
@@ -38,7 +39,10 @@ export class UsersService {
     await this.userOnboardingRepository.save(userOnboarding);
   }
 
-  async doneWaitUserOnboarding(userId, onboardingType) {
+  async doneWaitUserOnboarding(
+    userId: number,
+    onboardingType: userOnboardingType,
+  ) {
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId,
     });
@@ -47,7 +51,7 @@ export class UsersService {
     await this.userOnboardingRepository.save(userOnboarding);
   }
 
-  async getBgColors(userId) {
+  async getBgColors(userId: number) {
     const userOnboarding = await this.userOnboardingRepository.findOne({
       userId,
     });
