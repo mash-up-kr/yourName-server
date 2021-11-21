@@ -68,7 +68,6 @@ export class NameCardService {
     return nameCards;
   }
 
-  //@todo: Transaction 처리
   async createNameCard(
     createNameCardDto: CreateNameCardDto,
   ): Promise<NameCard> {
