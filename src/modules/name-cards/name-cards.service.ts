@@ -139,7 +139,7 @@ export class NameCardService {
     await this.nameCardRepository.delete(nameCardId);
   }
 
-  async _saveContacts(nameCardId, contacts = []) {
+  async _saveContacts(nameCardId: number, contacts = []) {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -176,7 +176,7 @@ export class NameCardService {
     }
   }
 
-  async _saveTmis(nameCardId, tmiIds = []) {
+  async _saveTmis(nameCardId: number, tmiIds = []) {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -209,7 +209,7 @@ export class NameCardService {
     }
   }
 
-  async _saveSkills(nameCardId, skills = []) {
+  async _saveSkills(nameCardId: number, skills = []) {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -241,7 +241,7 @@ export class NameCardService {
     }
   }
 
-  async _updateUserOnboarding(userId, updateType: userOnboardingType) {
+  async _updateUserOnboarding(userId: number, updateType: userOnboardingType) {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -266,7 +266,7 @@ export class NameCardService {
     }
   }
 
-  async _checkCondition(userId, updateType: userOnboardingType) {
+  async _checkCondition(userId: number, updateType: userOnboardingType) {
     if (updateType === 'makeFirstNameCard') {
       return true;
     } else if (updateType === 'makeNamCards') {
