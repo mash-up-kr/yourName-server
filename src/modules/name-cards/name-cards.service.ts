@@ -90,7 +90,7 @@ export class NameCardService {
         this._updateUserOnboarding(nameCardData.userId, 'makeNamCards'),
       ]);
 
-      return await queryRunner.manager
+      const returned = await queryRunner.manager
         .getRepository(NameCard)
         .findOne(nameCard.id, {
           relations: [
@@ -102,6 +102,10 @@ export class NameCardService {
             'personalSkills',
           ],
         });
+
+      await queryRunner.commitTransaction();
+
+      return returned;
     } catch (err) {
       await queryRunner.rollbackTransaction();
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -127,6 +131,7 @@ export class NameCardService {
         this._saveTmis(nameCardId, tmiIds),
         this._saveSkills(nameCardId, skills),
       ]);
+      await queryRunner.commitTransaction();
     } catch (err) {
       await queryRunner.rollbackTransaction();
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -166,6 +171,7 @@ export class NameCardService {
             nameCardId: nameCardId,
             contactId: _contact.id,
           });
+          await queryRunner.commitTransaction();
         }),
       );
     } catch (err) {
@@ -199,6 +205,7 @@ export class NameCardService {
             nameCardId: nameCardId,
             tmiId: tmi.id,
           });
+          await queryRunner.commitTransaction();
         }),
       );
     } catch (err) {
@@ -231,6 +238,7 @@ export class NameCardService {
             level: skill.level,
             order: skill.order,
           });
+          await queryRunner.commitTransaction();
         }),
       );
     } catch (err) {
