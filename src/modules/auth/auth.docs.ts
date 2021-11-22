@@ -12,7 +12,8 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
       }),
       ApiResponse({
         status: 201,
-        description: 'access token + refresh token',
+        description:
+          'access token + refresh token + user 정보 + userOnboarding 정보',
       }),
       ApiHeader({
         name: 'authorization',
@@ -28,7 +29,8 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
       }),
       ApiResponse({
         status: 201,
-        description: 'access token + refresh token',
+        description:
+          'access token + refresh token + user 정보 + userOnboarding 정보',
       }),
       ApiHeader({
         name: 'authorization',
