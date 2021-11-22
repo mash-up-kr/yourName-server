@@ -16,6 +16,14 @@ export class CreateNameCardDto extends PickType(NameCard, [
 ]) {
   @IsOptional()
   @ApiProperty({
+    example: {
+      key: 'profile/apple.jpg',
+    },
+  })
+  imageKey: string;
+
+  @IsOptional()
+  @ApiProperty({
     example: [
       {
         category: 'Email.',
@@ -42,14 +50,6 @@ export class CreateNameCardDto extends PickType(NameCard, [
     ],
   })
   skills: CreateSkillDto[];
-
-  @IsOptional()
-  @ApiProperty({
-    example: {
-      key: 'profile/apple.jpg',
-    },
-  })
-  imageKey: string;
 }
 
 class CreateContactDto {
