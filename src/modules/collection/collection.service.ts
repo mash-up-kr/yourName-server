@@ -354,7 +354,8 @@ export class CollectionService {
 
   _formattingImage(nameCard: NameCard): ImageSchema {
     return {
-      imgKey: nameCard.image.key,
+      id: nameCard.image.id,
+      imgURL: nameCard.image.key,
     };
   }
 
