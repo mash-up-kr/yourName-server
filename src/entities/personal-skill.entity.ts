@@ -21,6 +21,11 @@ export class PersonalSkill extends BaseEntity {
   @Column()
   namecardId: number;
 
+  @IsNumber()
+  @IsNotEmpty()
+  @Column()
+  skillId: number;
+
   @JoinColumn([{ name: 'skillId', referencedColumnName: 'id' }])
   @ManyToOne(() => Skill)
   skill: Skill;
