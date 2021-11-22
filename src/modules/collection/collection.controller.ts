@@ -11,13 +11,16 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Collection } from 'src/entities/collection.entity';
-import { NameCard } from 'src/entities/name-card.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiDocs } from './collection.docs';
 import { CollectionService } from './collection.service';
 import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.dto';
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
 import { UpsertCollectionDto } from './dto/upsert-collection.dto';
+import {
+  CollectionSchame,
+  NameCardSchema,
+} from 'src/interfaces/collection.interface';
 
 @ApiTags('Collection - 도감')
 @Controller('collections')
@@ -28,7 +31,7 @@ export class CollectionController {
   @Get()
   @ApiDocs.getCollections('도감들 조회')
   async getCollections(@Param('id') id: number, @Req() req: any) {
-    const collections: Collection[] =
+    const collections: CollectionSchame[] =
       await this.collectionService.getCollections(req.user.userId);
     if (collections.length == 0) return;
     return { list: collections };
@@ -73,7 +76,7 @@ export class CollectionController {
     @Param('namecardUniqueCode') uniqueCode: string,
     @Req() req: any,
   ) {
-    const namecard: NameCard =
+    const namecard: NameCardSchema =
       await this.collectionService.getNamecardByUniqueCode(uniqueCode);
     if (!namecard) return;
 
@@ -121,9 +124,8 @@ export class CollectionController {
   @Get('/namecards')
   @ApiDocs.getAllNamecards('전체 명함 조회')
   async getAllNamecards(@Req() req: any) {
-    const namecards: NameCard[] = await this.collectionService.getAllNamecards(
-      req.user.userId,
-    );
+    const namecards: NameCardSchema[] =
+      await this.collectionService.getAllNamecards(req.user.userId);
     if (namecards.length == 0) return;
     return { list: namecards };
   }
@@ -133,7 +135,7 @@ export class CollectionController {
   async getNamecardsFromCollection(
     @Param('collectionId') collectionId: number,
   ) {
-    const namecards: NameCard[] =
+    const namecards: NameCardSchema[] =
       await this.collectionService.getNamecardsFromCollection(collectionId);
     if (namecards.length == 0) return;
     return { list: namecards };

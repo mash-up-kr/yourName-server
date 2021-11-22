@@ -9,6 +9,14 @@ import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.d
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
 import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 import { BgColor } from 'src/entities/bg-color.entity';
+import {
+  BgColorSchema,
+  CollectionSchame,
+  ContactSchema,
+  NameCardSchema,
+  PersonalSkillSchema,
+  TmiSchema,
+} from 'src/interfaces/collection.interface';
 
 @Injectable()
 export class CollectionService {
@@ -29,18 +37,44 @@ export class CollectionService {
     private readonly bgColorRepository: Repository<BgColor>,
   ) {}
 
-  async getCollections(userId: number): Promise<Collection[]> {
+  async getCollections(userId: number): Promise<CollectionSchame[]> {
     try {
       const collections: Collection[] = await this.collectionRepository.find({
-        select: ['id', 'name', 'description'],
         where: { userId: userId },
         relations: ['bgColor'],
       });
+      const formattedCollections: CollectionSchame[] =
+        this._formattingCollectionRes(collections);
 
-      return collections;
+      return formattedCollections;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  _formattingCollectionRes(collections: Collection[]): CollectionSchame[] {
+    const formattedCollections: CollectionSchame[] = collections.map(
+      (collection) => {
+        return {
+          id: collection.id,
+          name: collection.name,
+          description: collection.description,
+          bgColor: this._formattingCollectionBgColor(collection),
+        };
+      },
+    );
+
+    return formattedCollections;
+  }
+
+  _formattingCollectionBgColor(collection: Collection): BgColorSchema {
+    const value = [
+      ...Object.keys(collection.bgColor)
+        .filter((key) => key.includes('color'))
+        .map((color) => collection.bgColor[color]),
+    ].filter((value) => value);
+
+    return { id: collection.bgColorId, value: value };
   }
 
   async createCollection(
@@ -98,7 +132,7 @@ export class CollectionService {
     }
   }
 
-  async getNamecardByUniqueCode(uniqueCode: string): Promise<NameCard> {
+  async getNamecardByUniqueCode(uniqueCode: string): Promise<NameCardSchema> {
     try {
       const namecardToFind: NameCard = await this.namecardRepository.findOne({
         where: { uniqueCode: uniqueCode },
@@ -108,17 +142,40 @@ export class CollectionService {
           'contacts.contact',
           'bgColor',
           'tmis',
+          'tmis.tmi',
           'personalSkills',
+          'personalSkills.skill',
         ],
       });
 
-      return namecardToFind;
+      const bgColor = this._formattingNamecardBgColor(namecardToFind);
+      const contact = this._formattingContact(namecardToFind);
+      const tmi = this._formattingTmi(namecardToFind);
+      const personalSkill = this._formattingPersonalSkill(namecardToFind);
+
+      return {
+        id: namecardToFind.id,
+        name: namecardToFind.name,
+        role: namecardToFind.role,
+        personality: namecardToFind.personality,
+        introduce: namecardToFind.introduce,
+        uniqueCode: namecardToFind.uniqueCode,
+        imageId: namecardToFind.imageId,
+        user: namecardToFind.user,
+        bgColor,
+        contact,
+        tmi,
+        personalSkill,
+      };
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async isAddedNameCard(userId: number, namecard: NameCard): Promise<boolean> {
+  async isAddedNameCard(
+    userId: number,
+    namecard: NameCardSchema,
+  ): Promise<boolean> {
     try {
       const isNamecardAdded: CollectionNameCard = await getConnection()
         .createQueryBuilder()
@@ -241,7 +298,7 @@ export class CollectionService {
     }
   }
 
-  async getAllNamecards(userId: number): Promise<NameCard[]> {
+  async getAllNamecards(userId: number): Promise<NameCardSchema[]> {
     try {
       const getNamecardFromCollectionNamecards: NameCard[] =
         await getConnection()
@@ -265,7 +322,9 @@ export class CollectionService {
     }
   }
 
-  async getNamecardsFromCollection(collectionId: number): Promise<NameCard[]> {
+  async getNamecardsFromCollection(
+    collectionId: number,
+  ): Promise<NameCardSchema[]> {
     try {
       const namecardsFromCollectionNamecard: NameCard[] = await getConnection()
         .createQueryBuilder()
@@ -288,6 +347,52 @@ export class CollectionService {
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  _formattingNamecardBgColor(nameCard: NameCard): BgColorSchema {
+    const value = [
+      ...Object.keys(nameCard.bgColor)
+        .filter((key) => key.includes('color'))
+        .map((color) => nameCard.bgColor[color]),
+    ].filter((value) => value);
+
+    return {
+      id: nameCard.bgColor.id,
+      value,
+    };
+  }
+
+  _formattingContact(nameCard: NameCard): ContactSchema[] {
+    const contacts = nameCard.contacts.map((contact) => {
+      return {
+        category: contact.contact.category,
+        value: contact.value,
+        iconUrl: contact.contact.iconUrl,
+      };
+    });
+
+    return contacts;
+  }
+
+  _formattingTmi(nameCard: NameCard): TmiSchema[] {
+    const tmis = nameCard.tmis.map((tmi) => {
+      return {
+        type: tmi.tmi.type,
+        name: tmi.tmi.name,
+      };
+    });
+
+    return tmis;
+  }
+
+  _formattingPersonalSkill(nameCard: NameCard): PersonalSkillSchema[] {
+    const personalSkills = nameCard.personalSkills.map((personalSkill) => {
+      return {
+        name: personalSkill.skill.name,
+        level: personalSkill.level,
+      };
+    });
+    return personalSkills;
   }
 
   async deleteNamecardFromAllCollection(
