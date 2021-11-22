@@ -11,7 +11,7 @@ import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 import { BgColor } from 'src/entities/bg-color.entity';
 import {
   BgColorSchema,
-  CollectionSchame,
+  CollectionSchema,
   ContactSchema,
   NameCardSchema,
   PersonalSkillSchema,
@@ -37,13 +37,13 @@ export class CollectionService {
     private readonly bgColorRepository: Repository<BgColor>,
   ) {}
 
-  async getCollections(userId: number): Promise<CollectionSchame[]> {
+  async getCollections(userId: number): Promise<CollectionSchema[]> {
     try {
       const collections: Collection[] = await this.collectionRepository.find({
         where: { userId: userId },
         relations: ['bgColor'],
       });
-      const formattedCollections: CollectionSchame[] =
+      const formattedCollections: CollectionSchema[] =
         this._formattingCollectionRes(collections);
 
       return formattedCollections;
@@ -52,8 +52,8 @@ export class CollectionService {
     }
   }
 
-  _formattingCollectionRes(collections: Collection[]): CollectionSchame[] {
-    const formattedCollections: CollectionSchame[] = collections.map(
+  _formattingCollectionRes(collections: Collection[]): CollectionSchema[] {
+    const formattedCollections: CollectionSchema[] = collections.map(
       (collection) => {
         return {
           id: collection.id,
