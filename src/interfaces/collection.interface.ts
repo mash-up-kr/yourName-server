@@ -14,12 +14,17 @@ export interface NameCardSchema {
   personality: string;
   introduce: string;
   uniqueCode: string;
-  imageId: number;
+  image: ImageSchema;
   user: User;
   bgColor: BgColorSchema;
   contact: ContactSchema[];
   tmi: TmiSchema[];
   personalSkill: PersonalSkillSchema[];
+}
+
+export interface ImageSchema {
+  id: number;
+  imgURL: string;
 }
 
 export interface BgColorSchema {
