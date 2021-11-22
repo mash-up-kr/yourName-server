@@ -77,8 +77,6 @@ export class NameCardService {
     const { contacts, tmiIds, skills, ...nameCardData } = createNameCardDto;
     try {
       nameCardData.imageId = await this._saveImageKey(nameCardData.imageKey);
-      console.log(nameCardData.imageId);
-
       nameCardData.uniqueCode = await this._getUniqueCode();
 
       const nameCard = await this.nameCardRepository.save(nameCardData);
@@ -91,19 +89,7 @@ export class NameCardService {
         this._updateUserOnboarding(nameCardData.userId, 'makeNamCards'),
       ]);
 
-      const result = await this.nameCardRepository.findOne(nameCard.id, {
-        relations: [
-          'user',
-          'contacts',
-          'contacts.contact',
-          'bgColor',
-          'tmis',
-          'personalSkills',
-          'image',
-        ],
-      });
-
-      return result;
+      return await this.nameCardRepository.findOne(nameCard.id);
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
