@@ -37,9 +37,9 @@ const config: TypeOrmModuleOptions = {
     User,
     UserOnboarding,
   ],
-  migrations: [__dirname + '/src/migrations/*.ts'],
+  migrations: [__dirname + '/src/database/migrations/*.ts'],
   cli: {
-    migrationsDir: __dirname + '/src/migrations',
+    migrationsDir: __dirname + '/src/database/migrations',
   },
   autoLoadEntities: true,
   charset: 'utf8mb4',
