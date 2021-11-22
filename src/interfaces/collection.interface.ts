@@ -1,7 +1,7 @@
 import { Image } from 'src/entities/image.entity';
 import { User } from 'src/entities/user.entity';
 
-export interface CollectionSchame {
+export interface CollectionSchema {
   id: number;
   name: string;
   description: string;
