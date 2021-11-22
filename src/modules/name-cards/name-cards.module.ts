@@ -10,6 +10,7 @@ import { NameCardTmi } from 'src/entities/name-card-tmi.entity';
 import { PersonalSkill } from 'src/entities/personal-skill.entity';
 import { Skill } from 'src/entities/skill.entity';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
+import { Image } from '../../entities/image.entity';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
       Skill,
       PersonalSkill,
       UserOnboarding,
+      Image,
     ]),
   ],
   controllers: [NameCardController],

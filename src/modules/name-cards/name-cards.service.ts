@@ -12,6 +12,7 @@ import { Connection, Repository } from 'typeorm';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
 import { userOnboardingType } from 'src/utils/types';
+import { Image } from 'src/entities/image.entity';
 
 @Injectable()
 export class NameCardService {
@@ -32,6 +33,8 @@ export class NameCardService {
     private personalSkillRepository: Repository<PersonalSkill>,
     @InjectRepository(UserOnboarding)
     private userOnboardingRepository: Repository<UserOnboarding>,
+    @InjectRepository(Image)
+    private ImageRepository: Repository<Image>,
     private connection: Connection,
   ) {}
 
@@ -73,6 +76,9 @@ export class NameCardService {
   ): Promise<NameCard> {
     const { contacts, tmiIds, skills, ...nameCardData } = createNameCardDto;
     try {
+      nameCardData.imageId = await this._saveImageKey(nameCardData.imageKey);
+      console.log(nameCardData.imageId);
+
       nameCardData.uniqueCode = await this._getUniqueCode();
 
       const nameCard = await this.nameCardRepository.save(nameCardData);
@@ -93,6 +99,7 @@ export class NameCardService {
           'bgColor',
           'tmis',
           'personalSkills',
+          'image',
         ],
       });
 
@@ -194,6 +201,17 @@ export class NameCardService {
           });
         }),
       );
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async _saveImageKey(imageKey: string) {
+    try {
+      const savedImage = await this.ImageRepository.save({
+        key: imageKey,
+      });
+      return savedImage.id;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }

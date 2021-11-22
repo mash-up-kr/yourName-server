@@ -42,6 +42,14 @@ export class CreateNameCardDto extends PickType(NameCard, [
     ],
   })
   skills: CreateSkillDto[];
+
+  @IsOptional()
+  @ApiProperty({
+    example: {
+      key: 'profile/apple.jpg',
+    },
+  })
+  imageKey: string;
 }
 
 class CreateContactDto {
