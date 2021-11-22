@@ -24,7 +24,7 @@ export interface NameCardSchema {
 
 export interface ImageSchema {
   id: number;
-  imgURL: string;
+  imgKey: string;
 }
 
 export interface BgColorSchema {
