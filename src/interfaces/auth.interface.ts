@@ -1,5 +1,5 @@
 import { JwtHeader, JwtPayload } from 'jwt-decode';
-import { UserOnboarding } from 'src/entities/user-onboarding.entity';
+import { User } from 'src/entities/user.entity';
 
 export interface IdentityTokenSchema extends JwtPayload {
   nonce: string;
@@ -28,7 +28,13 @@ export interface ApplePublicKeyType {
 export interface TokenSchema {
   accessToken: string;
   refreshToken?: string;
-  userOnboarding?: UserOnboarding;
+  user?: User;
+  userOnboarding?: OnboardingSchema[];
+}
+
+export interface OnboardingSchema {
+  title: string;
+  status: string;
 }
 
 export interface PayloadSchema {
