@@ -234,7 +234,7 @@ export class NameCardService {
 
           await queryRunner.manager.getRepository(PersonalSkill).save({
             namecardId: nameCardId,
-            skiilId: _skill.id,
+            skillId: _skill.id,
             level: skill.level,
             order: skill.order,
           });
