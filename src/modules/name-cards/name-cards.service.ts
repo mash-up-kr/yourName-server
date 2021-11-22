@@ -72,15 +72,10 @@ export class NameCardService {
     createNameCardDto: CreateNameCardDto,
   ): Promise<NameCard> {
     const { contacts, tmiIds, skills, ...nameCardData } = createNameCardDto;
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
     try {
       nameCardData.uniqueCode = await this._getUniqueCode();
 
-      const nameCard = await queryRunner.manager
-        .getRepository(NameCard)
-        .save(nameCardData);
+      const nameCard = await this.nameCardRepository.save(nameCardData);
 
       await Promise.all([
         this._saveContacts(nameCard.id, contacts),
@@ -90,27 +85,20 @@ export class NameCardService {
         this._updateUserOnboarding(nameCardData.userId, 'makeNamCards'),
       ]);
 
-      const returned = await queryRunner.manager
-        .getRepository(NameCard)
-        .findOne(nameCard.id, {
-          relations: [
-            'user',
-            'contacts',
-            'contacts.contact',
-            'bgColor',
-            'tmis',
-            'personalSkills',
-          ],
-        });
+      const result = await this.nameCardRepository.findOne(nameCard.id, {
+        relations: [
+          'user',
+          'contacts',
+          'contacts.contact',
+          'bgColor',
+          'tmis',
+          'personalSkills',
+        ],
+      });
 
-      await queryRunner.commitTransaction();
-
-      return returned;
+      return result;
     } catch (err) {
-      await queryRunner.rollbackTransaction();
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-      await queryRunner.release();
     }
   }
 
@@ -119,24 +107,15 @@ export class NameCardService {
     updateNameCardDto: UpdateNameCardDto,
   ) {
     const { contacts, tmiIds, skills, ...nameCardData } = updateNameCardDto;
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
     try {
       await Promise.all([
-        queryRunner.manager
-          .getRepository(NameCard)
-          .update(nameCardId, nameCardData),
+        this.nameCardRepository.update(nameCardId, nameCardData),
         this._saveContacts(nameCardId, contacts),
         this._saveTmis(nameCardId, tmiIds),
         this._saveSkills(nameCardId, skills),
       ]);
-      await queryRunner.commitTransaction();
     } catch (err) {
-      await queryRunner.rollbackTransaction();
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-      await queryRunner.release();
     }
   }
 
@@ -145,17 +124,12 @@ export class NameCardService {
   }
 
   async _saveContacts(nameCardId: number, contacts = []) {
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
     try {
       await Promise.all(
         contacts.map(async (contact) => {
-          const _contact = await queryRunner.manager
-            .getRepository(Contact)
-            .findOne({
-              category: contact.category,
-            });
+          const _contact = await this.contactRepository.findOne({
+            category: contact.category,
+          });
 
           if (!_contact) {
             throw new HttpException(
@@ -166,32 +140,23 @@ export class NameCardService {
               HttpStatus.NOT_FOUND,
             );
           }
-          await queryRunner.manager.getRepository(NameCardContact).save({
+          await this.nameCardContactRepository.save({
             value: contact.value,
             nameCardId: nameCardId,
             contactId: _contact.id,
           });
-          await queryRunner.commitTransaction();
         }),
       );
     } catch (err) {
-      await queryRunner.rollbackTransaction();
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-      await queryRunner.release();
     }
   }
 
   async _saveTmis(nameCardId: number, tmiIds = []) {
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
     try {
       await Promise.all(
         tmiIds.map(async (tmiId) => {
-          const tmi = await queryRunner.manager
-            .getRepository(Tmi)
-            .findOne(tmiId);
+          const tmi = await this.tmiRepository.findOne(tmiId);
           if (!tmi) {
             throw new HttpException(
               {
@@ -201,76 +166,51 @@ export class NameCardService {
               HttpStatus.NOT_FOUND,
             );
           }
-          await queryRunner.manager.getRepository(NameCardTmi).save({
+          await this.nameCardTmiRepository.save({
             nameCardId: nameCardId,
             tmiId: tmi.id,
           });
-          await queryRunner.commitTransaction();
         }),
       );
     } catch (err) {
-      await queryRunner.rollbackTransaction();
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-      await queryRunner.release();
     }
   }
 
   async _saveSkills(nameCardId: number, skills = []) {
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
     try {
       await Promise.all(
         skills.map(async (skill) => {
-          let _skill = await queryRunner.manager
-            .getRepository(Skill)
-            .findOne({ name: skill.name });
+          let _skill = await this.skillRepository.findOne({ name: skill.name });
           if (!_skill) {
-            _skill = await queryRunner.manager
-              .getRepository(Skill)
-              .save({ name: skill.name });
+            _skill = await this.skillRepository.save({ name: skill.name });
           }
 
-          await queryRunner.manager.getRepository(PersonalSkill).save({
+          await this.personalSkillRepository.save({
             namecardId: nameCardId,
             skillId: _skill.id,
             level: skill.level,
             order: skill.order,
           });
-          await queryRunner.commitTransaction();
         }),
       );
     } catch (err) {
-      await queryRunner.rollbackTransaction();
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    } finally {
-      await queryRunner.release();
     }
   }
 
   async _updateUserOnboarding(userId: number, updateType: userOnboardingType) {
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
     const flag = await this._checkCondition(userId, updateType);
-    const userOnboarding = await queryRunner.manager
-      .getRepository(UserOnboarding)
-      .findOne({
-        userId: userId,
-      });
+    const userOnboarding = await this.userOnboardingRepository.findOne({
+      userId: userId,
+    });
     try {
       if (flag && userOnboarding[updateType] === 'WAIT') {
         userOnboarding[updateType] = 'DONE_WAIT';
-        await queryRunner.manager
-          .getRepository(UserOnboarding)
-          .save(userOnboarding);
-        await queryRunner.commitTransaction();
+        await this.userOnboardingRepository.save(userOnboarding);
       }
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
