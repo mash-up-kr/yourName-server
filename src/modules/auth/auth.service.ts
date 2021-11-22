@@ -6,7 +6,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Collection } from 'src/entities/collection.entity';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
-import { PayloadSchema, TokenSchema } from '../../interfaces/auth.interface';
+import {
+  OnboardingSchema,
+  PayloadSchema,
+  TokenSchema,
+} from '../../interfaces/auth.interface';
+import { OnboardingTitle } from './utils/types';
 
 @Injectable()
 export class AuthService {
@@ -57,18 +62,40 @@ export class AuthService {
     const currentHashedRefreshToken = await hash(refreshToken, 10);
     user.refreshToken = currentHashedRefreshToken;
     await this.userRepository.save(user);
+    const userToReturn: User = await this.userRepository.findOne({
+      where: { id: user.id },
+    });
 
-    const userOnboarding: UserOnboarding =
+    const onboarding: UserOnboarding =
       await this.userOnboardingRepository.findOne({
         where: { userId: user.id },
-        relations: ['user'],
       });
+    const formattedOnboarding: OnboardingSchema[] =
+      this._formattingOnboardingRes(onboarding);
 
     return {
       accessToken: accessToken,
       refreshToken: refreshToken,
-      userOnboarding: userOnboarding,
+      user: userToReturn,
+      userOnboarding: formattedOnboarding,
     };
+  }
+
+  _formattingOnboardingRes(onboarding: UserOnboarding): OnboardingSchema[] {
+    return [
+      ...Object.keys(onboarding)
+        .filter((key) => {
+          if (key != 'id' && key != 'userId') {
+            return key;
+          }
+        })
+        .map((key) => {
+          return {
+            title: OnboardingTitle[key],
+            status: onboarding[key],
+          };
+        }),
+    ];
   }
 
   async logout(userId: number): Promise<void> {
