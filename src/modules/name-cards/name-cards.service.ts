@@ -124,7 +124,14 @@ export class NameCardService {
   }
 
   async deleteNameCard(nameCardId: number) {
-    await this.nameCardRepository.delete(nameCardId);
+    const imageId = (
+      await this.nameCardRepository.findOne({ where: { id: nameCardId } })
+    ).imageId;
+
+    await Promise.all([
+      this.nameCardRepository.delete(nameCardId),
+      this._deleteImageKey(imageId),
+    ]);
   }
 
   async _saveContacts(nameCardId: number, contacts = []) {
@@ -223,6 +230,20 @@ export class NameCardService {
         throw new BadRequestException('image id를 확인해주세요');
       }
       await this.ImageRepository.update(image.id, { key: imageKey });
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async _deleteImageKey(imageId: number) {
+    try {
+      const image = await this.ImageRepository.findOne({
+        where: { id: imageId },
+      });
+      if (!image) {
+        throw new BadRequestException('image id를 확인해주세요');
+      }
+      await this.ImageRepository.delete(image);
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
