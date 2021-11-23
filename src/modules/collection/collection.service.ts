@@ -11,12 +11,12 @@ import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 import { BgColor } from 'src/entities/bg-color.entity';
 import {
   BgColorSchema,
-  CollectionSchema,
   ContactSchema,
   NameCardSchema,
   PersonalSkillSchema,
   TmiSchema,
-} from 'src/interfaces/collection.interface';
+} from 'src/interfaces/namecard.interface';
+import { CollectionSchema } from 'src/interfaces/collection.interface';
 
 @Injectable()
 export class CollectionService {
@@ -150,9 +150,9 @@ export class CollectionService {
       });
 
       const bgColor = this._formattingNamecardBgColor(namecardToFind);
-      const contact = this._formattingContact(namecardToFind);
-      const tmi = this._formattingTmi(namecardToFind);
-      const personalSkill = this._formattingPersonalSkill(namecardToFind);
+      const contacts = this._formattingContact(namecardToFind);
+      const tmis = this._formattingTmi(namecardToFind);
+      const personalSkills = this._formattingPersonalSkill(namecardToFind);
 
       return {
         id: namecardToFind.id,
@@ -164,9 +164,9 @@ export class CollectionService {
         image: namecardToFind.image,
         user: namecardToFind.user,
         bgColor,
-        contact,
-        tmi,
-        personalSkill,
+        contacts,
+        tmis,
+        personalSkills,
       };
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);

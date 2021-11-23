@@ -18,6 +18,13 @@ import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
 import { userOnboardingType } from 'src/utils/types';
 import { Image } from 'src/entities/image.entity';
+import {
+  BgColorSchema,
+  ContactSchema,
+  NameCardSchema,
+  PersonalSkillSchema,
+  TmiSchema,
+} from 'src/interfaces/namecard.interface';
 
 @Injectable()
 export class NameCardService {
@@ -43,7 +50,7 @@ export class NameCardService {
     private connection: Connection,
   ) {}
 
-  async getMyNameCards(userId: number) {
+  async getMyNameCards(userId: number): Promise<NameCardSchema[]> {
     const _nameCards = await this.nameCardRepository.find({
       where: { userId },
       relations: [
@@ -59,14 +66,21 @@ export class NameCardService {
       ],
     });
 
-    const nameCards = _nameCards.map((nameCard) => {
+    const nameCards: NameCardSchema[] = _nameCards.map((nameCard) => {
       const bgColor = this._formatingBgColor(nameCard);
       const contacts = this._formatingContact(nameCard);
       const tmis = this._formatingTmi(nameCard);
       const personalSkills = this._formatingPersonalSkill(nameCard);
 
       return {
-        ...nameCard,
+        id: nameCard.id,
+        name: nameCard.name,
+        role: nameCard.role,
+        personality: nameCard.personality,
+        introduce: nameCard.introduce,
+        uniqueCode: nameCard.uniqueCode,
+        image: nameCard.image,
+        user: nameCard.user,
         bgColor,
         contacts,
         tmis,
@@ -298,7 +312,7 @@ export class NameCardService {
     return randomString;
   }
 
-  _formatingBgColor(nameCard: NameCard) {
+  _formatingBgColor(nameCard: NameCard): BgColorSchema {
     const value = [
       ...Object.keys(nameCard.bgColor)
         .filter((key) => key.includes('color'))
@@ -311,7 +325,7 @@ export class NameCardService {
     };
   }
 
-  _formatingContact(nameCard: NameCard) {
+  _formatingContact(nameCard: NameCard): ContactSchema[] {
     const contact = nameCard.contacts.map((contact) => {
       return {
         category: contact.contact.category,
@@ -323,7 +337,7 @@ export class NameCardService {
     return contact;
   }
 
-  _formatingTmi(nameCard: NameCard) {
+  _formatingTmi(nameCard: NameCard): TmiSchema[] {
     const tmis = nameCard.tmis.map((tmi) => {
       return {
         type: tmi.tmi.type,
@@ -334,7 +348,7 @@ export class NameCardService {
     return tmis;
   }
 
-  _formatingPersonalSkill(nameCard: NameCard) {
+  _formatingPersonalSkill(nameCard: NameCard): PersonalSkillSchema[] {
     const personalSkills = nameCard.personalSkills.map((personalSkill) => {
       return {
         name: personalSkill.skill.name,
