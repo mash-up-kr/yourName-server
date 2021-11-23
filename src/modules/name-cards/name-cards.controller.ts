@@ -10,6 +10,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { NameCardSchema } from 'src/interfaces/namecard.interface';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
@@ -34,7 +35,10 @@ export class NameCardController {
   @Get()
   @ApiDocs.getMyNameCards('내 명함 가져오기')
   async getMyNameCards(@Req() req: any) {
-    return await this.nameCardService.getMyNameCards(req.user.userId);
+    const namecards: NameCardSchema[] =
+      await this.nameCardService.getMyNameCards(req.user.userId);
+    if (namecards.length == 0) return;
+    return { list: namecards };
   }
 
   //@todo: guard 적용 후 본인 명함에 대한 작업인지 체크

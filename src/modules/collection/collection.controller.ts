@@ -17,10 +17,8 @@ import { CollectionService } from './collection.service';
 import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.dto';
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
 import { UpsertCollectionDto } from './dto/upsert-collection.dto';
-import {
-  CollectionSchema,
-  NameCardSchema,
-} from 'src/interfaces/collection.interface';
+import { NameCardSchema } from 'src/interfaces/namecard.interface';
+import { CollectionSchema } from 'src/interfaces/collection.interface';
 
 @ApiTags('Collection - 도감')
 @Controller('collections')
