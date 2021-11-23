@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
-  ApiHeader,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -23,10 +23,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         description: '유저의 도감들',
         status: 200,
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -45,10 +42,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         description: '검색한 명함',
         status: 200,
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -67,10 +61,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         description: '유저가 추가한 전체 명함들',
         status: 200,
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -89,10 +80,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         description: '도감에 있는 명함들',
         status: 200,
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -110,10 +98,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         status: 201,
         description: '생성한 도감의 ID',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -130,10 +115,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         status: 201,
         description: '도감-명함 관계 테이블에 추가된 ID들',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -156,10 +138,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         status: 201,
         description: '도감-명함 관계 테이블에 추가된 ID들',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -181,10 +160,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         status: 200,
         description: '빈 data 객체 + Success Message',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -203,10 +179,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         status: 200,
         description: '빈 data 객체 + Success Message',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -228,10 +201,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         status: 200,
         description: '빈 data 객체 + Success Message',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 
@@ -253,10 +223,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         status: 200,
         description: '빈 data 객체 + Success Message',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 Access Token',
-      }),
+      ApiBearerAuth(),
     );
   },
 };
