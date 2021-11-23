@@ -46,6 +46,7 @@ export class NameCardService {
         'contacts',
         'contacts.contact',
         'bgColor',
+        'image',
         'tmis',
         'tmis.tmi',
         'personalSkills',
@@ -74,9 +75,10 @@ export class NameCardService {
   async createNameCard(
     createNameCardDto: CreateNameCardDto,
   ): Promise<NameCard> {
-    const { contacts, tmiIds, skills, ...nameCardData } = createNameCardDto;
+    const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
+      createNameCardDto;
     try {
-      nameCardData.imageId = await this._saveImageKey(nameCardData.imageKey);
+      nameCardData.imageId = await this._saveImageKey(imageKey);
       nameCardData.uniqueCode = await this._getUniqueCode();
 
       const nameCard = await this.nameCardRepository.save(nameCardData);

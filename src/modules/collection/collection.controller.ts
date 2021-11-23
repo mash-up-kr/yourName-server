@@ -18,7 +18,7 @@ import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.d
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
 import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 import {
-  CollectionSchame,
+  CollectionSchema,
   NameCardSchema,
 } from 'src/interfaces/collection.interface';
 
@@ -31,7 +31,7 @@ export class CollectionController {
   @Get()
   @ApiDocs.getCollections('도감들 조회')
   async getCollections(@Param('id') id: number, @Req() req: any) {
-    const collections: CollectionSchame[] =
+    const collections: CollectionSchema[] =
       await this.collectionService.getCollections(req.user.userId);
     if (collections.length == 0) return;
     return { list: collections };
