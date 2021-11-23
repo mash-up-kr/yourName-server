@@ -15,8 +15,14 @@ export const setupSwagger = (app: INestApplication) => {
     .setVersion(SWAGGER_API_CURRENT_VERSION)
     .addTag(SWAGGER_API_TAG)
     .addBearerAuth(
-      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
-      'access-token',
+      {
+        description: 'Enter token',
+        name: 'Authorization',
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'bearer',
+      },
+      'Authorization',
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);

@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiHeader, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { AuthController } from './auth.controller';
 
@@ -15,10 +15,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         description:
           'access token + refresh token + user 정보 + userOnboarding 정보',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '카카오에서 발급받은 access token',
-      }),
+      ApiBearerAuth('Authorization'),
     );
   },
   appleLogin(summary: string) {
@@ -32,10 +29,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         description:
           'access token + refresh token + user 정보 + userOnboarding 정보',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '애플에서 발급받은 Idedntity token',
-      }),
+      ApiBearerAuth('Authorization'),
     );
   },
   logout(summary: string) {
@@ -48,10 +42,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         status: 201,
         description: '빈 data 객체 + Success Message',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 access token',
-      }),
+      ApiBearerAuth('Authorization'),
     );
   },
   refreshToken(summary: string) {
@@ -65,10 +56,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         status: 201,
         description: 'new access token',
       }),
-      ApiHeader({
-        name: 'authorization',
-        description: '유저의 refresh token',
-      }),
+      ApiBearerAuth('Authorization'),
     );
   },
 };
