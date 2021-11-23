@@ -9,7 +9,7 @@ export class KaKaoStrategy {
     const apiUrl = 'https://kapi.kakao.com/v2/user/me';
     const header = {
       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': accessToken,
     };
     const kakaoRequestApiResult: any = this.api.Get(apiUrl, {
       headers: header,
