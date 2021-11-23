@@ -28,8 +28,8 @@ export class TransformInterceptor<T>
       .pipe(
         map((data) =>
           data
-            ? { code: statusCode, data: data, message: 'Success' }
-            : { code: statusCode, data: {}, message: 'Success' },
+            ? { code: statusCode, message: 'Success', data: data }
+            : { code: statusCode, message: 'Success', data: {} },
         ),
       );
   }
