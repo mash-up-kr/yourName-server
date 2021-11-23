@@ -7,13 +7,14 @@ import {
 import { InvalidTokenError } from 'jwt-decode';
 import { KaKaoStrategy } from '../strategies/kakao.strategy';
 import { ProviderDataSchema } from '../../../interfaces/auth.interface';
+import { Request } from 'express';
 
 @Injectable()
 export class KakaoAuthGuard implements CanActivate {
   constructor(private readonly kakao: KaKaoStrategy) {}
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    const request: Request = context.switchToHttp().getRequest();
     const token: string = <string>request.headers.authorization;
     if (!token) throw new UnauthorizedException();
 
@@ -26,7 +27,6 @@ export class KakaoAuthGuard implements CanActivate {
       nickName: validateTokenResult.properties.nickname,
       providerName: 'Kakao',
     };
-    //console.log(validateTokenResult);
     request.body = { kakaoData: kakaoData };
 
     return true;

@@ -9,13 +9,14 @@ import {
   IdentityTokenSchema,
   ProviderDataSchema,
 } from '../../../interfaces/auth.interface';
+import { Request } from 'express';
 
 @Injectable()
 export class AppleAuthGuard implements CanActivate {
   constructor(private readonly apple: AppleStrategy) {}
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    const request: Request = context.switchToHttp().getRequest();
     const token: string = <string>request.headers.authorization;
     if (!token) throw new UnauthorizedException();
 
