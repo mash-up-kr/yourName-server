@@ -13,7 +13,6 @@ import {
   BgColorSchema,
   CollectionSchame,
   ContactSchema,
-  ImageSchema,
   NameCardSchema,
   PersonalSkillSchema,
   TmiSchema,
@@ -150,7 +149,6 @@ export class CollectionService {
         ],
       });
 
-      const image = this._formattingImage(namecardToFind);
       const bgColor = this._formattingNamecardBgColor(namecardToFind);
       const contact = this._formattingContact(namecardToFind);
       const tmi = this._formattingTmi(namecardToFind);
@@ -163,7 +161,7 @@ export class CollectionService {
         personality: namecardToFind.personality,
         introduce: namecardToFind.introduce,
         uniqueCode: namecardToFind.uniqueCode,
-        image,
+        image: namecardToFind.image,
         user: namecardToFind.user,
         bgColor,
         contact,
@@ -350,13 +348,6 @@ export class CollectionService {
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }
-
-  _formattingImage(nameCard: NameCard): ImageSchema {
-    return {
-      id: nameCard.image.id,
-      imgKey: nameCard.image.key,
-    };
   }
 
   _formattingNamecardBgColor(nameCard: NameCard): BgColorSchema {

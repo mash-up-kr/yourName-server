@@ -1,3 +1,4 @@
+import { Image } from 'src/entities/image.entity';
 import { User } from 'src/entities/user.entity';
 
 export interface CollectionSchame {
@@ -14,17 +15,12 @@ export interface NameCardSchema {
   personality: string;
   introduce: string;
   uniqueCode: string;
-  image: ImageSchema;
+  image: Image;
   user: User;
   bgColor: BgColorSchema;
   contact: ContactSchema[];
   tmi: TmiSchema[];
   personalSkill: PersonalSkillSchema[];
-}
-
-export interface ImageSchema {
-  id: number;
-  imgKey: string;
 }
 
 export interface BgColorSchema {
