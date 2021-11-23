@@ -109,9 +109,11 @@ export class NameCardService {
     const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
       updateNameCardDto;
     try {
+      if (updateNameCardDto.imageId && imageKey) {
+        await this._updateImageKey(updateNameCardDto.imageId, imageKey);
+      }
       await Promise.all([
         this.nameCardRepository.update(nameCardId, nameCardData),
-        this._updateImageKey(updateNameCardDto.imageId, imageKey),
         this._saveContacts(nameCardId, contacts),
         this._saveTmis(nameCardId, tmiIds),
         this._saveSkills(nameCardId, skills),
