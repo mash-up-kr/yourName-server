@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Contact } from 'src/entities/contact.entity';
 import { NameCardContact } from 'src/entities/name-card-contact.entity';
@@ -101,10 +106,12 @@ export class NameCardService {
     nameCardId: number,
     updateNameCardDto: UpdateNameCardDto,
   ) {
-    const { contacts, tmiIds, skills, ...nameCardData } = updateNameCardDto;
+    const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
+      updateNameCardDto;
     try {
       await Promise.all([
         this.nameCardRepository.update(nameCardId, nameCardData),
+        this._updateImageKey(updateNameCardDto.imageId, imageKey),
         this._saveContacts(nameCardId, contacts),
         this._saveTmis(nameCardId, tmiIds),
         this._saveSkills(nameCardId, skills),
@@ -200,6 +207,20 @@ export class NameCardService {
         key: imageKey,
       });
       return savedImage.id;
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async _updateImageKey(imageId: number, imageKey: string) {
+    try {
+      const image = await this.ImageRepository.findOne({
+        where: { id: imageId },
+      });
+      if (!image) {
+        throw new BadRequestException('image id를 확인해주세요');
+      }
+      await this.ImageRepository.update(image.id, { key: imageKey });
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
