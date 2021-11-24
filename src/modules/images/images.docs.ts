@@ -16,7 +16,7 @@ export const ApiDocs: SwaggerMethodDoc<ImageController> = {
         description: '이미지를 업로드합니다',
       }),
       ApiConsumes('multipart/form-data'),
-      ApiBearerAuth(),
+      ApiBearerAuth('Authorization'),
       ApiBody({
         schema: {
           type: 'object',
