@@ -5,11 +5,13 @@ import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
 import { Collection } from 'src/entities/collection.entity';
 import { NameCard } from 'src/entities/name-card.entity';
 import { User } from 'src/entities/user.entity';
+import { NameCardModule } from '../name-cards/name-cards.module';
 import { CollectionController } from './collection.controller';
 import { CollectionService } from './collection.service';
 
 @Module({
   imports: [
+    NameCardModule,
     TypeOrmModule.forFeature([
       Collection,
       NameCard,

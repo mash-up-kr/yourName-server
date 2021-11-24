@@ -28,5 +28,6 @@ import { Image } from '../../entities/image.entity';
   ],
   controllers: [NameCardController],
   providers: [NameCardService],
+  exports: [NameCardService],
 })
 export class NameCardModule {}

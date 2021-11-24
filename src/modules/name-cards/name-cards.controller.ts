@@ -41,6 +41,24 @@ export class NameCardController {
     return { list: namecards };
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('/:namecardUniqueCode')
+  @ApiDocs.getNamecardByUniqueCode('특정 명함 조회')
+  async getNamecardByUniqueCode(
+    @Param('namecardUniqueCode') uniqueCode: string,
+    @Req() req: any,
+  ) {
+    const namecard: NameCardSchema =
+      await this.nameCardService.getNamecardByUniqueCode(uniqueCode);
+    if (!namecard) return;
+
+    const isAdded: boolean = await this.nameCardService.isAddedNameCard(
+      req.user.userId,
+      namecard,
+    );
+    return { namecard, isAdded: isAdded };
+  }
+
   //@todo: guard 적용 후 본인 명함에 대한 작업인지 체크
   @Put(':id')
   @ApiDocs.updateNameCard('내 명함 수정')
