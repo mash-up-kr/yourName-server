@@ -11,12 +11,10 @@ import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 import { BgColor } from 'src/entities/bg-color.entity';
 import {
   BgColorSchema,
-  ContactSchema,
   NameCardSchema,
-  PersonalSkillSchema,
-  TmiSchema,
 } from 'src/interfaces/namecard.interface';
 import { CollectionSchema } from 'src/interfaces/collection.interface';
+import { NameCardService } from '../name-cards/name-cards.service';
 
 @Injectable()
 export class CollectionService {
@@ -35,6 +33,8 @@ export class CollectionService {
 
     @InjectRepository(BgColor)
     private readonly bgColorRepository: Repository<BgColor>,
+
+    private readonly namecardService: NameCardService,
   ) {}
 
   async getCollections(userId: number): Promise<CollectionSchema[]> {
@@ -127,74 +127,6 @@ export class CollectionService {
   async deleteCollection(collectionId: number): Promise<void> {
     try {
       await this.collectionRepository.delete({ id: collectionId });
-    } catch (err) {
-      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  async getNamecardByUniqueCode(uniqueCode: string): Promise<NameCardSchema> {
-    try {
-      const namecardToFind: NameCard = await this.namecardRepository.findOne({
-        where: { uniqueCode: uniqueCode },
-        relations: [
-          'image',
-          'user',
-          'contacts',
-          'contacts.contact',
-          'bgColor',
-          'tmis',
-          'tmis.tmi',
-          'personalSkills',
-          'personalSkills.skill',
-        ],
-      });
-
-      const bgColor = this._formattingNamecardBgColor(namecardToFind);
-      const contacts = this._formattingContact(namecardToFind);
-      const tmis = this._formattingTmi(namecardToFind);
-      const personalSkills = this._formattingPersonalSkill(namecardToFind);
-
-      return {
-        id: namecardToFind.id,
-        name: namecardToFind.name,
-        role: namecardToFind.role,
-        personality: namecardToFind.personality,
-        introduce: namecardToFind.introduce,
-        uniqueCode: namecardToFind.uniqueCode,
-        image: namecardToFind.image,
-        user: namecardToFind.user,
-        bgColor,
-        contacts,
-        tmis,
-        personalSkills,
-      };
-    } catch (err) {
-      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  async isAddedNameCard(
-    userId: number,
-    namecard: NameCardSchema,
-  ): Promise<boolean> {
-    try {
-      const isNamecardAdded: CollectionNameCard = await getConnection()
-        .createQueryBuilder()
-        .select('collectionNamecard')
-        .from(CollectionNameCard, 'collectionNamecard')
-        .where(
-          'collectionNamecard.userId = :userId and collectionNamecard.nameCardId = :nameCardId',
-          {
-            userId: userId,
-            nameCardId: namecard.id,
-          },
-        )
-        .getOne();
-
-      if (isNamecardAdded) {
-        return true;
-      }
-      return false;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -315,7 +247,9 @@ export class CollectionService {
 
       return Promise.all(
         getNamecardFromCollectionNamecards.map((namecard) =>
-          this.getNamecardByUniqueCode(namecard.uniqueCode).then((res) => res),
+          this.namecardService
+            .getNamecardByUniqueCode(namecard.uniqueCode)
+            .then((res) => res),
         ),
       );
     } catch (err) {
@@ -340,60 +274,14 @@ export class CollectionService {
       return Promise.all(
         namecardsFromCollectionNamecard.map(
           async (namecard) =>
-            await this.getNamecardByUniqueCode(namecard.uniqueCode).then(
-              (res) => res,
-            ),
+            await this.namecardService
+              .getNamecardByUniqueCode(namecard.uniqueCode)
+              .then((res) => res),
         ),
       );
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }
-
-  _formattingNamecardBgColor(nameCard: NameCard): BgColorSchema {
-    const value = [
-      ...Object.keys(nameCard.bgColor)
-        .filter((key) => key.includes('color'))
-        .map((color) => nameCard.bgColor[color]),
-    ].filter((value) => value);
-
-    return {
-      id: nameCard.bgColor.id,
-      value,
-    };
-  }
-
-  _formattingContact(nameCard: NameCard): ContactSchema[] {
-    const contacts = nameCard.contacts.map((contact) => {
-      return {
-        category: contact.contact.category,
-        value: contact.value,
-        iconUrl: contact.contact.iconUrl,
-      };
-    });
-
-    return contacts;
-  }
-
-  _formattingTmi(nameCard: NameCard): TmiSchema[] {
-    const tmis = nameCard.tmis.map((tmi) => {
-      return {
-        type: tmi.tmi.type,
-        name: tmi.tmi.name,
-      };
-    });
-
-    return tmis;
-  }
-
-  _formattingPersonalSkill(nameCard: NameCard): PersonalSkillSchema[] {
-    const personalSkills = nameCard.personalSkills.map((personalSkill) => {
-      return {
-        name: personalSkill.skill.name,
-        level: personalSkill.level,
-      };
-    });
-    return personalSkills;
   }
 
   async deleteNamecardFromAllCollection(

@@ -68,23 +68,6 @@ export class CollectionController {
     await this.collectionService.deleteCollection(collectionId);
   }
 
-  @Get('/namecards/:namecardUniqueCode')
-  @ApiDocs.getNamecardByUniqueCode('특정 명함 조회')
-  async getNamecardByUniqueCode(
-    @Param('namecardUniqueCode') uniqueCode: string,
-    @Req() req: any,
-  ) {
-    const namecard: NameCardSchema =
-      await this.collectionService.getNamecardByUniqueCode(uniqueCode);
-    if (!namecard) return;
-
-    const isAdded: boolean = await this.collectionService.isAddedNameCard(
-      req.user.userId,
-      namecard,
-    );
-    return { namecard, isAdded: isAdded };
-  }
-
   @Post('/namecards/:namecardUniqueCode')
   @ApiDocs.addNamecardToCollections('도감들에 명함 추가')
   async addNamecardToCollections(

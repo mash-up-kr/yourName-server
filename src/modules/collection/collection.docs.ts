@@ -27,25 +27,6 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
     );
   },
 
-  getNamecardByUniqueCode(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-        description: '명함당 부여되는 고유 코드로 도감에 추가할 명함을 조회',
-      }),
-      ApiParam({
-        name: 'namecardUniqueCode',
-        required: true,
-        description: '명함의 고유 코드',
-      }),
-      ApiResponse({
-        description: '검색한 명함',
-        status: 200,
-      }),
-      ApiBearerAuth('Authorization'),
-    );
-  },
-
   getAllNamecards(summary: string) {
     return applyDecorators(
       ApiOperation({
