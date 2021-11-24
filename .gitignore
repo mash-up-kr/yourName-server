@@ -2,6 +2,8 @@
 server/dist
 server/node_modules
 
+lambda/*/node_modules
+
 # Logs
 logs
 *.log
