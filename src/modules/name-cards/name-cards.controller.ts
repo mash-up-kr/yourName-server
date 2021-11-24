@@ -33,7 +33,7 @@ export class NameCardController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  @ApiDocs.getMyNameCards('내 명함 가져오기')
+  @ApiDocs.getMyNameCards('내가 생성한 명함 가져오기')
   async getMyNameCards(@Req() req: any) {
     const namecards: NameCardSchema[] =
       await this.nameCardService.getMyNameCards(req.user.userId);

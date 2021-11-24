@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiOperation, ApiParam } from '@nestjs/swagger';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { NameCardController } from './name-cards.controller';
 
@@ -7,17 +7,15 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
   createNameCard(summary: string) {
     return applyDecorators(ApiOperation({ summary }));
   },
+
   getMyNameCards(summary: string) {
     return applyDecorators(
       ApiOperation({
         summary,
       }),
-      ApiQuery({
-        name: 'userId',
-        required: true,
-      }),
     );
   },
+
   getNamecardByUniqueCode(summary: string) {
     return applyDecorators(
       ApiOperation({
@@ -30,17 +28,29 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
       }),
     );
   },
+
   updateNameCard(summary: string) {
     return applyDecorators(
       ApiOperation({
         summary,
       }),
+      ApiParam({
+        name: 'namecardId',
+        description: '수정을 원하는 명함 id',
+        required: true,
+      }),
     );
   },
+
   deleteNameCard(summary: string) {
     return applyDecorators(
       ApiOperation({
         summary,
+      }),
+      ApiParam({
+        name: 'namecardId',
+        description: '삭제를 원하는 명함 id',
+        required: true,
       }),
     );
   },
