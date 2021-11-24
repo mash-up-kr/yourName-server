@@ -60,19 +60,19 @@ export class NameCardController {
   }
 
   //@todo: guard 적용 후 본인 명함에 대한 작업인지 체크
-  @Put(':id')
+  @Put(':namecardId')
   @ApiDocs.updateNameCard('내 명함 수정')
   async updateNameCard(
-    @Param('id') nameCardId: number,
+    @Param('namecardId') nameCardId: number,
     @Body() updateNameCardDto: UpdateNameCardDto,
   ) {
     await this.nameCardService.updateNameCard(nameCardId, updateNameCardDto);
   }
 
   //@todo: guard 적용 후 본인 명함에 대한 작업인지 체크
-  @Delete(':id')
+  @Delete(':namecardId')
   @ApiDocs.deleteNameCard('내 명함 삭제')
-  async deleteNameCard(@Param('id') nameCardId: number) {
+  async deleteNameCard(@Param('namecardId') nameCardId: number) {
     await this.nameCardService.deleteNameCard(nameCardId);
   }
 }
