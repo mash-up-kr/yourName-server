@@ -139,7 +139,7 @@ export class CollectionController {
     return { list: namecards };
   }
 
-  @Delete('/namecards')
+  @Delete('/all/namecards')
   @ApiDocs.deleteNamecardFromAllCollection('전체 도감에서 명함들 제거')
   async deleteNamecardFromAllCollection(
     @Req() req: any,
