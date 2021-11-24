@@ -28,7 +28,7 @@ export class CollectionController {
 
   @Get()
   @ApiDocs.getCollections('도감들 조회')
-  async getCollections(@Param('id') id: number, @Req() req: any) {
+  async getCollections(@Req() req: any) {
     const collections: CollectionSchema[] =
       await this.collectionService.getCollections(req.user.userId);
     if (collections.length == 0) return;

@@ -52,11 +52,6 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
         summary,
         description: '해당 ID를 가진 유저의 전체 도감에 있는 명함들 조회',
       }),
-      ApiParam({
-        name: 'userId',
-        required: true,
-        description: 'User ID',
-      }),
       ApiResponse({
         description: '유저가 추가한 전체 명함들',
         status: 200,
@@ -188,11 +183,6 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiOperation({
         summary,
         description: '전체 도감에서 선택된 명함들을 제거',
-      }),
-      ApiParam({
-        name: 'userId',
-        required: true,
-        description: '유저 ID',
       }),
       ApiBody({
         type: AddAndRemoveNamecardsDto,
