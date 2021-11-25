@@ -18,6 +18,7 @@ import { ApiDocs } from './name-cards.docs';
 import { NameCardService } from './name-cards.service';
 
 @ApiTags('NameCard - 명함')
+@UseGuards(JwtAuthGuard)
 @Controller('namecards')
 export class NameCardController {
   constructor(private readonly nameCardService: NameCardService) {}
@@ -31,7 +32,6 @@ export class NameCardController {
     return { nameCardId: nameCard.id };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   @ApiDocs.getMyNameCards('내가 생성한 명함 가져오기')
   async getMyNameCards(@Req() req: any) {
@@ -41,22 +41,21 @@ export class NameCardController {
     return { list: namecards };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/:namecardUniqueCode')
   @ApiDocs.getNamecardByUniqueCode('특정 명함 조회')
   async getNamecardByUniqueCode(
     @Param('namecardUniqueCode') uniqueCode: string,
     @Req() req: any,
   ) {
-    const namecard: NameCardSchema =
+    const nameCard: NameCardSchema =
       await this.nameCardService.getNamecardByUniqueCode(uniqueCode);
-    if (!namecard) return;
+    if (!nameCard) return;
 
     const isAdded: boolean = await this.nameCardService.isAddedNameCard(
       req.user.userId,
-      namecard,
+      nameCard,
     );
-    return { namecard, isAdded: isAdded };
+    return { nameCard, isAdded: isAdded };
   }
 
   //@todo: guard 적용 후 본인 명함에 대한 작업인지 체크
