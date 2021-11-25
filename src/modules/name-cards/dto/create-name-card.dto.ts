@@ -16,9 +16,7 @@ export class CreateNameCardDto extends PickType(NameCard, [
 ]) {
   @IsOptional()
   @ApiProperty({
-    example: {
-      key: 'profile/apple.jpg',
-    },
+    example: 'profile/apple.jpg',
   })
   imageKey?: string;
 
