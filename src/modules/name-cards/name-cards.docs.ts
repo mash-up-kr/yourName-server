@@ -1,5 +1,11 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { DataEmptyResponse } from 'src/common/dto/data-empty-response.dto';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { CreateNameCardResponseDto } from './dto/create-name-card-response.dto';
@@ -22,6 +28,7 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
         description: '생성된 명함 id',
         type: CreateNameCardResponseDto,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
 
@@ -35,6 +42,7 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
         description: '유저의 명함들',
         type: GetManyNamecardsResponseDto,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
 
@@ -48,6 +56,7 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
         description: '명함 단건 조회',
         type: GetOneNameCardResponseDto,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
 
@@ -66,6 +75,7 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
         description: '빈 data 객체 + Success Message',
         type: DataEmptyResponse,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
 
@@ -84,6 +94,7 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
         description: '빈 data 객체 + Success Message',
         type: DataEmptyResponse,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
 };
