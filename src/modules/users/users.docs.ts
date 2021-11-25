@@ -1,5 +1,10 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { DataEmptyResponse } from 'src/common/dto/data-empty-response.dto';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { GetBgcolorResponseDto } from './dto/get-bgcolor-response.dto';
@@ -22,6 +27,7 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
         description: '온보딩 목록 및 달성 여부 목록',
         type: GetUserOnboardingsResponseDto,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
   doneUserOnboarding(summary: string) {
@@ -45,6 +51,7 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
         description: '빈 data 객체 + Success Message',
         type: DataEmptyResponse,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
   doneWaitUserOnboarding(summary: string) {
@@ -68,6 +75,7 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
         description: '빈 data 객체 + Success Message',
         type: DataEmptyResponse,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
   getBgColors(summary: string) {
@@ -85,6 +93,7 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
         description: '유저가 사용한 컬러 목록',
         type: GetBgcolorResponseDto,
       }),
+      ApiBearerAuth('Authorization'),
     );
   },
 };
