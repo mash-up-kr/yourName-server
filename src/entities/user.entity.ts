@@ -29,11 +29,6 @@ export class User extends BaseEntity {
 
   @IsString()
   @IsOptional()
-  @ApiProperty({
-    type: string,
-    description: '리프레시 토큰',
-    example: 'qwe123e32easfd!@#@45?23r2w',
-  })
   @Column({ nullable: true, select: false })
   refreshToken?: string;
 

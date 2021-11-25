@@ -6,10 +6,15 @@ import {
   ApiParam,
   ApiResponse,
 } from '@nestjs/swagger';
+import { DataEmptyResponse } from 'src/common/dto/data-empty-response.dto';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { CollectionController } from './collection.controller';
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
+import { AddNamecardResponseDto } from './dto/add-namecard-response.dto';
 import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.dto';
+import { CreateCollectionResponseDto } from './dto/create-collection-response.dto';
+import { GetCollectionResponseDto } from './dto/get-collections-response.dto';
+import { GetManyNamecardsResponseDto } from './dto/get-many-namecards-response.dto';
 import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 
 export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
@@ -22,6 +27,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         description: '유저의 도감들',
         status: 200,
+        type: GetCollectionResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -36,6 +42,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         description: '유저가 추가한 전체 명함들',
         status: 200,
+        type: GetManyNamecardsResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -55,6 +62,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         description: '도감에 있는 명함들',
         status: 200,
+        type: GetManyNamecardsResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -73,6 +81,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         status: 201,
         description: '생성한 도감의 ID',
+        type: CreateCollectionResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -90,6 +99,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         status: 201,
         description: '도감-명함 관계 테이블에 추가된 ID들',
+        type: AddNamecardResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -113,6 +123,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         status: 201,
         description: '도감-명함 관계 테이블에 추가된 ID들',
+        type: AddNamecardResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -135,6 +146,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         status: 200,
         description: '빈 data 객체 + Success Message',
+        type: DataEmptyResponse,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -154,6 +166,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         status: 200,
         description: '빈 data 객체 + Success Message',
+        type: DataEmptyResponse,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -171,6 +184,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         status: 200,
         description: '빈 data 객체 + Success Message',
+        type: DataEmptyResponse,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -193,6 +207,7 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
       ApiResponse({
         status: 200,
         description: '빈 data 객체 + Success Message',
+        type: DataEmptyResponse,
       }),
       ApiBearerAuth('Authorization'),
     );

@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { DataEmptyResponse } from 'src/common/dto/data-empty-response';
+import { DataEmptyResponse } from 'src/common/dto/data-empty-response.dto';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { AuthController } from './auth.controller';
 import { LoginResponseDto } from './dto/login-response.dto';
