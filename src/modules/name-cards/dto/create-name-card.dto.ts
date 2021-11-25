@@ -9,8 +9,6 @@ export class CreateNameCardDto extends PickType(NameCard, [
   'role',
   'personality',
   'introduce',
-  'userId',
-  'uniqueCode',
   'bgColorId',
   'imageId',
 ]) {
