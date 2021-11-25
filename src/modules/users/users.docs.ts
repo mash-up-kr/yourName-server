@@ -17,11 +17,6 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
       ApiOperation({
         summary,
       }),
-      ApiParam({
-        name: 'id',
-        required: true,
-        description: '유저 id',
-      }),
       ApiResponse({
         status: 200,
         description: '온보딩 목록 및 달성 여부 목록',
@@ -34,11 +29,6 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
     return applyDecorators(
       ApiOperation({
         summary,
-      }),
-      ApiParam({
-        name: 'id',
-        required: true,
-        description: '유저 id',
       }),
       ApiParam({
         name: 'type',
@@ -60,11 +50,6 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
         summary,
       }),
       ApiParam({
-        name: 'id',
-        required: true,
-        description: '유저 id',
-      }),
-      ApiParam({
         name: 'type',
         required: true,
         description:
@@ -82,11 +67,6 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
     return applyDecorators(
       ApiOperation({
         summary,
-      }),
-      ApiParam({
-        name: 'id',
-        required: true,
-        description: '유저 id',
       }),
       ApiResponse({
         status: 200,
