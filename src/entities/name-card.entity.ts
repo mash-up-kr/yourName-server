@@ -42,9 +42,7 @@ export class NameCard extends DateTimeEntity {
   @Column()
   introduce: string;
 
-  //@todo: uniqueCode 함수 적용 후 optional type 해제
   @ApiProperty({ example: 'qweqweqwe1' })
-  @IsOptional()
   @IsString()
   @Column()
   uniqueCode: string;
