@@ -161,22 +161,33 @@ export class NameCardService {
   }
 
   async createNameCard(
+    userId: number,
     createNameCardDto: CreateNameCardDto,
   ): Promise<NameCard> {
     const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
       createNameCardDto;
     try {
+      const uniqueCode = await this._getUniqueCode();
       nameCardData.imageId = await this._saveImageKey(imageKey);
-      nameCardData.uniqueCode = await this._getUniqueCode();
 
-      const nameCard = await this.nameCardRepository.save(nameCardData);
+      const nameCard = new NameCard();
+      nameCard.name = nameCardData.name;
+      nameCard.personality = nameCardData.personality;
+      nameCard.introduce = nameCardData.introduce;
+      nameCard.role = nameCardData.role;
+      nameCard.imageId = nameCardData.imageId;
+      nameCard.bgColorId = nameCardData.bgColorId;
+      nameCard.uniqueCode = uniqueCode;
+      nameCard.userId = userId;
+
+      await this.nameCardRepository.save(nameCard);
 
       await Promise.all([
         this._saveContacts(nameCard.id, contacts),
         this._saveTmis(nameCard.id, tmiIds),
         this._saveSkills(nameCard.id, skills),
-        this._updateUserOnboarding(nameCardData.userId, 'makeFirstNameCard'),
-        this._updateUserOnboarding(nameCardData.userId, 'makeNamCards'),
+        this._updateUserOnboarding(userId, 'makeFirstNameCard'),
+        this._updateUserOnboarding(userId, 'makeNamCards'),
       ]);
 
       return await this.nameCardRepository.findOne(nameCard.id);

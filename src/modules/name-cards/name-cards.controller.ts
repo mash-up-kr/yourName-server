@@ -25,8 +25,12 @@ export class NameCardController {
 
   @Post()
   @ApiDocs.createNameCard('내 명함 생성')
-  async createNameCard(@Body() createNameCardDto: CreateNameCardDto) {
+  async createNameCard(
+    @Req() req: any,
+    @Body() createNameCardDto: CreateNameCardDto,
+  ) {
     const nameCard = await this.nameCardService.createNameCard(
+      req.user.userId,
       createNameCardDto,
     );
     return { nameCardId: nameCard.id };
