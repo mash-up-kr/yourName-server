@@ -199,13 +199,12 @@ export class NameCardService {
   async updateNameCard(
     nameCardId: number,
     updateNameCardDto: UpdateNameCardDto,
-    userId: number,
   ) {
     const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
       updateNameCardDto;
     try {
       if (imageKey) {
-        await this._updateImageKey(userId, imageKey);
+        await this._updateImageKey(nameCardId, imageKey);
       }
       await Promise.all([
         this.nameCardRepository.update(nameCardId, nameCardData),
@@ -316,11 +315,11 @@ export class NameCardService {
     }
   }
 
-  async _updateImageKey(userId: number, imageKey: string) {
+  async _updateImageKey(nameCardId: number, imageKey: string) {
     try {
       const imageId = (
         await this.nameCardRepository.findOne({
-          where: { userId: userId },
+          where: { id: nameCardId },
         })
       ).imageId;
 
