@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { BgColor } from 'src/entities/bg-color.entity';
 import { userOnboardingType } from 'src/utils/types';
 import { ApiDocs } from './users.docs';
 import { UsersService } from './users.service';
@@ -42,6 +43,7 @@ export class UsersController {
   @ApiDocs.getBgColors('유저가 사용한 컬러 조회')
   @Get(':id/bgcolors')
   async getBgColors(@Param('id') userId: number) {
-    return await this.usersService.getBgColors(userId);
+    const bgColors: BgColor[] = await this.usersService.getBgColors(userId);
+    return { list: bgColors };
   }
 }
