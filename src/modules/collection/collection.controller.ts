@@ -59,7 +59,7 @@ export class CollectionController {
         updateCollectionDto,
       );
 
-    return collection.id;
+    return { collectionId: collection.id };
   }
 
   @Delete('/:collectionId')
