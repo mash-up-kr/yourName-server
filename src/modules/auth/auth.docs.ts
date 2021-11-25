@@ -1,7 +1,10 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { DataEmptyResponse } from 'src/common/dto/data-empty-response';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { AuthController } from './auth.controller';
+import { LoginResponseDto } from './dto/login-response.dto';
+import { TokenRefreshResponseDto } from './dto/token-refresh-response.dto';
 
 export const ApiDocs: SwaggerMethodDoc<AuthController> = {
   kakaoLogin(summary: string) {
@@ -14,6 +17,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         status: 201,
         description:
           'access token + refresh token + user 정보 + userOnboarding 정보',
+        type: LoginResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -28,6 +32,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         status: 201,
         description:
           'access token + refresh token + user 정보 + userOnboarding 정보',
+        type: LoginResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -41,6 +46,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
       ApiResponse({
         status: 201,
         description: '빈 data 객체 + Success Message',
+        type: DataEmptyResponse,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -55,6 +61,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
       ApiResponse({
         status: 201,
         description: 'new access token',
+        type: TokenRefreshResponseDto,
       }),
       ApiBearerAuth('Authorization'),
     );
