@@ -31,8 +31,8 @@ export class LoginResSchema {
   @ApiProperty()
   user: User;
 
-  @ApiProperty()
-  userOnboarding: OnboardingInfoSchema;
+  @ApiProperty({ type: [OnboardingInfoSchema] })
+  userOnboarding: OnboardingInfoSchema[];
 }
 
 export class LoginResponseDto extends CommonResponseDto {
