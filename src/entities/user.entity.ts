@@ -22,7 +22,7 @@ export class User extends BaseEntity {
   @ApiProperty({
     type: string,
     description: '인증 provider 이름',
-    example: 'Kakao',
+    example: 'Kakao or Apple',
   })
   @Column()
   providerName: string;
