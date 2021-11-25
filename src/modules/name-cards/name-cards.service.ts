@@ -168,17 +168,17 @@ export class NameCardService {
       createNameCardDto;
     try {
       const uniqueCode = await this._getUniqueCode();
-      nameCardData.imageId = await this._saveImageKey(imageKey);
+      const imageId = await this._saveImageKey(imageKey);
 
       const nameCard = new NameCard();
       nameCard.name = nameCardData.name;
       nameCard.personality = nameCardData.personality;
       nameCard.introduce = nameCardData.introduce;
       nameCard.role = nameCardData.role;
-      nameCard.imageId = nameCardData.imageId;
       nameCard.bgColorId = nameCardData.bgColorId;
       nameCard.uniqueCode = uniqueCode;
       nameCard.userId = userId;
+      nameCard.imageId = imageId;
 
       await this.nameCardRepository.save(nameCard);
 
@@ -199,12 +199,13 @@ export class NameCardService {
   async updateNameCard(
     nameCardId: number,
     updateNameCardDto: UpdateNameCardDto,
+    userId: number,
   ) {
     const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
       updateNameCardDto;
     try {
-      if (updateNameCardDto.imageId && imageKey) {
-        await this._updateImageKey(updateNameCardDto.imageId, imageKey);
+      if (imageKey) {
+        await this._updateImageKey(userId, imageKey);
       }
       await Promise.all([
         this.nameCardRepository.update(nameCardId, nameCardData),
@@ -315,11 +316,18 @@ export class NameCardService {
     }
   }
 
-  async _updateImageKey(imageId: number, imageKey: string) {
+  async _updateImageKey(userId: number, imageKey: string) {
     try {
+      const imageId = (
+        await this.nameCardRepository.findOne({
+          where: { userId: userId },
+        })
+      ).imageId;
+
       const image = await this.ImageRepository.findOne({
         where: { id: imageId },
       });
+
       if (!image) {
         throw new BadRequestException('image id를 확인해주세요');
       }

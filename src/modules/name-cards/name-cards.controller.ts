@@ -67,8 +67,13 @@ export class NameCardController {
   async updateNameCard(
     @Param('namecardId') nameCardId: number,
     @Body() updateNameCardDto: UpdateNameCardDto,
+    @Req() req: any,
   ) {
-    await this.nameCardService.updateNameCard(nameCardId, updateNameCardDto);
+    await this.nameCardService.updateNameCard(
+      nameCardId,
+      updateNameCardDto,
+      req.user.userId,
+    );
   }
 
   @Delete(':namecardId')
