@@ -6,7 +6,7 @@ class BgColorResponseSchema {
   id: number;
 
   @ApiProperty({
-    example: '[#FFCBFD]',
+    example: ['#FFCBFD'],
     description: '배경색 값',
     type: [String],
   })

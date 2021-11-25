@@ -23,7 +23,11 @@ export class BgColorResponseSchema {
   @ApiProperty({ example: 1, description: '배경색 ID' })
   id: number;
 
-  @ApiProperty({ example: '#FFCBFD', description: '배경색 값', type: [String] })
+  @ApiProperty({
+    example: ['#FFCBFD'],
+    description: '배경색 값',
+    type: [String],
+  })
   value: string[];
 }
 
