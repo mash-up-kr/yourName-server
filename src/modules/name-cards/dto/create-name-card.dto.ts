@@ -10,7 +10,6 @@ export class CreateNameCardDto extends PickType(NameCard, [
   'personality',
   'introduce',
   'bgColorId',
-  'imageId',
 ]) {
   @IsOptional()
   @ApiProperty({
@@ -63,6 +62,7 @@ class CreateContactDto {
 
 // class CreateBgColorDto extends PickType(NameCardBgColor, ['hexCode']) {}
 class CreateTmiDto extends PickType(Tmi, ['id']) {}
+
 class CreateSkillDto {
   name: string;
   level: number;
