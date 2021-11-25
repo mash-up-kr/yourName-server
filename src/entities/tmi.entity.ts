@@ -13,4 +13,9 @@ export class Tmi extends BaseEntity {
   @IsNotEmpty()
   @Column()
   name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Column()
+  iconUrl: string;
 }
