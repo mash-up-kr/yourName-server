@@ -4,7 +4,7 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { BgColor } from 'src/entities/bg-color.entity';
 import { Repository } from 'typeorm';
 import userOnboardingImageUrlMap from 'src/constants/userOnboardingImageUrlMap';
-import { userOnboardingType } from 'src/utils/onBoardingtypes';
+import { userOnboardingType } from 'src/types/onBoarding.types';
 
 @Injectable()
 export class UsersService {

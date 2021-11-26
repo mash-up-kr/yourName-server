@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsNotEmpty, IsString } from 'class-validator';
-import { userOnboardingStatusType } from 'src/utils/onBoardingtypes';
+import { userOnboardingStatusType } from 'src/types/onBoarding.types';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';

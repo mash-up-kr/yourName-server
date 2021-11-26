@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BgColor } from 'src/entities/bg-color.entity';
-import { userOnboardingType } from 'src/utils/onBoardingtypes';
+import { userOnboardingType } from 'src/types/onBoarding.types';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiDocs } from './users.docs';
 import { UsersService } from './users.service';
