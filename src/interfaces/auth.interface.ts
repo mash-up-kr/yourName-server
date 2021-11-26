@@ -1,5 +1,6 @@
 import { JwtHeader, JwtPayload } from 'jwt-decode';
 import { User } from 'src/entities/user.entity';
+import { OnboardingSchema } from './onboarding.interface';
 
 export interface IdentityTokenSchema extends JwtPayload {
   nonce: string;
@@ -30,11 +31,6 @@ export interface TokenSchema {
   refreshToken?: string;
   user?: User;
   userOnboarding?: OnboardingSchema[];
-}
-
-export interface OnboardingSchema {
-  title: string;
-  status: string;
 }
 
 export interface PayloadSchema {
