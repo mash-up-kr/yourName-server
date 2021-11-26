@@ -16,7 +16,7 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { Connection, getConnection, Repository } from 'typeorm';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
-import { userOnboardingType } from 'src/utils/onBoardingtypes';
+import { userOnboardingType } from 'src/types/onBoarding.types';
 import { Image } from 'src/entities/image.entity';
 import {
   BgColorSchema,
