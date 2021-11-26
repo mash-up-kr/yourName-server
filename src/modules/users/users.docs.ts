@@ -34,7 +34,7 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
         name: 'type',
         required: true,
         description:
-          '온보딩 퀘스트 타입 (makeFirstNameCard|shareNameCard|addNameCollectionNameCard|makeCollection|makeNamCards)',
+          '온보딩 퀘스트 타입 (makeFirstNameCard | shareMyNameCard | addFriendNameCard | makeNewCollection | makeThreeNameCards)',
       }),
       ApiResponse({
         status: 200,
@@ -53,7 +53,7 @@ export const ApiDocs: SwaggerMethodDoc<UsersController> = {
         name: 'type',
         required: true,
         description:
-          '온보딩 퀘스트 타입 (makeFirstNameCard|shareNameCard|addNameCollectionNameCard|makeCollection|makeNamCards)',
+          '온보딩 퀘스트 타입 (makeFirstNameCard | shareMyNameCard | addFriendNameCard | makeNewCollection | makeThreeNameCards)',
       }),
       ApiResponse({
         status: 200,
