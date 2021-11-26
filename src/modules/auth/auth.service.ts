@@ -45,11 +45,11 @@ export class AuthService {
     const payload = { userId: user.id, nickName: user.nickName };
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
-      expiresIn: '1m', //만료시간 수정
+      expiresIn: '10d', //만료시간 수정
     });
     const refreshToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_REFRESH_TOKEN_SECRET,
-      expiresIn: '2m', //만료시간 수정
+      expiresIn: '30d', //만료시간 수정
     });
 
     const currentHashedRefreshToken = await hash(refreshToken, 10);
