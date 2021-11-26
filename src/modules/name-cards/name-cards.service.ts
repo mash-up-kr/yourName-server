@@ -21,11 +21,13 @@ import { Image } from 'src/entities/image.entity';
 import {
   BgColorSchema,
   ContactSchema,
+  ImageSchema,
   NameCardSchema,
   PersonalSkillSchema,
   TmiSchema,
 } from 'src/interfaces/namecard.interface';
 import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
+import { imgUrlPrefix } from 'src/constants/namecard.constant';
 
 @Injectable()
 export class NameCardService {
@@ -68,10 +70,12 @@ export class NameCardService {
     });
 
     const nameCards: NameCardSchema[] = _nameCards.map((nameCard) => {
-      const bgColor = this._formattingBgColor(nameCard);
-      const contacts = this._formattingContact(nameCard);
-      const tmis = this._formattingTmi(nameCard);
-      const personalSkills = this._formattingPersonalSkill(nameCard);
+      const image: ImageSchema = this._formattingImage(nameCard);
+      const bgColor: BgColorSchema = this._formattingBgColor(nameCard);
+      const contacts: ContactSchema[] = this._formattingContact(nameCard);
+      const tmis: TmiSchema[] = this._formattingTmi(nameCard);
+      const personalSkills: PersonalSkillSchema[] =
+        this._formattingPersonalSkill(nameCard);
 
       return {
         id: nameCard.id,
@@ -80,7 +84,7 @@ export class NameCardService {
         personality: nameCard.personality,
         introduce: nameCard.introduce,
         uniqueCode: nameCard.uniqueCode,
-        image: nameCard.image,
+        image,
         user: nameCard.user,
         bgColor,
         contacts,
@@ -109,10 +113,12 @@ export class NameCardService {
         ],
       });
 
-      const bgColor = this._formattingBgColor(namecardToFind);
-      const contacts = this._formattingContact(namecardToFind);
-      const tmis = this._formattingTmi(namecardToFind);
-      const personalSkills = this._formattingPersonalSkill(namecardToFind);
+      const image: ImageSchema = this._formattingImage(namecardToFind);
+      const bgColor: BgColorSchema = this._formattingBgColor(namecardToFind);
+      const contacts: ContactSchema[] = this._formattingContact(namecardToFind);
+      const tmis: TmiSchema[] = this._formattingTmi(namecardToFind);
+      const personalSkills: PersonalSkillSchema[] =
+        this._formattingPersonalSkill(namecardToFind);
 
       return {
         id: namecardToFind.id,
@@ -121,7 +127,7 @@ export class NameCardService {
         personality: namecardToFind.personality,
         introduce: namecardToFind.introduce,
         uniqueCode: namecardToFind.uniqueCode,
-        image: namecardToFind.image,
+        image,
         user: namecardToFind.user,
         bgColor,
         contacts,
@@ -397,6 +403,15 @@ export class NameCardService {
       );
 
     return randomString;
+  }
+
+  _formattingImage(nameCard: NameCard): ImageSchema {
+    const prefixedImgUrl: string = imgUrlPrefix.concat(nameCard.image.key);
+
+    return {
+      id: nameCard.id,
+      imgUrl: prefixedImgUrl,
+    };
   }
 
   _formattingBgColor(nameCard: NameCard): BgColorSchema {
