@@ -1,7 +1,6 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import { Contact } from 'src/entities/contact.entity';
-import { Image } from 'src/entities/image.entity';
 import { NameCard } from 'src/entities/name-card.entity';
 import { PersonalSkill } from 'src/entities/personal-skill.entity';
 import { Tmi } from 'src/entities/tmi.entity';
@@ -39,8 +38,10 @@ class NamecardResponseSchema extends PickType(NameCard, [
   'introduce',
   'uniqueCode',
 ]) {
-  @ApiProperty()
-  image: Image;
+  @ApiProperty({
+    example: 'https://erme.s3.ap-northeast-2.amazonaws.com/testurl',
+  })
+  imgUrl: string;
 
   @ApiProperty()
   user: User;
