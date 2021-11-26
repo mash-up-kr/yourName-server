@@ -22,6 +22,7 @@ export class UsersService {
 
     const list = Object.keys(userOnboardingImageUrlMap).map((key) => {
       return {
+        key,
         status: userOnboarding[key],
         imageUrl: userOnboardingImageUrlMap[key][userOnboarding[key]],
       };
