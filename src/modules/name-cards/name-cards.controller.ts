@@ -53,6 +53,7 @@ export class NameCardController {
   ) {
     const nameCard: NameCardSchema =
       await this.nameCardService.getNamecardByUniqueCode(uniqueCode);
+
     if (!nameCard) return;
 
     const isAdded: boolean = await this.nameCardService.isAddedNameCard(

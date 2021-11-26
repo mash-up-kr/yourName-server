@@ -112,6 +112,10 @@ export class NameCardService {
         ],
       });
 
+      if (!namecardToFind) {
+        return;
+      }
+
       const image: ImageSchema = this._formattingImage(namecardToFind);
       const bgColor: BgColorSchema = this._formattingBgColor(namecardToFind);
       const contacts: ContactSchema[] = this._formattingContact(namecardToFind);
