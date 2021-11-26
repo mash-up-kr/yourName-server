@@ -5,7 +5,7 @@ import { hash } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
-import { PayloadSchema, TokenSchema } from '../../interfaces/auth.interface';
+import { PayloadSchema, TokenSchema } from 'src/interfaces/auth.interface';
 import { OnboardingSchema } from 'src/interfaces/onboarding.interface';
 import { OnboardingTitle } from 'src/constants/onBoardingTitle';
 
