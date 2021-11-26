@@ -27,7 +27,6 @@ import {
   TmiSchema,
 } from 'src/interfaces/namecard.interface';
 import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
-import { imgUrlPrefix } from 'src/constants/namecard.constant';
 
 @Injectable()
 export class NameCardService {
@@ -406,7 +405,8 @@ export class NameCardService {
   }
 
   _formattingImage(nameCard: NameCard): ImageSchema {
-    const prefixedImgUrl: string = imgUrlPrefix.concat(nameCard.image.key);
+    const prefixedImgUrl: string =
+      process.env.AWS_S3_PREFIX + nameCard.image.key;
 
     return {
       id: nameCard.id,
