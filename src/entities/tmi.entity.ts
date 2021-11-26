@@ -17,6 +17,9 @@ export class Tmi extends BaseEntity {
   @Column()
   name: string;
 
+  @ApiProperty({
+    example: 'https://erme.s3.ap-northeast-2.amazonaws.com/tmi/tmi_food.png',
+  })
   @IsString()
   @IsNotEmpty()
   @Column()

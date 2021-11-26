@@ -11,6 +11,10 @@ export class Contact extends BaseEntity {
   @Column()
   category: string;
 
+  @ApiProperty({
+    example:
+      'https://erme.s3.ap-northeast-2.amazonaws.com/contact_icon/Phone+Number.png',
+  })
   @IsNotEmpty()
   @IsString()
   @Column()

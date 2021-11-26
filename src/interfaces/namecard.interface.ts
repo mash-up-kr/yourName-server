@@ -29,6 +29,7 @@ export interface ContactSchema {
 export interface TmiSchema {
   type: string;
   name: string;
+  iconUrl: string;
 }
 
 export interface PersonalSkillSchema {
