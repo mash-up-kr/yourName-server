@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { PayloadSchema, TokenSchema } from 'src/interfaces/auth.interface';
 import { OnboardingSchema } from 'src/interfaces/onboarding.interface';
-import { OnboardingTitle } from 'src/constants/onBoardingTitle';
+import { OnboardingTitle } from 'src/constants/onboarding.constant';
 
 @Injectable()
 export class AuthService {

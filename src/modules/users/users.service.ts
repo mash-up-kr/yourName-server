@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { BgColor } from 'src/entities/bg-color.entity';
 import { Repository } from 'typeorm';
-import userOnboardingImageUrlMap from 'src/constants/userOnboardingImageUrlMap';
 import { userOnboardingType } from 'src/types/onBoarding.types';
+import { userOnboardingImgUrlMap } from 'src/constants/onboarding.constant';
 
 @Injectable()
 export class UsersService {
@@ -20,11 +20,11 @@ export class UsersService {
       userId,
     });
 
-    const list = Object.keys(userOnboardingImageUrlMap).map((key) => {
+    const list = Object.keys(userOnboardingImgUrlMap).map((key) => {
       return {
         key,
         status: userOnboarding[key],
-        imageUrl: userOnboardingImageUrlMap[key][userOnboarding[key]],
+        imageUrl: userOnboardingImgUrlMap[key][userOnboarding[key]],
       };
     });
 
