@@ -16,7 +16,7 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { Connection, getConnection, Repository } from 'typeorm';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
-import { userOnboardingType } from 'src/utils/types';
+import { userOnboardingType } from 'src/utils/onBoardingtypes';
 import { Image } from 'src/entities/image.entity';
 import {
   BgColorSchema,
@@ -187,7 +187,7 @@ export class NameCardService {
         this._saveTmis(nameCard.id, tmiIds),
         this._saveSkills(nameCard.id, skills),
         this._updateUserOnboarding(userId, 'makeFirstNameCard'),
-        this._updateUserOnboarding(userId, 'makeNamCards'),
+        this._updateUserOnboarding(userId, 'makeThreeNameCards'),
       ]);
 
       return await this.nameCardRepository.findOne(nameCard.id);
@@ -368,7 +368,7 @@ export class NameCardService {
   async _checkCondition(userId: number, updateType: userOnboardingType) {
     if (updateType === 'makeFirstNameCard') {
       return true;
-    } else if (updateType === 'makeNamCards') {
+    } else if (updateType === 'makeThreeNameCards') {
       const nameCards = await this.getMyNameCards(userId);
       return nameCards.length >= 3 ? true : false;
     }
