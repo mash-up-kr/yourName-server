@@ -2,9 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 
 class GetsUserOnboardingSchema {
-  @ApiProperty({example: 'makeFirstNameCard | shareNameCard | addNameCollectionNameCard | makeCollection | makeNamCards'})
+  @ApiProperty({
+    example:
+      'makeFirstNameCard | shareMyNameCard | addFriendNameCard | makeNewCollection | makeThreeNameCards',
+  })
   key: string;
-  
+
   @ApiProperty({ example: 'WAIT' })
   status: string;
 
