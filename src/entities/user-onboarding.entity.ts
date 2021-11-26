@@ -21,22 +21,22 @@ export class UserOnboarding extends BaseEntity {
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  shareNameCard: userOnboardingStatusType;
+  shareMyNameCard: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  addNameCollectionNameCard: userOnboardingStatusType;
+  addFriendNameCard: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  makeCollection: userOnboardingStatusType;
+  makeNewCollection: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  makeNamCards: userOnboardingStatusType;
+  makeThreeNameCards: userOnboardingStatusType;
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @OneToOne(() => User, {
