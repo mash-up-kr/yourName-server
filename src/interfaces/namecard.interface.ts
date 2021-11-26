@@ -7,17 +7,12 @@ export interface NameCardSchema {
   personality: string;
   introduce: string;
   uniqueCode: string;
-  image: ImageSchema;
+  imgUrl: string;
   user: User;
   bgColor: BgColorSchema;
   contacts: ContactSchema[];
   tmis: TmiSchema[];
   personalSkills: PersonalSkillSchema[];
-}
-
-export interface ImageSchema {
-  id: number;
-  imgUrl: string;
 }
 
 export interface BgColorSchema {

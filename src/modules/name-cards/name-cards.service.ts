@@ -21,7 +21,6 @@ import { Image } from 'src/entities/image.entity';
 import {
   BgColorSchema,
   ContactSchema,
-  ImageSchema,
   NameCardSchema,
   PersonalSkillSchema,
   TmiSchema,
@@ -69,7 +68,7 @@ export class NameCardService {
     });
 
     const nameCards: NameCardSchema[] = _nameCards.map((nameCard) => {
-      const image: ImageSchema = this._formattingImage(nameCard);
+      const formattedImage: string = this._formattingImage(nameCard);
       const bgColor: BgColorSchema = this._formattingBgColor(nameCard);
       const contacts: ContactSchema[] = this._formattingContact(nameCard);
       const tmis: TmiSchema[] = this._formattingTmi(nameCard);
@@ -83,7 +82,7 @@ export class NameCardService {
         personality: nameCard.personality,
         introduce: nameCard.introduce,
         uniqueCode: nameCard.uniqueCode,
-        image,
+        imgUrl: formattedImage,
         user: nameCard.user,
         bgColor,
         contacts,
@@ -116,7 +115,7 @@ export class NameCardService {
         return;
       }
 
-      const image: ImageSchema = this._formattingImage(namecardToFind);
+      const formattedImage: string = this._formattingImage(namecardToFind);
       const bgColor: BgColorSchema = this._formattingBgColor(namecardToFind);
       const contacts: ContactSchema[] = this._formattingContact(namecardToFind);
       const tmis: TmiSchema[] = this._formattingTmi(namecardToFind);
@@ -130,7 +129,7 @@ export class NameCardService {
         personality: namecardToFind.personality,
         introduce: namecardToFind.introduce,
         uniqueCode: namecardToFind.uniqueCode,
-        image,
+        imgUrl: formattedImage,
         user: namecardToFind.user,
         bgColor,
         contacts,
@@ -408,14 +407,11 @@ export class NameCardService {
     return randomString;
   }
 
-  _formattingImage(nameCard: NameCard): ImageSchema {
+  _formattingImage(nameCard: NameCard): string {
     const prefixedImgUrl: string =
       process.env.AWS_S3_PREFIX + nameCard.image.key;
 
-    return {
-      id: nameCard.id,
-      imgUrl: prefixedImgUrl,
-    };
+    return prefixedImgUrl;
   }
 
   _formattingBgColor(nameCard: NameCard): BgColorSchema {
