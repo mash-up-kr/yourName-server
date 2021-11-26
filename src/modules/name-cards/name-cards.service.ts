@@ -444,6 +444,7 @@ export class NameCardService {
       return {
         type: tmi.tmi.type,
         name: tmi.tmi.name,
+        iconUrl: tmi.tmi.iconUrl,
       };
     });
 
