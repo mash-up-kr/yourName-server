@@ -16,9 +16,6 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
-    @InjectRepository(Collection)
-    private readonly collectionRepository: Repository<Collection>,
-
     @InjectRepository(UserOnboarding)
     private readonly userOnboardingRepository: Repository<UserOnboarding>,
 
