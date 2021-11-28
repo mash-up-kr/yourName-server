@@ -17,9 +17,9 @@ export class AuthController {
   @Post('kakao-login')
   @ApiDocs.kakaoLogin('카카오 로그인')
   async kakaoLogin(@Req() req: any) {
-    const kakaoData: any = req.body.kakaoData;
+    const kakaoData: ProviderDataSchema = req.body.kakaoData;
     const user = await this.authService.createUser(
-      kakaoData.nickName,
+      kakaoData.userIdentifier,
       kakaoData.providerName,
     );
     return await this.authService.login(user);
