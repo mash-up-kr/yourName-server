@@ -31,7 +31,7 @@ export class AuthController {
   async appleLogin(@Req() req: any) {
     const appleData: ProviderDataSchema = req.body.appleData;
     const user = await this.authService.createUser(
-      appleData.nickName,
+      appleData.userIdentifier,
       appleData.providerName,
     );
     return await this.authService.login(user);
