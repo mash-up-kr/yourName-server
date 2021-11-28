@@ -24,7 +24,7 @@ export class KakaoAuthGuard implements CanActivate {
     if (!validateTokenResult.id) throw new InvalidTokenError();
 
     const kakaoData: ProviderDataSchema = {
-      nickName: validateTokenResult.properties.nickname,
+      userIdentifier: validateTokenResult.id,
       providerName: 'Kakao',
     };
     request.body = { kakaoData: kakaoData };
