@@ -14,7 +14,7 @@ export class User extends BaseEntity {
     description: '유저의 닉네임',
     example: 'AlwaysLee',
   })
-  @Column({ length: 20 })
+  @Column()
   nickName: string;
 
   @IsString()
