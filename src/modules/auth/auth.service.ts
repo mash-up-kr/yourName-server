@@ -21,16 +21,19 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async createUser(nickName: string, providerName: string): Promise<User> {
+  async createUser(
+    userIdentifier: string,
+    providerName: string,
+  ): Promise<User> {
     let user = await this.userRepository.findOne({
-      nickName: nickName,
+      userIdentifier: userIdentifier,
       providerName: providerName,
     });
     if (user) {
       return user;
     }
     user = new User();
-    user.nickName = nickName;
+    user.userIdentifier = userIdentifier;
     user.providerName = providerName;
     await this.userRepository.save(user);
 
@@ -42,7 +45,7 @@ export class AuthService {
   }
 
   async login(user: User): Promise<TokenSchema> {
-    const payload = { userId: user.id, nickName: user.nickName };
+    const payload = { userId: user.id, userIdentifier: user.userIdentifier };
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
       expiresIn: '10d', //만료시간 수정
@@ -99,11 +102,11 @@ export class AuthService {
     const user = await this.userRepository.findOne({ id: payload.userId });
     if (!user) throw new UnauthorizedException();
 
-    return { userId: payload.userId, nickName: payload.nickName };
+    return { userId: payload.userId, userIdentifier: payload.userIdentifier };
   }
 
   async refresh(user: User): Promise<TokenSchema> {
-    const payload = { userId: user.id, sub: user.nickName };
+    const payload = { userId: user.id, sub: user.userIdentifier };
     const newAccessToken = this.jwtService.sign(payload);
     return { accessToken: newAccessToken };
   }

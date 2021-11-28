@@ -26,7 +26,7 @@ export class AppleAuthGuard implements CanActivate {
 
     const userIdentifier: string = validateTokenResult.sub;
     const appleData: ProviderDataSchema = {
-      nickName: userIdentifier,
+      userIdentifier: userIdentifier,
       providerName: 'Apple',
     };
     request.body = { appleData: appleData };
