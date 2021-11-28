@@ -4,7 +4,6 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InvalidTokenError } from 'jwt-decode';
 import { KaKaoStrategy } from '../strategies/kakao.strategy';
 import { ProviderDataSchema } from '../../../interfaces/auth.interface';
 import { Request } from 'express';
@@ -21,7 +20,7 @@ export class KakaoAuthGuard implements CanActivate {
     const validateTokenResult: any = await this.kakao.ValidateTokenAndDecode(
       token,
     );
-    if (!validateTokenResult.id) throw new InvalidTokenError();
+    if (!validateTokenResult.id) throw new UnauthorizedException();
 
     const kakaoData: ProviderDataSchema = {
       userIdentifier: validateTokenResult.id,
