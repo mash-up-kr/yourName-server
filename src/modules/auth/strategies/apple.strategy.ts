@@ -22,31 +22,31 @@ export class AppleStrategy {
   public async ValidateTokenAndDecode(
     identity_token: string,
   ): Promise<IdentityTokenSchema> {
-    const tokenDecodedHeader: IdentityTokenHeader =
-      jwtDecode<IdentityTokenHeader>(identity_token, {
-        header: true,
-      });
-    const applePublicKeys: ApplePublicKeyType = await this.api.Get(
-      'https://appleid.apple.com/auth/keys',
-    );
-    const client: jwksClient.JwksClient = jwksClient({
-      jwksUri: 'https://appleid.apple.com/auth/keys',
-    });
-
-    const kid: string = tokenDecodedHeader.kid;
-    const alg: string = tokenDecodedHeader.alg;
-    const validKid: string = applePublicKeys.keys.filter(
-      (element) => element['kid'] === kid && element['alg'] === alg,
-    )[0]?.['kid'];
-    if (!validKid) {
-      throw new UnauthorizedException();
-    }
-
-    const key: jwksClient.CertSigningKey | jwksClient.RsaSigningKey =
-      await client.getSigningKey(validKid);
-    const publicKey: string = key.getPublicKey();
-
     try {
+      const tokenDecodedHeader: IdentityTokenHeader =
+        jwtDecode<IdentityTokenHeader>(identity_token, {
+          header: true,
+        });
+      const applePublicKeys: ApplePublicKeyType = await this.api.Get(
+        'https://appleid.apple.com/auth/keys',
+      );
+      const client: jwksClient.JwksClient = jwksClient({
+        jwksUri: 'https://appleid.apple.com/auth/keys',
+      });
+
+      const kid: string = tokenDecodedHeader.kid;
+      const alg: string = tokenDecodedHeader.alg;
+      const validKid: string = applePublicKeys.keys.filter(
+        (element) => element['kid'] === kid && element['alg'] === alg,
+      )[0]?.['kid'];
+      if (!validKid) {
+        throw new UnauthorizedException();
+      }
+
+      const key: jwksClient.CertSigningKey | jwksClient.RsaSigningKey =
+        await client.getSigningKey(validKid);
+      const publicKey: string = key.getPublicKey();
+
       const result: IdentityTokenSchema = jwt.verify(
         identity_token,
         publicKey,
