@@ -16,7 +16,7 @@ export interface IdentityTokenHeader extends JwtHeader {
 }
 
 export interface ProviderDataSchema {
-  nickName: string;
+  userIdentifier: string;
   providerName: string;
 }
 
@@ -35,5 +35,5 @@ export interface TokenSchema {
 
 export interface PayloadSchema {
   userId: number;
-  nickName: string;
+  userIdentifier: string;
 }

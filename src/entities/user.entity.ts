@@ -11,11 +11,11 @@ export class User extends BaseEntity {
   @IsNotEmpty()
   @ApiProperty({
     type: string,
-    description: '유저의 닉네임',
-    example: 'AlwaysLee',
+    description: '유저 Identifier',
+    example: '000602.374a47cb915b4119940a82e3fdaa20ec.0835',
   })
   @Column()
-  nickName: string;
+  userIdentifier: string;
 
   @IsString()
   @IsNotEmpty()
