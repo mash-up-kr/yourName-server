@@ -20,13 +20,13 @@ export class AppleAuthGuard implements CanActivate {
     const token: string = <string>request.headers.authorization;
     if (!token) throw new UnauthorizedException();
 
-    const formattedToken: string = token.split(' ')[1]; //확인
+    const formattedToken: string = token.split(' ')[1];
     const validateTokenResult: IdentityTokenSchema =
       await this.apple.ValidateTokenAndDecode(formattedToken);
 
-    const nickName: string = validateTokenResult.email.split('@')[0]; //IOS 작업 후 수정
+    const userIdentifier: string = validateTokenResult.sub;
     const appleData: ProviderDataSchema = {
-      nickName: nickName,
+      nickName: userIdentifier,
       providerName: 'Apple',
     };
     request.body = { appleData: appleData };
