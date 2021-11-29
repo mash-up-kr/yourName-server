@@ -1,9 +1,16 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { DataEmptyResponse } from 'src/common/dto/data-empty-response.dto';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { AuthController } from './auth.controller';
+import { LoginRequestDto } from './dto/login-request.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
+import { TokenRefreshRequestDto } from './dto/token-refresh-request.dto';
 import { TokenRefreshResponseDto } from './dto/token-refresh-response.dto';
 
 export const ApiDocs: SwaggerMethodDoc<AuthController> = {
@@ -12,6 +19,9 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
       ApiOperation({
         summary,
         description: '카카오 로그인 API',
+      }),
+      ApiBody({
+        type: LoginRequestDto,
       }),
       ApiResponse({
         status: 201,
@@ -27,6 +37,9 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
       ApiOperation({
         summary,
         description: '애플 로그인 API',
+      }),
+      ApiBody({
+        type: LoginRequestDto,
       }),
       ApiResponse({
         status: 201,
@@ -57,6 +70,9 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         summary,
         description:
           '리프레시 토큰의 검증을 수행하고 유효하다면 엑세스 토큰을 재발급',
+      }),
+      ApiBody({
+        type: TokenRefreshRequestDto,
       }),
       ApiResponse({
         status: 201,
