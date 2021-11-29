@@ -1,4 +1,4 @@
-import { Controller, Req, Post, UseGuards } from '@nestjs/common';
+import { Controller, Req, Post, UseGuards, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppleAuthGuard } from './guards/apple-auth.guard';
 import { ApiDocs } from './auth.docs';
@@ -49,5 +49,12 @@ export class AuthController {
   @ApiDocs.refreshToken('토큰 리프레시')
   async refreshToken(@Req() req: any) {
     return await this.authService.refresh(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('users')
+  @ApiDocs.removeUser('회원 탈퇴')
+  async removeUser(@Req() req: any) {
+    return await this.authService.removeUser(req.user.userId);
   }
 }
