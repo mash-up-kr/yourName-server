@@ -17,12 +17,11 @@ export class AppleAuthGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
-    const token: string = <string>request.headers.authorization;
+    const token: string = <string>request.body.accessToken;
     if (!token) throw new UnauthorizedException();
 
-    const formattedToken: string = token.split(' ')[1];
     const validateTokenResult: IdentityTokenSchema =
-      await this.apple.ValidateTokenAndDecode(formattedToken);
+      await this.apple.ValidateTokenAndDecode(token);
 
     const userIdentifier: string = validateTokenResult.sub;
     const appleData: ProviderDataSchema = {
