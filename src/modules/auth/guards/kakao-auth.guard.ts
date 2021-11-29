@@ -15,7 +15,6 @@ export class KakaoAuthGuard implements CanActivate {
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
     const token: string = <string>request.body.accessToken;
-    console.log(token);
     if (!token) throw new UnauthorizedException();
 
     const validateTokenResult: any = await this.kakao.ValidateTokenAndDecode(
