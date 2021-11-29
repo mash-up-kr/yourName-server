@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from 'src/entities/user.entity';
+import { Image } from 'src/entities/image.entity';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,6 +9,7 @@ import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { PayloadSchema, TokenSchema } from 'src/interfaces/auth.interface';
 import { OnboardingSchema } from 'src/interfaces/onboarding.interface';
 import { OnboardingTitle } from 'src/constants/onboarding.constant';
+import { NameCard } from 'src/entities/name-card.entity';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,12 @@ export class AuthService {
 
     @InjectRepository(UserOnboarding)
     private readonly userOnboardingRepository: Repository<UserOnboarding>,
+
+    @InjectRepository(Image)
+    private readonly imageRepository: Repository<Image>,
+
+    @InjectRepository(NameCard)
+    private readonly namecardRepository: Repository<NameCard>,
 
     private readonly jwtService: JwtService,
   ) {}
@@ -95,7 +103,20 @@ export class AuthService {
   }
 
   async logout(userId: number): Promise<void> {
-    this.userRepository.update({ id: userId }, { refreshToken: '' });
+    await this.userRepository.update({ id: userId }, { refreshToken: null });
+  }
+
+  async removeUser(userId: number): Promise<void> {
+    await Promise.all([
+      this.userRepository.delete({ id: userId }),
+      (
+        await this.namecardRepository.find({
+          where: { userId: userId },
+        })
+      )
+        .map((e) => e.imageId)
+        .forEach((e) => this.imageRepository.delete({ id: e })),
+    ]);
   }
 
   async isRefreshTokenMatching(payload: any): Promise<PayloadSchema> {

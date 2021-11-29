@@ -57,7 +57,7 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         description: '로그아웃을 수행하여 리프레시 토큰 저장소에서 삭제',
       }),
       ApiResponse({
-        status: 201,
+        status: 200,
         description: '빈 data 객체 + Success Message',
         type: DataEmptyResponse,
       }),
@@ -78,6 +78,20 @@ export const ApiDocs: SwaggerMethodDoc<AuthController> = {
         status: 201,
         description: 'new access token',
         type: TokenRefreshResponseDto,
+      }),
+      ApiBearerAuth('Authorization'),
+    );
+  },
+  removeUser(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '회원 탈퇴 API',
+      }),
+      ApiResponse({
+        status: 200,
+        description: '빈 data 객체 + Success Message',
+        type: DataEmptyResponse,
       }),
       ApiBearerAuth('Authorization'),
     );
