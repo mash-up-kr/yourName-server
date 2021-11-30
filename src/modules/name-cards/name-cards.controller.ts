@@ -63,18 +63,23 @@ export class NameCardController {
     return { nameCard, isAdded: isAdded };
   }
 
-  @Put(':namecardId')
+  @Put(':namecardUniqueCode')
   @ApiDocs.updateNameCard('내 명함 수정')
   async updateNameCard(
-    @Param('namecardId') nameCardId: number,
+    @Param('namecardUniqueCode') namecardUniqueCode: string,
     @Body() updateNameCardDto: UpdateNameCardDto,
   ) {
-    await this.nameCardService.updateNameCard(nameCardId, updateNameCardDto);
+    await this.nameCardService.updateNameCard(
+      namecardUniqueCode,
+      updateNameCardDto,
+    );
   }
 
-  @Delete(':namecardId')
+  @Delete(':namecardUniqueCode')
   @ApiDocs.deleteNameCard('내 명함 삭제')
-  async deleteNameCard(@Param('namecardId') nameCardId: number) {
-    await this.nameCardService.deleteNameCard(nameCardId);
+  async deleteNameCard(
+    @Param('namecardUniqueCode') namecardUniqueCode: string,
+  ) {
+    await this.nameCardService.deleteNameCard(namecardUniqueCode);
   }
 }

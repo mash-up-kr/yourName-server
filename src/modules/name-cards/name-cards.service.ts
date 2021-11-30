@@ -205,12 +205,17 @@ export class NameCardService {
   }
 
   async updateNameCard(
-    nameCardId: number,
+    namecardUniqueCode: string,
     updateNameCardDto: UpdateNameCardDto,
   ) {
-    const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
-      updateNameCardDto;
     try {
+      const nameCardId: number = (
+        await this.nameCardRepository.findOne({
+          where: { uniqueCode: namecardUniqueCode },
+        })
+      ).id;
+      const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
+        updateNameCardDto;
       if (imageKey) {
         await this._updateImageKey(nameCardId, imageKey);
       }
@@ -225,15 +230,24 @@ export class NameCardService {
     }
   }
 
-  async deleteNameCard(nameCardId: number) {
-    const imageId = (
-      await this.nameCardRepository.findOne({ where: { id: nameCardId } })
-    ).imageId;
+  async deleteNameCard(namecardUniqueCode: string) {
+    try {
+      const nameCardId: number = (
+        await this.nameCardRepository.findOne({
+          where: { uniqueCode: namecardUniqueCode },
+        })
+      ).id;
+      const imageId = (
+        await this.nameCardRepository.findOne({ where: { id: nameCardId } })
+      ).imageId;
 
-    await Promise.all([
-      this.nameCardRepository.delete(nameCardId),
-      this._deleteImageKey(imageId),
-    ]);
+      await Promise.all([
+        this.nameCardRepository.delete(nameCardId),
+        this._deleteImageKey(imageId),
+      ]);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async _saveContacts(nameCardId: number, contacts = []) {
