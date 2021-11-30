@@ -66,8 +66,8 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
         summary,
       }),
       ApiParam({
-        name: 'namecardId',
-        description: '수정을 원하는 명함 id',
+        name: 'namecardUniqueCode',
+        description: '수정을 원하는 명함에 고유 코드',
         required: true,
       }),
       ApiResponse({
@@ -85,8 +85,8 @@ export const ApiDocs: SwaggerMethodDoc<NameCardController> = {
         summary,
       }),
       ApiParam({
-        name: 'namecardId',
-        description: '삭제를 원하는 명함 id',
+        name: 'namecardUniqueCode',
+        description: '삭제를 원하는 명함에 고유 코드',
         required: true,
       }),
       ApiResponse({
