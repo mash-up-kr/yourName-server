@@ -127,7 +127,10 @@ export class AuthService {
 
   async refresh(user: User): Promise<TokenSchema> {
     const payload = { userId: user.id, sub: user.userIdentifier };
-    const newAccessToken = this.jwtService.sign(payload);
+    const newAccessToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+      expiresIn: '10d', //만료시간 수정
+    });
     return { accessToken: newAccessToken };
   }
 }
