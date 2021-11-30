@@ -4,7 +4,7 @@ import { Image } from 'src/entities/image.entity';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getConnection, Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
 import { PayloadSchema, TokenSchema } from 'src/interfaces/auth.interface';
 import { OnboardingSchema } from 'src/interfaces/onboarding.interface';
@@ -22,6 +22,9 @@ export class AuthService {
 
     @InjectRepository(NameCard)
     private readonly namecardRepository: Repository<NameCard>,
+
+    @InjectRepository(Image)
+    private readonly imageRepository: Repository<Image>,
 
     private readonly jwtService: JwtService,
   ) {}
@@ -104,18 +107,13 @@ export class AuthService {
   }
 
   async removeUser(userId: number): Promise<void> {
-    const ids = (
+    const ids: number[] = (
       await this.namecardRepository.find({
         where: { userId: userId },
       })
     ).map((e) => e.imageId);
     await this.userRepository.delete({ id: userId });
-    await getConnection()
-      .createQueryBuilder()
-      .delete()
-      .from(Image)
-      .where('id IN (:...ids)', { ids: ids })
-      .execute();
+    await this.imageRepository.delete({ id: In(ids) });
   }
 
   async isRefreshTokenMatching(payload: any): Promise<PayloadSchema> {
