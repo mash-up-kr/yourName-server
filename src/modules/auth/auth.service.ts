@@ -20,9 +20,6 @@ export class AuthService {
     @InjectRepository(UserOnboarding)
     private readonly userOnboardingRepository: Repository<UserOnboarding>,
 
-    @InjectRepository(Image)
-    private readonly imageRepository: Repository<Image>,
-
     @InjectRepository(NameCard)
     private readonly namecardRepository: Repository<NameCard>,
 

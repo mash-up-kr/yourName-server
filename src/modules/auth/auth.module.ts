@@ -13,7 +13,6 @@ import { AppleStrategy } from './strategies/apple.strategy';
 import { AxiosClient } from './axios-client';
 import { Collection } from 'src/entities/collection.entity';
 import { UserOnboarding } from 'src/entities/user-onboarding.entity';
-import { Image } from 'src/entities/image.entity';
 import { NameCard } from 'src/entities/name-card.entity';
 
 @Module({
@@ -24,13 +23,7 @@ import { NameCard } from 'src/entities/name-card.entity';
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
       signOptions: { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRATION },
     }),
-    TypeOrmModule.forFeature([
-      User,
-      Collection,
-      UserOnboarding,
-      Image,
-      NameCard,
-    ]),
+    TypeOrmModule.forFeature([User, Collection, UserOnboarding, NameCard]),
   ],
   controllers: [AuthController],
   providers: [
