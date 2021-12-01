@@ -65,5 +65,4 @@ class CreateTmiDto extends PickType(Tmi, ['id']) {}
 class CreateSkillDto {
   name: string;
   level: number;
-  order: number;
 }

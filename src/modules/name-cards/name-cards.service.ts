@@ -319,23 +319,21 @@ export class NameCardService {
     }
   }
 
+  // Promise.all([async () => {}, ...]) 형식이 resolve 순서가 보장이 안되서 for 사용해둔 상태
   async _saveSkills(nameCardId: number, skills = []) {
     try {
-      await Promise.all(
-        skills.map(async (skill, order) => {
-          let _skill = await this.skillRepository.findOne({ name: skill.name });
-          if (!_skill) {
-            _skill = await this.skillRepository.save({ name: skill.name });
-          }
+      for (const skill of skills) {
+        let _skill = await this.skillRepository.findOne({ name: skill.name });
+        if (!_skill) {
+          _skill = await this.skillRepository.save({ name: skill.name });
+        }
 
-          await this.personalSkillRepository.save({
-            namecardId: nameCardId,
-            skillId: _skill.id,
-            level: skill.level,
-            order,
-          });
-        }),
-      );
+        await this.personalSkillRepository.save({
+          namecardId: nameCardId,
+          skillId: _skill.id,
+          level: skill.level,
+        });
+      }
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -15,11 +15,6 @@ export class PersonalSkill extends BaseEntity {
 
   @IsNumber()
   @IsNotEmpty()
-  @Column({ default: 1 })
-  order: number;
-
-  @IsNumber()
-  @IsNotEmpty()
   @Column()
   namecardId: number;
 
