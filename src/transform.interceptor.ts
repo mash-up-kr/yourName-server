@@ -23,14 +23,27 @@ export class TransformInterceptor<T>
   ): Observable<Response<T>> {
     const statusCode: number = context.getArgs()[1].statusCode;
 
-    return next
-      .handle()
-      .pipe(
-        map((data) =>
-          data
-            ? { statusCode: statusCode, message: 'Success', data: data }
-            : { statusCode: statusCode, message: 'Success', data: {} },
-        ),
-      );
+    return next.handle().pipe(
+      map((data) => {
+        if (data) {
+          if (data.length >= 0) {
+            if (data.length == 0)
+              return {
+                statusCode: statusCode,
+                message: 'Success',
+                data: { list: [] },
+              };
+            return {
+              statusCode: statusCode,
+              message: 'Success',
+              data: { list: data },
+            };
+          }
+          return { statusCode: statusCode, message: 'Success', data: data };
+        } else {
+          return { statusCode: statusCode, message: 'Success', data: {} };
+        }
+      }),
+    );
   }
 }
