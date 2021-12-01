@@ -41,7 +41,7 @@ export class NameCardController {
   async getMyNameCards(@Req() req: any) {
     const namecards: NameCardSchema[] =
       await this.nameCardService.getMyNameCards(req.user.userId);
-    if (namecards.length == 0) return;
+    if (namecards.length == 0) return { list: [] };
     return { list: namecards };
   }
 

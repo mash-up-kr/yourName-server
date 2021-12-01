@@ -31,7 +31,7 @@ export class CollectionController {
   async getCollections(@Req() req: any) {
     const collections: CollectionSchema[] =
       await this.collectionService.getCollections(req.user.userId);
-    if (collections.length == 0) return;
+    if (collections.length == 0) return { list: [] };
     return { list: collections };
   }
 
@@ -107,7 +107,7 @@ export class CollectionController {
   async getAllNamecards(@Req() req: any) {
     const namecards: NameCardSchema[] =
       await this.collectionService.getAllNamecards(req.user.userId);
-    if (namecards.length == 0) return;
+    if (namecards.length == 0) return { list: [] };
     return { list: namecards };
   }
 
@@ -118,7 +118,7 @@ export class CollectionController {
   ) {
     const namecards: NameCardSchema[] =
       await this.collectionService.getNamecardsFromCollection(collectionId);
-    if (namecards.length == 0) return;
+    if (namecards.length == 0) return { list: [] };
     return { list: namecards };
   }
 
