@@ -11,7 +11,7 @@ import { UpsertCollectionDto } from './dto/upsert-collection.dto';
 import { BgColor } from 'src/entities/bg-color.entity';
 import {
   BgColorSchema,
-  NameCardSchema,
+  ParticularNameCardSchema,
 } from 'src/interfaces/namecard.interface';
 import { CollectionSchema } from 'src/interfaces/collection.interface';
 import { NameCardService } from '../name-cards/name-cards.service';
@@ -80,7 +80,7 @@ export class CollectionService {
   async createCollection(
     userId: number,
     collectionData: UpsertCollectionDto,
-  ): Promise<Collection> {
+  ): Promise<number> {
     try {
       const user: User = await this.userRepository.findOne({
         where: { id: userId },
@@ -96,7 +96,11 @@ export class CollectionService {
         bgColor: bgColor,
       });
 
-      return await this.collectionRepository.save(collection);
+      const savedCollection: Collection = await this.collectionRepository.save(
+        collection,
+      );
+
+      return savedCollection.id;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -231,7 +235,7 @@ export class CollectionService {
     }
   }
 
-  async getAllNamecards(userId: number): Promise<NameCardSchema[]> {
+  async getAllNamecards(userId: number): Promise<ParticularNameCardSchema[]> {
     try {
       const getNamecardFromCollectionNamecards: NameCard[] =
         await getConnection()
@@ -248,7 +252,7 @@ export class CollectionService {
       return Promise.all(
         getNamecardFromCollectionNamecards.map((namecard) =>
           this.namecardService
-            .getNamecardByUniqueCode(namecard.uniqueCode)
+            .getNamecardByUniqueCode(userId, namecard.uniqueCode)
             .then((res) => res),
         ),
       );
@@ -258,8 +262,9 @@ export class CollectionService {
   }
 
   async getNamecardsFromCollection(
+    userId: number,
     collectionId: number,
-  ): Promise<NameCardSchema[]> {
+  ): Promise<ParticularNameCardSchema[]> {
     try {
       const namecardsFromCollectionNamecard: NameCard[] = await getConnection()
         .createQueryBuilder()
@@ -275,7 +280,7 @@ export class CollectionService {
         namecardsFromCollectionNamecard.map(
           async (namecard) =>
             await this.namecardService
-              .getNamecardByUniqueCode(namecard.uniqueCode)
+              .getNamecardByUniqueCode(userId, namecard.uniqueCode)
               .then((res) => res),
         ),
       );

@@ -15,6 +15,11 @@ export interface NameCardSchema {
   personalSkills: PersonalSkillSchema[];
 }
 
+export interface ParticularNameCardSchema {
+  nameCard: NameCardSchema;
+  isAdded: boolean;
+}
+
 export interface BgColorSchema {
   id: number;
   value: string[];

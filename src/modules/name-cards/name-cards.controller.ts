@@ -10,7 +10,6 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { NameCardSchema } from 'src/interfaces/namecard.interface';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
@@ -29,20 +28,16 @@ export class NameCardController {
     @Req() req: any,
     @Body() createNameCardDto: CreateNameCardDto,
   ) {
-    const nameCard = await this.nameCardService.createNameCard(
+    return await this.nameCardService.createNameCard(
       req.user.userId,
       createNameCardDto,
     );
-    return { nameCardId: nameCard.id };
   }
 
   @Get()
   @ApiDocs.getMyNameCards('내가 생성한 명함 가져오기')
   async getMyNameCards(@Req() req: any) {
-    const namecards: NameCardSchema[] =
-      await this.nameCardService.getMyNameCards(req.user.userId);
-    if (namecards.length == 0) return { list: [] };
-    return { list: namecards };
+    return await this.nameCardService.getMyNameCards(req.user.userId);
   }
 
   @Get('/:namecardUniqueCode')
@@ -51,16 +46,10 @@ export class NameCardController {
     @Param('namecardUniqueCode') uniqueCode: string,
     @Req() req: any,
   ) {
-    const nameCard: NameCardSchema =
-      await this.nameCardService.getNamecardByUniqueCode(uniqueCode);
-
-    if (!nameCard) return;
-
-    const isAdded: boolean = await this.nameCardService.isAddedNameCard(
+    return await this.nameCardService.getNamecardByUniqueCode(
       req.user.userId,
-      nameCard,
+      uniqueCode,
     );
-    return { nameCard, isAdded: isAdded };
   }
 
   @Put(':namecardUniqueCode')

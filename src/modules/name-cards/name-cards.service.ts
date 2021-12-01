@@ -22,6 +22,7 @@ import {
   BgColorSchema,
   ContactSchema,
   NameCardSchema,
+  ParticularNameCardSchema,
   PersonalSkillSchema,
   TmiSchema,
 } from 'src/interfaces/namecard.interface';
@@ -94,7 +95,10 @@ export class NameCardService {
     return nameCards;
   }
 
-  async getNamecardByUniqueCode(uniqueCode: string): Promise<NameCardSchema> {
+  async getNamecardByUniqueCode(
+    userId: number,
+    uniqueCode: string,
+  ): Promise<ParticularNameCardSchema> {
     try {
       const namecardToFind: NameCard = await this.nameCardRepository.findOne({
         where: { uniqueCode: uniqueCode },
@@ -122,7 +126,7 @@ export class NameCardService {
       const personalSkills: PersonalSkillSchema[] =
         this._formattingPersonalSkill(namecardToFind);
 
-      return {
+      const namecardToReturn: NameCardSchema = {
         id: namecardToFind.id,
         name: namecardToFind.name,
         role: namecardToFind.role,
@@ -136,6 +140,13 @@ export class NameCardService {
         tmis,
         personalSkills,
       };
+
+      const isAdded: boolean = await this.isAddedNameCard(
+        userId,
+        namecardToReturn,
+      );
+
+      return { nameCard: namecardToReturn, isAdded: isAdded };
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -171,7 +182,7 @@ export class NameCardService {
   async createNameCard(
     userId: number,
     createNameCardDto: CreateNameCardDto,
-  ): Promise<NameCard> {
+  ): Promise<number> {
     const { contacts, tmiIds, skills, imageKey, ...nameCardData } =
       createNameCardDto;
     try {
@@ -198,7 +209,11 @@ export class NameCardService {
         this._updateUserOnboarding(userId, 'makeThreeNameCards'),
       ]);
 
-      return await this.nameCardRepository.findOne(nameCard.id);
+      const nameCardToReturn: NameCard = await this.nameCardRepository.findOne(
+        nameCard.id,
+      );
+
+      return nameCardToReturn.id;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
