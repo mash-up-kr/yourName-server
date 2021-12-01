@@ -15,6 +15,7 @@ import { CollectionModule } from './modules/collection/collection.module';
 import { UsersModule } from './modules/users/users.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './transform.interceptor';
+import { IdCastInterceptor } from './id-cast.interceptor';
 
 @Module({
   imports: [
@@ -43,6 +44,10 @@ import { TransformInterceptor } from './transform.interceptor';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: IdCastInterceptor,
+    },
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
