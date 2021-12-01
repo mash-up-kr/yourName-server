@@ -322,7 +322,7 @@ export class NameCardService {
   async _saveSkills(nameCardId: number, skills = []) {
     try {
       await Promise.all(
-        skills.map(async (skill) => {
+        skills.map(async (skill, order) => {
           let _skill = await this.skillRepository.findOne({ name: skill.name });
           if (!_skill) {
             _skill = await this.skillRepository.save({ name: skill.name });
@@ -332,7 +332,7 @@ export class NameCardService {
             namecardId: nameCardId,
             skillId: _skill.id,
             level: skill.level,
-            order: skill.order,
+            order,
           });
         }),
       );

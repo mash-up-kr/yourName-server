@@ -40,7 +40,6 @@ export class CreateNameCardDto extends PickType(NameCard, [
       {
         name: '죽은 척 하기',
         level: 2,
-        order: 1,
       },
     ],
   })
