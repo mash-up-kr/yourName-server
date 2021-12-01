@@ -42,7 +42,7 @@ export class CreateInitialBgColorData implements Seeder {
           id: 8,
           color1: '#A6E9FF',
           color2: '#CFFDBA',
-          userOnboardingField: 'shareNameCard',
+          userOnboardingField: 'shareMyNameCard',
         },
         {
           id: 9,
@@ -50,14 +50,14 @@ export class CreateInitialBgColorData implements Seeder {
           color2: '#CFFDBA',
           color3: '#B4ECFE',
           color4: '#FFCBFD',
-          userOnboardingField: 'addNameCollectionNameCard',
+          userOnboardingField: 'addFriendNameCard',
         },
         {
           id: 10,
           color1: '#FFC5C5',
           color2: '#FFF199',
           color3: '#BFFFA1',
-          userOnboardingField: 'makeCollection',
+          userOnboardingField: 'makeNewCollection',
         },
         {
           id: 11,
@@ -66,7 +66,7 @@ export class CreateInitialBgColorData implements Seeder {
           color3: '#FFCFCF',
           color4: '#FFF4AB',
           color5: '#D9FFC8',
-          userOnboardingField: 'makeNamCards',
+          userOnboardingField: 'makeThreeNameCards',
         },
       ])
       .execute();
