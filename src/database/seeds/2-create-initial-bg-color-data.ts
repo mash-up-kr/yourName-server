@@ -38,12 +38,12 @@ export class CreateInitialBgColorData implements Seeder {
           color2: '#B4ECFE',
           userOnboardingField: 'makeFirstNameCard',
         },
-        {
-          id: 8,
-          color1: '#A6E9FF',
-          color2: '#CFFDBA',
-          userOnboardingField: 'shareMyNameCard',
-        },
+        // {
+        //   id: 8,
+        //   color1: '#A6E9FF',
+        //   color2: '#CFFDBA',
+        //   userOnboardingField: 'shareMyNameCard',
+        // },
         {
           id: 9,
           color1: '#FFF3A6',
