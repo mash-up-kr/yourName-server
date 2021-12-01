@@ -18,10 +18,10 @@ export class UserOnboarding extends BaseEntity {
   @Column({ default: 'WAIT' })
   makeFirstNameCard: userOnboardingStatusType;
 
-  @IsNotEmpty()
-  @IsString()
-  @Column({ default: 'WAIT' })
-  shareMyNameCard: userOnboardingStatusType;
+  // @IsNotEmpty()
+  // @IsString()
+  // @Column({ default: 'WAIT' })
+  // shareMyNameCard: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
