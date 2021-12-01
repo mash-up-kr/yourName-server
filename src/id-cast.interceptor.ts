@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const idRegexp = /Id$/;
+const idRegexp = /Ids?$/;
 
 @Injectable()
 export class IdCastInterceptor implements NestInterceptor {
