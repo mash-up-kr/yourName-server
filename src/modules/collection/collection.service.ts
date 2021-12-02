@@ -43,13 +43,33 @@ export class CollectionService {
         where: { userId: userId },
         relations: ['bgColor'],
       });
+
+      const collectionOfAllNamecards: CollectionSchema =
+        await this._getCollectionOfAllNamecards(userId);
       const formattedCollections: CollectionSchema[] =
         await this._formattingCollectionRes(userId, collections);
+      formattedCollections.push(collectionOfAllNamecards);
 
       return formattedCollections;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  async _getCollectionOfAllNamecards(
+    userId: number,
+  ): Promise<CollectionSchema> {
+    const namecards: ParticularNameCardSchema[] = await this.getAllNamecards(
+      userId,
+    );
+
+    return {
+      id: null,
+      name: '전체 미츄',
+      description: null,
+      bgColor: null,
+      numberOfNameCards: namecards.length,
+    };
   }
 
   async _formattingCollectionRes(
@@ -67,7 +87,6 @@ export class CollectionService {
           description: collection.description,
           bgColor: this._formattingCollectionBgColor(collection),
           numberOfNameCards: namecards.length,
-          hey: 1,
         };
       }),
     );
