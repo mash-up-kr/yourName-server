@@ -12,33 +12,43 @@ const idRegexp = /Ids?$/;
 @Injectable()
 export class IdCastInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const query = context.switchToHttp().getRequest().query;
-    const body = context.switchToHttp().getRequest().body;
-
-    Object.keys(query).map((key) => {
-      if (key === 'id' || idRegexp.test(key)) query[key] = parseInt(query[key]);
-    });
-    Object.keys(body).map((key) => {
-      if (key === 'id' || idRegexp.test(key)) body[key] = parseInt(body[key]);
-    });
-
+    const request = context.switchToHttp().getRequest()
+    const body = request.body;
+    requestCasting(body)
+    
     return next.handle().pipe(
       map((data) => {
-        castId(data);
+        responseCasting(data);
         return data;
       }),
     );
   }
 }
 
-function castId(data) {
+function requestCasting(data) {
   Object.keys(data).map((key) => {
-    if (key === 'id' || idRegexp.test(key)) {
-      data[key] = `${data[key]}`;
+    if (key === 'id') {
+      data[key] = parseInt(data[key]);
+    } else if (idRegexp.test(key)) {
+      data[key] = data[key].map(id => parseInt(id));
     } else if (typeof data[key] === 'object' && Array.isArray(data[key])) {
-      data[key].map((_data) => castId(_data));
+      data[key].map((_data) => requestCasting(_data));
     } else if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
-      castId(data[key]);
+      requestCasting(data[key]);
+    }
+  });
+}
+
+function responseCasting(data) {
+  Object.keys(data).map((key) => {
+    if (key === 'id') {
+      data[key] = `${data[key]}`;
+    } else if (idRegexp.test(key)) {
+      data[key] = data[key].map(id => `${id}`);
+    } else if (typeof data[key] === 'object' && Array.isArray(data[key])) {
+      data[key].map((_data) => responseCasting(_data));
+    } else if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
+      responseCasting(data[key]);
     }
   });
 }
