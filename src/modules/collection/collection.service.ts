@@ -155,7 +155,7 @@ export class CollectionService {
         });
       await this.collectionNameCardRepository.save(defaultCollection);
 
-      return Promise.all(
+      return await Promise.all(
         addNameCardToCollectionsData.collectionIds.map((collectionId: number) =>
           this._saveNamecardToCollections(
             user,
@@ -200,7 +200,7 @@ export class CollectionService {
       const collectionToAdd: Collection =
         await this.collectionRepository.findOne({ id: collectionId });
 
-      return Promise.all(
+      return await Promise.all(
         addNamecardsToCollectionData.namecardIds.map((namecardId: number) =>
           this._saveNamecardsToCollection(
             user,
@@ -249,7 +249,7 @@ export class CollectionService {
           .groupBy('nameCardId')
           .execute();
 
-      return Promise.all(
+      return await Promise.all(
         getNamecardFromCollectionNamecards.map((namecard) =>
           this.namecardService
             .getNamecardByUniqueCode(userId, namecard.uniqueCode)
@@ -276,7 +276,7 @@ export class CollectionService {
         })
         .execute();
 
-      return Promise.all(
+      return await Promise.all(
         namecardsFromCollectionNamecard.map(
           async (namecard) =>
             await this.namecardService
@@ -294,7 +294,7 @@ export class CollectionService {
     removeNamecardsFromCollectionDto: AddAndRemoveNamecardsDto,
   ): Promise<void> {
     try {
-      Promise.all(
+      await Promise.all(
         removeNamecardsFromCollectionDto.namecardIds.map(
           async (namecardId) =>
             await getConnection()
@@ -318,7 +318,7 @@ export class CollectionService {
     removeNamecardsFromCollectionDto: AddAndRemoveNamecardsDto,
   ): Promise<void> {
     try {
-      Promise.all(
+      await Promise.all(
         removeNamecardsFromCollectionDto.namecardIds.map(
           async (namecardId) =>
             await getConnection()
@@ -335,6 +335,7 @@ export class CollectionService {
               .execute(),
         ),
       );
+      console.log('done')
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
