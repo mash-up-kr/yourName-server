@@ -21,6 +21,9 @@ class CollectionResponseSchema extends PickType(Collection, [
 ]) {
   @ApiProperty()
   bgColor: BgColorResponseSchema;
+
+  @ApiProperty({ example: 3 })
+  numberOfNameCards: number;
 }
 
 class ListCollectionResponseSchema {
