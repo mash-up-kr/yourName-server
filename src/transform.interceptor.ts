@@ -25,22 +25,29 @@ export class TransformInterceptor<T>
 
     return next.handle().pipe(
       map((data) => {
+        //data에 값이 있을 때
         if (data) {
-          if (data.length >= 0) {
+          //data가 배열 형식일 때
+          if (Array.isArray(data)) {
+            //빈 배열일 때
             if (data.length == 0)
               return {
                 statusCode: statusCode,
                 message: 'Success',
                 data: { list: [] },
               };
+            //배열에 값이 있을 때
             return {
               statusCode: statusCode,
               message: 'Success',
               data: { list: data },
             };
           }
+          //data가 배열 형식이 아닐 때
           return { statusCode: statusCode, message: 'Success', data: data };
-        } else {
+        }
+        //data에 값이 없을 때
+        else {
           return { statusCode: statusCode, message: 'Success', data: {} };
         }
       }),
