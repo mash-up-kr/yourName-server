@@ -44,7 +44,7 @@ export class CollectionService {
         relations: ['bgColor'],
       });
       const formattedCollections: CollectionSchema[] =
-        this._formattingCollectionRes(collections);
+        await this._formattingCollectionRes(userId, collections);
 
       return formattedCollections;
     } catch (err) {
@@ -52,19 +52,25 @@ export class CollectionService {
     }
   }
 
-  _formattingCollectionRes(collections: Collection[]): CollectionSchema[] {
-    const formattedCollections: CollectionSchema[] = collections.map(
-      (collection) => {
+  async _formattingCollectionRes(
+    userId: number,
+    collections: Collection[],
+  ): Promise<CollectionSchema[]> {
+    return await Promise.all(
+      collections.map(async (collection) => {
+        const namecards: ParticularNameCardSchema[] =
+          await this.getNamecardsFromCollection(userId, collection.id);
+
         return {
           id: collection.id,
           name: collection.name,
           description: collection.description,
           bgColor: this._formattingCollectionBgColor(collection),
+          numberOfNameCards: namecards.length,
+          hey: 1,
         };
-      },
+      }),
     );
-
-    return formattedCollections;
   }
 
   _formattingCollectionBgColor(collection: Collection): BgColorSchema {

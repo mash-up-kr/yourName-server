@@ -5,4 +5,5 @@ export interface CollectionSchema {
   name: string;
   description: string;
   bgColor: BgColorSchema;
+  numberOfNameCards: number;
 }
