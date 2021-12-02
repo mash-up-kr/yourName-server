@@ -335,7 +335,6 @@ export class CollectionService {
               .execute(),
         ),
       );
-      console.log('done')
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
