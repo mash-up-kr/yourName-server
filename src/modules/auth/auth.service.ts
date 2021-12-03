@@ -43,7 +43,7 @@ export class AuthService {
     user = new User();
     user.userIdentifier = userIdentifier;
     user.providerName = providerName;
-    await this.userRepository.save(user);
+    user = await this.userRepository.save(user);
 
     const userOnboarding = new UserOnboarding();
     userOnboarding.userId = user.id;
