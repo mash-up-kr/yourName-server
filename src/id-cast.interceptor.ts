@@ -15,7 +15,7 @@ export class IdCastInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest()
     const body = request.body;
-    requestCasting(body)
+    requestCasting(body);
     
     return next.handle().pipe(
       map((data) => {
@@ -29,7 +29,7 @@ export class IdCastInterceptor implements NestInterceptor {
 function requestCasting(data) {
   Object.keys(data).map((key) => {
     if(!data[key]) {
-      return
+      return;
     }
     
     if (idRegexp.test(key)) {
@@ -47,7 +47,7 @@ function requestCasting(data) {
 function responseCasting(data) {
   Object.keys(data).map((key) => {
     if(!data[key]) {
-      return
+      return;
     }
     
     if (idRegexp.test(key)) {
