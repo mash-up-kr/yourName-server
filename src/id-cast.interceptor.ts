@@ -7,7 +7,8 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const idRegexp = /Ids?$/;
+const idRegexp = /id$/i;
+const idsRegexp = /Ids$/;
 
 @Injectable()
 export class IdCastInterceptor implements NestInterceptor {
@@ -27,9 +28,13 @@ export class IdCastInterceptor implements NestInterceptor {
 
 function requestCasting(data) {
   Object.keys(data).map((key) => {
-    if (key === 'id') {
+    if(!data[key]) {
+      return
+    }
+    
+    if (idRegexp.test(key)) {
       data[key] = parseInt(data[key]);
-    } else if (idRegexp.test(key)) {
+    } else if (idsRegexp.test(key)) {
       data[key] = data[key].map(id => parseInt(id));
     } else if (typeof data[key] === 'object' && Array.isArray(data[key])) {
       data[key].map((_data) => requestCasting(_data));
@@ -41,9 +46,13 @@ function requestCasting(data) {
 
 function responseCasting(data) {
   Object.keys(data).map((key) => {
-    if (key === 'id') {
+    if(!data[key]) {
+      return
+    }
+    
+    if (idRegexp.test(key)) {
       data[key] = `${data[key]}`;
-    } else if (idRegexp.test(key)) {
+    } else if (idsRegexp.test(key)) {
       data[key] = data[key].map(id => `${id}`);
     } else if (typeof data[key] === 'object' && Array.isArray(data[key])) {
       data[key].map((_data) => responseCasting(_data));
