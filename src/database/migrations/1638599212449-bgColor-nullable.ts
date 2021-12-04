@@ -1,17 +1,15 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class onboardingShareMyNameCardField1638410038165
-  implements MigrationInterface
-{
+export class bgColorNullable1638599212449 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      'ALTER TABLE `user_onboarding` DROP `shareMyNameCard`',
+      'ALTER TABLE name_card MODIFY COLUMN bgColorId int',
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      'ALTER TABLE `user_onboarding` ADD `shareMyNameCard`',
+      'ALTER TABLE name_card MODIFY COLUMN bgColorId int not null',
     );
   }
 }

@@ -4,20 +4,28 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
+import { Connection, getConnection, Repository } from 'typeorm';
+
+import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Contact } from 'src/entities/contact.entity';
 import { NameCardContact } from 'src/entities/name-card-contact.entity';
+import { UserOnboarding } from 'src/entities/user-onboarding.entity';
+import { PersonalSkill } from 'src/entities/personal-skill.entity';
 import { NameCardTmi } from 'src/entities/name-card-tmi.entity';
 import { NameCard } from 'src/entities/name-card.entity';
-import { PersonalSkill } from 'src/entities/personal-skill.entity';
+import { Contact } from 'src/entities/contact.entity';
 import { Skill } from 'src/entities/skill.entity';
+import { Image } from 'src/entities/image.entity';
 import { Tmi } from 'src/entities/tmi.entity';
-import { UserOnboarding } from 'src/entities/user-onboarding.entity';
-import { Connection, getConnection, Repository } from 'typeorm';
+
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
+
 import { userOnboardingType } from 'src/types/onBoarding.types';
-import { Image } from 'src/entities/image.entity';
+import {
+  defaultBgColor,
+  defaulImageKey,
+} from 'src/constants/name-card.constant';
 import {
   BgColorSchema,
   ContactSchema,
@@ -26,7 +34,6 @@ import {
   PersonalSkillSchema,
   TmiSchema,
 } from 'src/interfaces/namecard.interface';
-import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
 
 @Injectable()
 export class NameCardService {
@@ -341,6 +348,10 @@ export class NameCardService {
 
   async _saveImageKey(imageKey: string) {
     try {
+      if (!imageKey) {
+        return null;
+      }
+
       const savedImage = await this.ImageRepository.save({
         key: imageKey,
       });
@@ -436,12 +447,20 @@ export class NameCardService {
 
   _formattingImage(nameCard: NameCard): string {
     const prefixedImgUrl: string =
-      process.env.AWS_S3_PREFIX + nameCard.image.key;
+      process.env.AWS_S3_PREFIX +
+      (nameCard.imageId ? nameCard.image.key : defaulImageKey);
 
     return prefixedImgUrl;
   }
 
   _formattingBgColor(nameCard: NameCard): BgColorSchema {
+    if (!nameCard.bgColorId) {
+      return {
+        id: null,
+        value: defaultBgColor,
+      };
+    }
+
     const value = [
       ...Object.keys(nameCard.bgColor)
         .filter((key) => key.includes('color'))

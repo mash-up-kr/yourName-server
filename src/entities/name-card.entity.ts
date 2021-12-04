@@ -55,8 +55,8 @@ export class NameCard extends DateTimeEntity {
 
   @ApiProperty({ example: 1 })
   @IsNumber()
-  @IsNotEmpty()
-  @Column()
+  @IsOptional()
+  @Column({ nullable: true })
   bgColorId: number;
 
   @IsOptional()
