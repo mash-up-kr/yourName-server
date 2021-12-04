@@ -23,7 +23,7 @@ exports.handler = async (event) => {
     .putObject({
       Bucket,
       Body: resizedImage,
-      key: `resized/${filename}`,
+      Key: `resized/${filename}`,
     })
     .promise();
 };
