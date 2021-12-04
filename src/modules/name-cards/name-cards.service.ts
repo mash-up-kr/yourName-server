@@ -216,11 +216,7 @@ export class NameCardService {
         this._updateUserOnboarding(userId, 'makeThreeNameCards'),
       ]);
 
-      const nameCardToReturn: NameCard = await this.nameCardRepository.findOne(
-        nameCard.id,
-      );
-
-      return nameCardToReturn.id;
+      return nameCard.id;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
