@@ -4,12 +4,13 @@ import {
   Get,
   Post,
   Param,
-  Req,
   Put,
   UseGuards,
   Delete,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthUser } from 'src/common/decorators/auth.decorator';
+import { User } from 'src/entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardDto } from './dto/create-name-card.dto';
 import { UpdateNameCardDto } from './dto/update-name-card.dto';
@@ -25,29 +26,29 @@ export class NameCardController {
   @Post()
   @ApiDocs.createNameCard('내 명함 생성')
   async createNameCard(
-    @Req() req: any,
+    @AuthUser() user: User,
     @Body() createNameCardDto: CreateNameCardDto,
   ) {
     return await this.nameCardService.createNameCard(
-      req.user.userId,
+      user.id,
       createNameCardDto,
     );
   }
 
   @Get()
   @ApiDocs.getMyNameCards('내가 생성한 명함 가져오기')
-  async getMyNameCards(@Req() req: any) {
-    return await this.nameCardService.getMyNameCards(req.user.userId);
+  async getMyNameCards(@AuthUser() user: User) {
+    return await this.nameCardService.getMyNameCards(user.id);
   }
 
   @Get('/:namecardUniqueCode')
   @ApiDocs.getNamecardByUniqueCode('특정 명함 조회')
   async getNamecardByUniqueCode(
     @Param('namecardUniqueCode') uniqueCode: string,
-    @Req() req: any,
+    @AuthUser() user: User,
   ) {
     return await this.nameCardService.getNamecardByUniqueCode(
-      req.user.userId,
+      user.id,
       uniqueCode,
     );
   }

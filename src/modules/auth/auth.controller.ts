@@ -1,4 +1,4 @@
-import { Controller, Req, Post, UseGuards, Delete, Body } from '@nestjs/common';
+import { Controller, Post, UseGuards, Delete, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppleAuthGuard } from './guards/apple-auth.guard';
 import { ApiDocs } from './auth.docs';
@@ -7,6 +7,8 @@ import { JwtRefreshGuard } from './guards/jwt-refresh-auth.guard';
 import { KakaoAuthGuard } from './guards/kakao-auth.guard';
 import { ProviderDataSchema } from '../../interfaces/auth.interface';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { AuthUser } from 'src/common/decorators/auth.decorator';
+import { User } from 'src/entities/user.entity';
 
 @Controller()
 @ApiTags('Auth - 인증')
@@ -38,21 +40,21 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   @ApiDocs.logout('로그아웃')
-  async logout(@Req() req: any): Promise<void> {
-    await this.authService.logout(req.user.userId);
+  async logout(@AuthUser() user: User): Promise<void> {
+    await this.authService.logout(user.id);
   }
 
   @UseGuards(JwtRefreshGuard)
   @Post('token-refresh')
   @ApiDocs.refreshToken('토큰 리프레시')
-  async refreshToken(@Req() req: any) {
-    return await this.authService.refresh(req.user);
+  async refreshToken(@AuthUser() user: User) {
+    return await this.authService.refresh(user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('users')
   @ApiDocs.removeUser('회원 탈퇴')
-  async removeUser(@Req() req: any) {
-    return await this.authService.removeUser(req.user.userId);
+  async removeUser(@AuthUser() user: User) {
+    return await this.authService.removeUser(user.id);
   }
 }
