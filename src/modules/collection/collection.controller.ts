@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -16,6 +15,8 @@ import { CollectionService } from './collection.service';
 import { AddNamecardToCollectionsDto } from './dto/add-namecard-to-collections.dto';
 import { AddAndRemoveNamecardsDto } from './dto/add-and-remove-namecards.dto';
 import { UpsertCollectionDto } from './dto/upsert-collection.dto';
+import { AuthUser } from 'src/common/decorators/auth.decorator';
+import { User } from 'src/entities/user.entity';
 
 @ApiTags('Collection - 도감')
 @Controller('collections')
@@ -25,8 +26,8 @@ export class CollectionController {
 
   @Get()
   @ApiDocs.getCollections('도감들 조회')
-  async getCollections(@Req() req: any) {
-    return await this.collectionService.getCollections(req.user.userId);
+  async getCollections(@AuthUser() user: User) {
+    return await this.collectionService.getCollections(user.id);
   }
 
   @Put('/:collectionId')
@@ -44,11 +45,11 @@ export class CollectionController {
   @Post()
   @ApiDocs.createCollection('도감 생성')
   async createCollection(
-    @Req() req: any,
+    @AuthUser() user: User,
     @Body() updateCollectionDto: UpsertCollectionDto,
   ) {
     return await this.collectionService.createCollection(
-      req.user.userId,
+      user.id,
       updateCollectionDto,
     );
   }
@@ -62,12 +63,12 @@ export class CollectionController {
   @Post('/namecards/:namecardUniqueCode')
   @ApiDocs.addNamecardToCollections('도감들에 명함 추가')
   async addNamecardToCollections(
-    @Req() req: any,
+    @AuthUser() user: User,
     @Body() addNameCardToCollectionsData: AddNamecardToCollectionsDto,
     @Param('namecardUniqueCode') namecardUniqueCode: string,
   ) {
     return await this.collectionService.addNamecardToCollections(
-      req.user.userId,
+      user.id,
       addNameCardToCollectionsData,
       namecardUniqueCode,
     );
@@ -76,12 +77,12 @@ export class CollectionController {
   @Post('/:collectionId/namecards')
   @ApiDocs.addNamecardsToCollection('도감에 명함들 추가')
   async addNamecardsToCollection(
-    @Req() req: any,
+    @AuthUser() user: User,
     @Param('collectionId') collectionId: number,
     @Body() addNamecardsToCollectionData: AddAndRemoveNamecardsDto,
   ) {
     return await this.collectionService.addNamecardsToCollection(
-      req.user.userId,
+      user.id,
       collectionId,
       addNamecardsToCollectionData,
     );
@@ -89,18 +90,18 @@ export class CollectionController {
 
   @Get('/namecards')
   @ApiDocs.getAllNamecards('전체 명함 조회')
-  async getAllNamecards(@Req() req: any) {
-    return await this.collectionService.getAllNamecards(req.user.userId);
+  async getAllNamecards(@AuthUser() user: User) {
+    return await this.collectionService.getAllNamecards(user.id);
   }
 
   @Get('/:collectionId/namecards')
   @ApiDocs.getNamecardsFromCollection('도감의 명함들 조회')
   async getNamecardsFromCollection(
-    @Req() req: any,
+    @AuthUser() user: User,
     @Param('collectionId') collectionId: number,
   ) {
     return await this.collectionService.getNamecardsFromCollection(
-      req.user.userId,
+      user.id,
       collectionId,
     );
   }
@@ -108,11 +109,11 @@ export class CollectionController {
   @Delete('/all/namecards')
   @ApiDocs.deleteNamecardFromAllCollection('전체 도감에서 명함들 제거')
   async deleteNamecardFromAllCollection(
-    @Req() req: any,
+    @AuthUser() user: User,
     @Body() removeNamecardsFromCollectionDto: AddAndRemoveNamecardsDto,
   ) {
     await this.collectionService.deleteNamecardFromAllCollection(
-      req.user.userId,
+      user.id,
       removeNamecardsFromCollectionDto,
     );
   }

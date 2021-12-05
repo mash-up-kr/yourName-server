@@ -25,7 +25,7 @@ export class User extends BaseEntity {
     example: 'Kakao or Apple',
   })
   @Column()
-  providerName: string;
+  providerName?: string;
 
   @IsString()
   @IsOptional()
@@ -33,5 +33,5 @@ export class User extends BaseEntity {
   refreshToken?: string;
 
   @OneToOne(() => UserOnboarding)
-  onboarding: UserOnboarding;
+  onboarding?: UserOnboarding;
 }
