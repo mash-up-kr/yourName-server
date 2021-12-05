@@ -1,4 +1,4 @@
-import { Controller, Req, Post, UseGuards, Delete } from '@nestjs/common';
+import { Controller, Req, Post, UseGuards, Delete, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppleAuthGuard } from './guards/apple-auth.guard';
 import { ApiDocs } from './auth.docs';
@@ -16,8 +16,7 @@ export class AuthController {
   @UseGuards(KakaoAuthGuard)
   @Post('kakao-login')
   @ApiDocs.kakaoLogin('카카오 로그인')
-  async kakaoLogin(@Req() req: any) {
-    const kakaoData: ProviderDataSchema = req.body.kakaoData;
+  async kakaoLogin(@Body('kakaoData') kakaoData: ProviderDataSchema) {
     const user = await this.authService.createUser(
       kakaoData.userIdentifier,
       kakaoData.providerName,
@@ -28,8 +27,7 @@ export class AuthController {
   @UseGuards(AppleAuthGuard)
   @Post('apple-login')
   @ApiDocs.appleLogin('애플 로그인')
-  async appleLogin(@Req() req: any) {
-    const appleData: ProviderDataSchema = req.body.appleData;
+  async appleLogin(@Body('appleData') appleData: ProviderDataSchema) {
     const user = await this.authService.createUser(
       appleData.userIdentifier,
       appleData.providerName,
