@@ -44,7 +44,7 @@ export class BgColor extends BaseEntity {
     | 'makeFirstNameCard'
     // | 'shareMyNameCard'
     | 'addFriendNameCard'
-    | 'makeNewCollection'
+    | 'saveMeetuImage'
     | 'makeThreeNameCards';
 
   @IsOptional()
