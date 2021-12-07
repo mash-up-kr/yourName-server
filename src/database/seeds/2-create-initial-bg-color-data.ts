@@ -57,7 +57,7 @@ export class CreateInitialBgColorData implements Seeder {
           color1: '#FFC5C5',
           color2: '#FFF199',
           color3: '#BFFFA1',
-          userOnboardingField: 'makeNewCollection',
+          userOnboardingField: 'saveMeetuImage',
         },
         {
           id: 11,
