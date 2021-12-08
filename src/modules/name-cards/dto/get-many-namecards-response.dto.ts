@@ -11,7 +11,12 @@ class PersonalSillResponseSchema extends PickType(PersonalSkill, ['level']) {
   name: string;
 }
 
-class TmiResponseSchema extends PickType(Tmi, ['type', 'name', 'iconUrl']) {}
+class TmiResponseSchema extends PickType(Tmi, [
+  'id',
+  'type',
+  'name',
+  'iconUrl',
+]) {}
 
 class ContactResponseSchema extends PickType(Contact, ['category', 'iconUrl']) {
   @ApiProperty({ example: 'jkl9510357@gmail.com' })
