@@ -4,5 +4,5 @@ export type userOnboardingType =
   | 'makeFirstNameCard'
   | 'shareMyNameCard'
   | 'addFriendNameCard'
-  | 'makeNewCollection'
+  // | 'makeNewCollection'
   | 'makeThreeNameCards';

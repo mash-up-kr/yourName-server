@@ -28,10 +28,10 @@ export class UserOnboarding extends BaseEntity {
   @Column({ default: 'WAIT' })
   addFriendNameCard: userOnboardingStatusType;
 
-  @IsNotEmpty()
-  @IsString()
-  @Column({ default: 'WAIT' })
-  makeNewCollection: userOnboardingStatusType;
+  // @IsNotEmpty()
+  // @IsString()
+  // @Column({ default: 'WAIT' })
+  // makeNewCollection: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
