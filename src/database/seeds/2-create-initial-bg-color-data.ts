@@ -42,7 +42,7 @@ export class CreateInitialBgColorData implements Seeder {
           id: 8,
           color1: '#A6E9FF',
           color2: '#CFFDBA',
-          userOnboardingField: 'shareMyNameCard',
+          userOnboardingField: 'saveMeetuMyAlbum',
         },
         {
           id: 9,
