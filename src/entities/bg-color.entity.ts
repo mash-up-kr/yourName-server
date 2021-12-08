@@ -42,7 +42,7 @@ export class BgColor extends BaseEntity {
   @Column({ nullable: true })
   userOnboardingField?:
     | 'makeFirstNameCard'
-    // | 'shareMyNameCard'
+    | 'shareMyNameCard'
     | 'addFriendNameCard'
     | 'makeNewCollection'
     | 'makeThreeNameCards';
