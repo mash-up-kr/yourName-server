@@ -31,7 +31,7 @@ export class UserOnboarding extends BaseEntity {
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  saveMeetuImage: userOnboardingStatusType;
+  makeNewCollection: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()

@@ -2,7 +2,7 @@ export const OnboardingTitle = {
   makeFirstNameCard: '나의 첫 미츄 만들기',
   // shareMyNameCard: '나의 미츄 공유하기',
   addFriendNameCard: '친구 1명 추가하기',
-  saveMeetuImage: '나의 미츄 이미지로 저장하기',
+  makeNewCollection: '새로운 도감 만들기',
   makeThreeNameCards: '미츄 3개 이상 만들기',
 };
 
@@ -25,7 +25,7 @@ export const userOnboardingImgUrlMap = {
       'https://erme.s3.ap-northeast-2.amazonaws.com/user_onboarding/Gradient3_lock.png',
     DONE: 'https://erme.s3.ap-northeast-2.amazonaws.com/user_onboarding/Gradient3.png',
   },
-  saveMeetuImage: {
+  makeNewCollection: {
     WAIT: 'https://erme.s3.ap-northeast-2.amazonaws.com/user_onboarding/Gradient4_lock.png',
     DONE_WAIT:
       'https://erme.s3.ap-northeast-2.amazonaws.com/user_onboarding/Gradient4_lock.png',

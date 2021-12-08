@@ -4,5 +4,5 @@ export type userOnboardingType =
   | 'makeFirstNameCard'
   | 'shareMyNameCard'
   | 'addFriendNameCard'
-  | 'saveMeetuImage'
+  | 'makeNewCollection'
   | 'makeThreeNameCards';

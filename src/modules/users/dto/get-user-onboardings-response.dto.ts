@@ -4,7 +4,7 @@ import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 class GetsUserOnboardingSchema {
   @ApiProperty({
     example:
-      '( makeFirstNameCard | addFriendNameCard | saveMeetuImage | makeThreeNameCards ) / shareMyNameCard:현재 삭제',
+      '( makeFirstNameCard | addFriendNameCard | makeNewCollection | makeThreeNameCards ) / shareMyNameCard:현재 삭제',
   })
   key: string;
 
