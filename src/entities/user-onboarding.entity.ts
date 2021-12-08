@@ -21,7 +21,7 @@ export class UserOnboarding extends BaseEntity {
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  shareMyNameCard: userOnboardingStatusType;
+  saveMeetuMyAlbum: userOnboardingStatusType;
 
   @IsNotEmpty()
   @IsString()
