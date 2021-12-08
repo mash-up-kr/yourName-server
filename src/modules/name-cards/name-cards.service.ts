@@ -470,15 +470,17 @@ export class NameCardService {
   }
 
   _formattingContact(nameCard: NameCard): ContactSchema[] {
-    const contact = nameCard.contacts.map((contact) => {
-      return {
-        category: contact.contact.category,
-        value: contact.value,
-        iconUrl: contact.contact.iconUrl,
-      };
-    });
+    const contacts = nameCard.contacts
+      .sort((a, b) => a.contactId - b.contactId)
+      .map((contact) => {
+        return {
+          category: contact.contact.category,
+          value: contact.value,
+          iconUrl: contact.contact.iconUrl,
+        };
+      });
 
-    return contact;
+    return contacts;
   }
 
   _formattingTmi(nameCard: NameCard): TmiSchema[] {
