@@ -52,13 +52,13 @@ export class CreateInitialBgColorData implements Seeder {
           color4: '#FFCBFD',
           userOnboardingField: 'addFriendNameCard',
         },
-        {
-          id: 10,
-          color1: '#FFC5C5',
-          color2: '#FFF199',
-          color3: '#BFFFA1',
-          userOnboardingField: 'makeNewCollection',
-        },
+        // {
+        //   id: 10,
+        //   color1: '#FFC5C5',
+        //   color2: '#FFF199',
+        //   color3: '#BFFFA1',
+        //   userOnboardingField: 'makeNewCollection',
+        // },
         {
           id: 11,
           color1: '#DDB3FF',
