@@ -484,6 +484,7 @@ export class NameCardService {
   _formattingTmi(nameCard: NameCard): TmiSchema[] {
     const tmis = nameCard.tmis.map((tmi) => {
       return {
+        id: tmi.tmi.id,
         type: tmi.tmi.type,
         name: tmi.tmi.name,
         iconUrl: tmi.tmi.iconUrl,

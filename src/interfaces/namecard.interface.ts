@@ -32,6 +32,7 @@ export interface ContactSchema {
 }
 
 export interface TmiSchema {
+  id: number;
   type: string;
   name: string;
   iconUrl: string;
