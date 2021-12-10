@@ -70,6 +70,9 @@ class GetOneNameCardSchema {
 
   @ApiProperty({ example: false, description: '도감에 추가한 명함인지' })
   isAdded: boolean;
+
+  @ApiProperty({ example: true })
+  isMine: boolean;
 }
 
 export class GetOneNameCardResponseDto extends CommonResponseDto {
