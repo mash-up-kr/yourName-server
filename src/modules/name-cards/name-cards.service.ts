@@ -249,6 +249,7 @@ export class NameCardService {
       if (imageKey) {
         await this._updateImageKey(nameCardId, imageKey);
       }
+
       await Promise.all([
         this.nameCardRepository.update(nameCardId, nameCardData),
         this._saveContacts(nameCardId, contacts),
@@ -280,8 +281,11 @@ export class NameCardService {
     }
   }
 
-  async _saveContacts(nameCardId: number, contacts = []) {
+  async _saveContacts(nameCardId: number, contacts) {
     try {
+      if (!contacts) return;
+
+      await this.nameCardContactRepository.delete({ nameCardId });
       await Promise.all(
         contacts.map(async (contact) => {
           const _contact = await this.contactRepository.findOne({
@@ -297,6 +301,7 @@ export class NameCardService {
               HttpStatus.NOT_FOUND,
             );
           }
+
           await this.nameCardContactRepository.save({
             value: contact.value,
             nameCardId: nameCardId,
@@ -309,8 +314,11 @@ export class NameCardService {
     }
   }
 
-  async _saveTmis(nameCardId: number, tmiIds = []) {
+  async _saveTmis(nameCardId: number, tmiIds) {
     try {
+      if (!tmiIds) return;
+
+      await this.nameCardTmiRepository.delete({ nameCardId });
       await Promise.all(
         tmiIds.map(async (tmiId) => {
           const tmi = await this.tmiRepository.findOne(tmiId);
@@ -323,6 +331,7 @@ export class NameCardService {
               HttpStatus.NOT_FOUND,
             );
           }
+
           await this.nameCardTmiRepository.save({
             nameCardId: nameCardId,
             tmiId: tmi.id,
@@ -335,8 +344,11 @@ export class NameCardService {
   }
 
   // Promise.all([async () => {}, ...]) 형식이 resolve 순서가 보장이 안되서 for 사용해둔 상태
-  async _saveSkills(nameCardId: number, skills = []) {
+  async _saveSkills(nameCardId: number, skills) {
     try {
+      if (!skills) return;
+
+      await this.personalSkillRepository.delete({ namecardId: nameCardId });
       for (const skill of skills) {
         let _skill = await this.skillRepository.findOne({ name: skill.name });
         if (!_skill) {
