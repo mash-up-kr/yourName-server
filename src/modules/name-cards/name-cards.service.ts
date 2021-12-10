@@ -194,7 +194,10 @@ export class NameCardService {
       createNameCardDto;
     try {
       const uniqueCode = await this._getUniqueCode();
-      const imageId = await this._saveImageKey(imageKey);
+      let imageId: number;
+      if (imageKey) {
+        imageId = await this._saveImageKey(imageKey);
+      } else imageId = await this._saveImageKey(defaulImageKey);
 
       const nameCard = new NameCard();
       nameCard.name = nameCardData.name;
@@ -344,10 +347,6 @@ export class NameCardService {
 
   async _saveImageKey(imageKey: string) {
     try {
-      if (!imageKey) {
-        return null;
-      }
-
       const savedImage = await this.ImageRepository.save({
         key: imageKey,
       });
@@ -442,11 +441,9 @@ export class NameCardService {
   }
 
   _formattingImage(nameCard: NameCard): string {
-    const prefixedImgUrl: string =
-      process.env.AWS_S3_PREFIX +
-      (nameCard.imageId ? nameCard.image.key : defaulImageKey);
+    const imageUrl: string = process.env.AWS_S3_PREFIX + nameCard.image.key;
 
-    return prefixedImgUrl;
+    return imageUrl;
   }
 
   _formattingBgColor(nameCard: NameCard): BgColorSchema {
