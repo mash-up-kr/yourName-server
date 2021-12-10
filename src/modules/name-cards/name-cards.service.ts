@@ -153,7 +153,9 @@ export class NameCardService {
         namecardToReturn,
       );
 
-      return { nameCard: namecardToReturn, isAdded: isAdded };
+      const isMine: boolean = this.isMyNameCard(userId, namecardToReturn);
+
+      return { nameCard: namecardToReturn, isAdded: isAdded, isMine: isMine };
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -184,6 +186,13 @@ export class NameCardService {
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  isMyNameCard(userId: number, namecard: NameCardSchema): boolean {
+    if (userId == namecard.user.id) {
+      return true;
+    }
+    return false;
   }
 
   async createNameCard(
