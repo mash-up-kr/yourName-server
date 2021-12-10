@@ -18,6 +18,7 @@ export interface NameCardSchema {
 export interface ParticularNameCardSchema {
   nameCard: NameCardSchema;
   isAdded: boolean;
+  isMine: boolean;
 }
 
 export interface BgColorSchema {
