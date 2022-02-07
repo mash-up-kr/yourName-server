@@ -56,11 +56,11 @@ export class AuthService {
     const payload = { userId: user.id, userIdentifier: user.userIdentifier };
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
-      expiresIn: '10d', //만료시간 수정
+      expiresIn: '1h',
     });
     const refreshToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_REFRESH_TOKEN_SECRET,
-      expiresIn: '30d', //만료시간 수정
+      expiresIn: '30d',
     });
 
     const currentHashedRefreshToken = await hash(refreshToken, 10);
@@ -126,7 +126,7 @@ export class AuthService {
   async refresh(payload: any): Promise<TokenSchema> {
     const newAccessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,
-      expiresIn: '10d', //만료시간 수정
+      expiresIn: '1h',
     });
     return { accessToken: newAccessToken };
   }
