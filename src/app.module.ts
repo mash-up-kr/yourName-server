@@ -14,8 +14,8 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { CollectionModule } from './modules/collection/collection.module';
 import { UsersModule } from './modules/users/users.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { TransformInterceptor } from './transform.interceptor';
-import { IdCastInterceptor } from './id-cast.interceptor';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { IdCastInterceptor } from './interceptors/id-cast.interceptor';
 
 @Module({
   imports: [
