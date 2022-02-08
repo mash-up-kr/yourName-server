@@ -2,7 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupSwagger } from './swagger';
-
+import helmet from 'helmet';
 declare const module: any;
 
 async function bootstrap() {
@@ -15,6 +15,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.use(helmet());
   setupSwagger(app);
 
   await app.listen(port);
