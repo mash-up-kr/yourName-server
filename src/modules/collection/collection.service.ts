@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
 import { Collection } from 'src/entities/collection.entity';
@@ -107,6 +112,14 @@ export class CollectionService {
     collectionData: UpsertCollectionDto,
   ): Promise<number> {
     try {
+      const isDuplicatedName: Collection | undefined =
+        await this.collectionRepository.findOne({
+          where: { userId: userId, name: collectionData.name },
+        });
+      if (isDuplicatedName) {
+        throw new BadRequestException();
+      }
+
       const user: User = await this.userRepository.findOne({
         where: { id: userId },
       });
@@ -127,7 +140,17 @@ export class CollectionService {
 
       return savedCollection.id;
     } catch (err) {
-      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+      if (err.status == 400) {
+        throw new HttpException(
+          { statusCode: 400, message: 'Duplicated Name' },
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new HttpException(
+          { statusCode: 500, message: 'Internal Service Error' },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
     }
   }
 
