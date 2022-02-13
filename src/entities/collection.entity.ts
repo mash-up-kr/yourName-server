@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { number, string } from 'joi';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
@@ -26,7 +26,7 @@ export class Collection extends BaseEntity {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     type: string,
     description: '도감에 대한 설명',
