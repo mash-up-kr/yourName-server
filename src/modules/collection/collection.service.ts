@@ -3,7 +3,6 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CollectionNameCard } from 'src/entities/collection-name-card.entity';
@@ -112,7 +111,7 @@ export class CollectionService {
     userId: number,
     collectionName: string,
   ): Promise<boolean> {
-    return (await this.collectionRepository.find({
+    return (await this.collectionRepository.findOne({
       where: { userId: userId, name: collectionName },
     }))
       ? true
@@ -124,7 +123,7 @@ export class CollectionService {
     collectionData: UpsertCollectionDto,
   ): Promise<number> {
     try {
-      if (this.isDuplicatedName(userId, collectionData.name)) {
+      if (await this.isDuplicatedName(userId, collectionData.name)) {
         throw new BadRequestException({
           message: 'Duplicated Name',
         });
