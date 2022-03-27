@@ -33,6 +33,21 @@ export const ApiDocs: SwaggerMethodDoc<CollectionController> = {
     );
   },
 
+  getCollectionById(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '특정 id를 가진 도감 조회',
+      }),
+      ApiResponse({
+        description: '특정 id를 가진 도감에 대한 정보',
+        status: 200,
+        type: GetCollectionResponseDto,
+      }),
+      ApiBearerAuth('Authorization'),
+    );
+  },
+
   getAllNamecards(summary: string) {
     return applyDecorators(
       ApiOperation({
