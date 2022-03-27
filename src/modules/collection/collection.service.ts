@@ -42,6 +42,41 @@ export class CollectionService {
     private readonly namecardService: NameCardService,
   ) {}
 
+  async getCollectionById(
+    userId: number,
+    collectionId: number,
+  ): Promise<CollectionSchema> {
+    try {
+      const collection: Collection = await this.collectionRepository.findOne({
+        where: { id: collectionId },
+        relations: ['bgColor'],
+      });
+
+      const formattedCollection: CollectionSchema =
+        await this._formattingCollectionRes(userId, collection);
+
+      return formattedCollection;
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async _formattingCollectionRes(
+    userId: number,
+    collection: Collection,
+  ): Promise<CollectionSchema> {
+    const namecards: ParticularNameCardSchema[] =
+      await this.getNamecardsFromCollection(userId, collection.id);
+
+    return {
+      id: collection.id,
+      name: collection.name,
+      description: collection.description,
+      bgColor: this._formattingCollectionBgColor(collection),
+      numberOfNameCards: namecards.length,
+    };
+  }
+
   async getCollections(userId: number): Promise<CollectionSchema[]> {
     try {
       const collections: Collection[] = await this.collectionRepository.find({
@@ -52,7 +87,7 @@ export class CollectionService {
       const collectionOfAllNamecards: CollectionSchema =
         await this._getCollectionOfAllNamecards(userId);
       const formattedCollections: CollectionSchema[] =
-        await this._formattingCollectionRes(userId, collections);
+        await this._formattingCollectionsRes(userId, collections);
       formattedCollections.push(collectionOfAllNamecards);
 
       return formattedCollections;
@@ -77,7 +112,7 @@ export class CollectionService {
     };
   }
 
-  async _formattingCollectionRes(
+  async _formattingCollectionsRes(
     userId: number,
     collections: Collection[],
   ): Promise<CollectionSchema[]> {

@@ -30,6 +30,18 @@ export class CollectionController {
     return await this.collectionService.getCollections(user.id);
   }
 
+  @Get('/:collectionId')
+  // @ApiDocs.getCollectionById('특정 도감 조회')
+  async getCollectionById(
+    @AuthUser() user: User,
+    @Param('collectionId') collectionId: number,
+  ) {
+    return await this.collectionService.getCollectionById(
+      user.id,
+      collectionId,
+    );
+  }
+
   @Put('/:collectionId')
   @ApiDocs.updateCollection('도감 정보 수정')
   async updateCollection(
