@@ -86,8 +86,11 @@ export class CollectionService {
 
       const collectionOfAllNamecards: CollectionSchema =
         await this._getCollectionOfAllNamecards(userId);
-      const formattedCollections: CollectionSchema[] =
-        await this._formattingCollectionsRes(userId, collections);
+      const formattedCollections: CollectionSchema[] = await Promise.all(
+        collections.map(async (collection) => {
+          return await this._formattingCollectionRes(userId, collection);
+        }),
+      );
       formattedCollections.push(collectionOfAllNamecards);
 
       return formattedCollections;
@@ -110,26 +113,6 @@ export class CollectionService {
       bgColor: null,
       numberOfNameCards: namecards.length,
     };
-  }
-
-  async _formattingCollectionsRes(
-    userId: number,
-    collections: Collection[],
-  ): Promise<CollectionSchema[]> {
-    return await Promise.all(
-      collections.map(async (collection) => {
-        const namecards: ParticularNameCardSchema[] =
-          await this.getNamecardsFromCollection(userId, collection.id);
-
-        return {
-          id: collection.id,
-          name: collection.name,
-          description: collection.description,
-          bgColor: this._formattingCollectionBgColor(collection),
-          numberOfNameCards: namecards.length,
-        };
-      }),
-    );
   }
 
   _formattingCollectionBgColor(collection: Collection): BgColorSchema {
