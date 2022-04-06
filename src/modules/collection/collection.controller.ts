@@ -30,6 +30,12 @@ export class CollectionController {
     return await this.collectionService.getCollections(user.id);
   }
 
+  @Get('/namecards')
+  @ApiDocs.getAllNamecards('전체 명함 조회')
+  async getAllNamecards(@AuthUser() user: User) {
+    return await this.collectionService.getAllNamecards(user.id);
+  }
+
   @Get('/:collectionId')
   // @ApiDocs.getCollectionById('특정 도감 조회')
   async getCollectionById(
@@ -98,12 +104,6 @@ export class CollectionController {
       collectionId,
       addNamecardsToCollectionData,
     );
-  }
-
-  @Get('/namecards')
-  @ApiDocs.getAllNamecards('전체 명함 조회')
-  async getAllNamecards(@AuthUser() user: User) {
-    return await this.collectionService.getAllNamecards(user.id);
   }
 
   @Get('/:collectionId/namecards')
