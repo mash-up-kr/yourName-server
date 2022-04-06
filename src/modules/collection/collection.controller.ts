@@ -37,7 +37,7 @@ export class CollectionController {
   }
 
   @Get('/:collectionId')
-  // @ApiDocs.getCollectionById('특정 도감 조회')
+  @ApiDocs.getCollectionById('특정 도감 조회')
   async getCollectionById(
     @AuthUser() user: User,
     @Param('collectionId') collectionId: number,
