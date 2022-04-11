@@ -22,8 +22,14 @@ export class NameCardComment extends DateTimeEntity {
   @ApiProperty({ example: '공개여부' })
   @IsString()
   @IsNotEmpty()
-  @Column()
-  isOpen: boolean;
+  @Column({ default: false })
+  isPrivate: boolean;
+
+  @ApiProperty({ example: '고정여부' })
+  @IsString()
+  @IsNotEmpty()
+  @Column({ default: false })
+  isFix: boolean;
 
   @ApiProperty({ example: '유저 id' })
   @IsNumber()
