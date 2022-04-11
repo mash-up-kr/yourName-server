@@ -15,6 +15,7 @@ import { PersonalSkill } from './personal-skill.entity';
 import { DateTimeEntity } from './date-time.entity';
 import { Image } from './image.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { NameCardComment } from './name-card-comment.entity';
 
 @Entity({ name: 'name_card' })
 export class NameCard extends DateTimeEntity {
@@ -91,4 +92,10 @@ export class NameCard extends DateTimeEntity {
   @OneToOne(() => Image)
   @JoinColumn()
   image: Image;
+
+  @OneToMany(
+    () => NameCardComment,
+    (nameCardComment) => nameCardComment.nameCard,
+  )
+  comments: NameCardComment[];
 }

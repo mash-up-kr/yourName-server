@@ -5,6 +5,7 @@ import { Collection } from './src/entities/collection.entity';
 import { Contact } from './src/entities/contact.entity';
 import { Image } from './src/entities/image.entity';
 import { NameCardContact } from './src/entities/name-card-contact.entity';
+import { NameCardComment } from 'src/entities/name-card-comment.entity';
 import { NameCardTmi } from './src/entities/name-card-tmi.entity';
 import { NameCard } from './src/entities/name-card.entity';
 import { PersonalSkill } from './src/entities/personal-skill.entity';
@@ -29,6 +30,7 @@ const config: TypeOrmModuleOptions = {
     Contact,
     Image,
     NameCardContact,
+    NameCardComment,
     NameCardTmi,
     NameCard,
     PersonalSkill,
@@ -43,7 +45,7 @@ const config: TypeOrmModuleOptions = {
   },
   autoLoadEntities: true,
   charset: 'utf8mb4',
-  synchronize: false,
+  synchronize: true,
   logging: process.env.NODE_ENV !== 'production',
 };
 
