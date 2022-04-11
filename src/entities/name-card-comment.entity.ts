@@ -7,6 +7,12 @@ import { User } from './user.entity';
 
 @Entity({ name: 'name_card_comment' })
 export class NameCardComment extends DateTimeEntity {
+  @ApiProperty({ example: 'id' })
+  @IsNumber()
+  @IsNotEmpty()
+  @Column()
+  id: number;
+
   @ApiProperty({ example: '닉네임' })
   @IsString()
   @IsNotEmpty()
