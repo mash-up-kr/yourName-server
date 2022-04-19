@@ -1,9 +1,18 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthUser } from 'src/common/decorators/auth.decorator';
 import { User } from 'src/entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardCommentDto } from './dto/create-name-card-comment.dto';
+import { FixNameCardCommentDto } from './dto/fix-name-card-comment.dto';
 import { NameCardCommentsService } from './name-card-comments.service';
 
 @ApiTags('NameCardComment - 명함 방명록')
@@ -29,6 +38,15 @@ export class NameCardCommentsController {
     return this.nameCardCommentsService.createNameCardComment(
       user.id,
       createNameCardCommentDto,
+    );
+  }
+
+  @Put('/fix')
+  async fixNameCardComment(
+    @Body() fixNameCardCommentDto: FixNameCardCommentDto,
+  ) {
+    await this.nameCardCommentsService.fixNameCardComment(
+      fixNameCardCommentDto,
     );
   }
 }

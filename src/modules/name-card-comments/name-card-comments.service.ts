@@ -35,4 +35,8 @@ export class NameCardCommentsService {
     );
     return { nameCardCommentId: result.id };
   }
+
+  async fixNameCardComment({ id, isFix }) {
+    await this.nameCardCommentRepository.update(id, { isFix });
+  }
 }
