@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -12,6 +13,7 @@ import { AuthUser } from 'src/common/decorators/auth.decorator';
 import { User } from 'src/entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardCommentDto } from './dto/create-name-card-comment.dto';
+import { DeleteNameCardCommentDto } from './dto/delete-name-card-comment.dto';
 import { FixNameCardCommentDto } from './dto/fix-name-card-comment.dto';
 import { PrivatizeNameCardCommentDto } from './dto/privatize-name-card-comment.dto';
 import { NameCardCommentsService } from './name-card-comments.service';
@@ -57,6 +59,15 @@ export class NameCardCommentsController {
   ) {
     await this.nameCardCommentsService.privatizeNameCardComment(
       privatizeNameCardCommentDto,
+    );
+  }
+
+  @Delete()
+  async deleteNameCardComment(
+    @Body() deleteNameCardCommentDto: DeleteNameCardCommentDto,
+  ) {
+    await this.nameCardCommentsService.deleteNameCardComment(
+      deleteNameCardCommentDto,
     );
   }
 }
