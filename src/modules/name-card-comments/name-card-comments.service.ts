@@ -39,4 +39,8 @@ export class NameCardCommentsService {
   async fixNameCardComment({ id, isFix }) {
     await this.nameCardCommentRepository.update(id, { isFix });
   }
+
+  async privatizeNameCardComment({ id, isPrivate }) {
+    await this.nameCardCommentRepository.update(id, { isPrivate });
+  }
 }

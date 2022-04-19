@@ -13,6 +13,7 @@ import { User } from 'src/entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateNameCardCommentDto } from './dto/create-name-card-comment.dto';
 import { FixNameCardCommentDto } from './dto/fix-name-card-comment.dto';
+import { PrivatizeNameCardCommentDto } from './dto/privatize-name-card-comment.dto';
 import { NameCardCommentsService } from './name-card-comments.service';
 
 @ApiTags('NameCardComment - 명함 방명록')
@@ -47,6 +48,15 @@ export class NameCardCommentsController {
   ) {
     await this.nameCardCommentsService.fixNameCardComment(
       fixNameCardCommentDto,
+    );
+  }
+
+  @Put('/privatize')
+  async privatizeNameCardComment(
+    @Body() privatizeNameCardCommentDto: PrivatizeNameCardCommentDto,
+  ) {
+    await this.nameCardCommentsService.privatizeNameCardComment(
+      privatizeNameCardCommentDto,
     );
   }
 }
