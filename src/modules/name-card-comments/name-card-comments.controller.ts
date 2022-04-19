@@ -19,7 +19,7 @@ import { PrivatizeNameCardCommentDto } from './dto/privatize-name-card-comment.d
 import { NameCardCommentsService } from './name-card-comments.service';
 
 @ApiTags('NameCardComment - 명함 방명록')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('namecards/:nameCardId/comments')
 export class NameCardCommentsController {
   constructor(

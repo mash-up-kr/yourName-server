@@ -72,6 +72,7 @@ export class NameCardService {
         'tmis.tmi',
         'personalSkills',
         'personalSkills.skill',
+        'comments',
       ],
     });
 
@@ -96,6 +97,7 @@ export class NameCardService {
         contacts,
         tmis,
         personalSkills,
+        commentCount: nameCard.comments.length,
       };
     });
 
@@ -119,6 +121,7 @@ export class NameCardService {
           'tmis.tmi',
           'personalSkills',
           'personalSkills.skill',
+          'comments',
         ],
       });
 
@@ -146,6 +149,7 @@ export class NameCardService {
         contacts,
         tmis,
         personalSkills,
+        commentCount: namecardToFind.comments.length,
       };
 
       const isAdded: boolean = await this.isAddedNameCard(
