@@ -16,6 +16,7 @@ import { CreateNameCardCommentDto } from './dto/create-name-card-comment.dto';
 import { DeleteNameCardCommentDto } from './dto/delete-name-card-comment.dto';
 import { FixNameCardCommentDto } from './dto/fix-name-card-comment.dto';
 import { PrivatizeNameCardCommentDto } from './dto/privatize-name-card-comment.dto';
+import { ApiDocs } from './name-card-comments.docs';
 import { NameCardCommentsService } from './name-card-comments.service';
 
 @ApiTags('NameCardComment - 명함 방명록')
@@ -27,6 +28,7 @@ export class NameCardCommentsController {
   ) {}
 
   @Get()
+  @ApiDocs.getNameCardComments('명함의 방명록들 가져오기')
   async getNameCardComments(
     @AuthUser() user: User,
     @Param('nameCardId') nameCardId: number,
@@ -40,6 +42,7 @@ export class NameCardCommentsController {
   }
 
   @Post()
+  @ApiDocs.createNameCardComment('방명록 작성')
   async createNameCardComment(
     @AuthUser() user: User,
     @Body() createNameCardCommentDto: CreateNameCardCommentDto,
@@ -51,6 +54,7 @@ export class NameCardCommentsController {
   }
 
   @Put('/fix')
+  @ApiDocs.fixNameCardComment('명함의 방명록 상단 고정')
   async fixNameCardComment(
     @AuthUser() user: User,
     @Body() fixNameCardCommentDto: FixNameCardCommentDto,
@@ -63,6 +67,7 @@ export class NameCardCommentsController {
   }
 
   @Put('/privatize')
+  @ApiDocs.privatizeNameCardComment('명함 방명록 비공개 처리')
   async privatizeNameCardComment(
     @AuthUser() user: User,
     @Body() privatizeNameCardCommentDto: PrivatizeNameCardCommentDto,
@@ -75,6 +80,7 @@ export class NameCardCommentsController {
   }
 
   @Delete()
+  @ApiDocs.deleteNameCardComment('방명록 삭제')
   async deleteNameCardComment(
     @AuthUser() user: User,
     @Body() deleteNameCardCommentDto: DeleteNameCardCommentDto,
