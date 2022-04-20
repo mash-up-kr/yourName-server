@@ -46,28 +46,36 @@ export class NameCardCommentsController {
 
   @Put('/fix')
   async fixNameCardComment(
+    @AuthUser() user: User,
     @Body() fixNameCardCommentDto: FixNameCardCommentDto,
   ) {
     await this.nameCardCommentsService.fixNameCardComment(
-      fixNameCardCommentDto,
+      fixNameCardCommentDto.id,
+      fixNameCardCommentDto.isFix,
+      user.id,
     );
   }
 
   @Put('/privatize')
   async privatizeNameCardComment(
+    @AuthUser() user: User,
     @Body() privatizeNameCardCommentDto: PrivatizeNameCardCommentDto,
   ) {
     await this.nameCardCommentsService.privatizeNameCardComment(
-      privatizeNameCardCommentDto,
+      privatizeNameCardCommentDto.id,
+      privatizeNameCardCommentDto.isPrivate,
+      user.id,
     );
   }
 
   @Delete()
   async deleteNameCardComment(
+    @AuthUser() user: User,
     @Body() deleteNameCardCommentDto: DeleteNameCardCommentDto,
   ) {
     await this.nameCardCommentsService.deleteNameCardComment(
-      deleteNameCardCommentDto,
+      deleteNameCardCommentDto.id,
+      user.id,
     );
   }
 }
