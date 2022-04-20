@@ -49,6 +49,8 @@ export class NameCardComment extends DateTimeEntity {
   @Column()
   nameCardId: number;
 
+  isMine?: boolean;
+
   @ManyToOne(() => User, (user) => user.comments)
   user: User;
 

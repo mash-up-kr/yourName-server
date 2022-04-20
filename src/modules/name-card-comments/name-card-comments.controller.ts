@@ -27,9 +27,15 @@ export class NameCardCommentsController {
   ) {}
 
   @Get()
-  async getNameCardComments(@Param('nameCardId') nameCardId: number) {
+  async getNameCardComments(
+    @AuthUser() user: User,
+    @Param('nameCardId') nameCardId: number,
+  ) {
     const nameCardComments =
-      await this.nameCardCommentsService.getNameCardComments(nameCardId);
+      await this.nameCardCommentsService.getNameCardComments(
+        nameCardId,
+        user.id,
+      );
     return nameCardComments;
   }
 

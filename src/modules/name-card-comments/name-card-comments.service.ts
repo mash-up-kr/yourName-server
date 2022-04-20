@@ -12,14 +12,17 @@ export class NameCardCommentsService {
     private nameCardCommentRepository: Repository<NameCardComment>,
   ) {}
 
-  async getNameCardComments(nameCardId: number) {
-    return await this.nameCardCommentRepository.find({
+  async getNameCardComments(nameCardId: number, userId: number) {
+    const comments = await this.nameCardCommentRepository.find({
       where: { nameCardId },
       order: {
         isFix: 'DESC',
         createdAt: 'DESC',
       },
     });
+
+    comments.map((comment) => (comment.isMine = comment.userId === userId));
+    return comments;
   }
 
   async createNameCardComment(
