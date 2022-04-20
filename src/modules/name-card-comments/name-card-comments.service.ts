@@ -1,7 +1,13 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NameCardComment } from 'src/entities/name-card-comment.entity';
+import { NameCard } from 'src/entities/name-card.entity';
 import { Repository } from 'typeorm';
 import { CreateNameCardCommentDto } from './dto/create-name-card-comment.dto';
 
@@ -10,6 +16,8 @@ export class NameCardCommentsService {
   constructor(
     @InjectRepository(NameCardComment)
     private nameCardCommentRepository: Repository<NameCardComment>,
+    @InjectRepository(NameCard)
+    private nameCardRepository: Repository<NameCard>,
   ) {}
 
   async getNameCardComments(nameCardId: number, userId: number) {
@@ -45,6 +53,22 @@ export class NameCardCommentsService {
       throw new ForbiddenException();
     }
 
+    const comment = await this.nameCardCommentRepository.findOne(id);
+    const fixedComments = await this.nameCardCommentRepository.find({
+      nameCardId: comment.nameCardId,
+      isFix: true,
+    });
+
+    if (fixedComments.length >= 3) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_ACCEPTABLE,
+          error: '명함의 방명록은 3개까지만 상단 고정이 가능합니다.',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
     await this.nameCardCommentRepository.update(id, { isFix });
   }
 
@@ -69,12 +93,12 @@ export class NameCardCommentsService {
   }
 
   async #checkCommentInMyNameCard(userId, nameCardCommentId): Promise<boolean> {
-    const nameCard = await this.nameCardCommentRepository.findOne({
+    const nameCardComment = await this.nameCardCommentRepository.findOne({
       where: { id: nameCardCommentId },
       relations: ['nameCard'],
     });
 
-    if (nameCard.userId === userId) {
+    if (nameCardComment.nameCard.userId === userId) {
       return true;
     } else {
       return false;
