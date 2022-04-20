@@ -2,6 +2,9 @@ import { applyDecorators } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation } from '@nestjs/swagger';
 import { SwaggerMethodDoc } from '../../swagger/swagger-method-doc-type';
 import { CreateNameCardCommentDto } from './dto/create-name-card-comment.dto';
+import { DeleteNameCardCommentDto } from './dto/delete-name-card-comment.dto';
+import { FixNameCardCommentDto } from './dto/fix-name-card-comment.dto';
+import { PrivatizeNameCardCommentDto } from './dto/privatize-name-card-comment.dto';
 import { NameCardCommentsController } from './name-card-comments.controller';
 
 export const ApiDocs: SwaggerMethodDoc<NameCardCommentsController> = {
@@ -9,9 +12,6 @@ export const ApiDocs: SwaggerMethodDoc<NameCardCommentsController> = {
     return applyDecorators(
       ApiOperation({
         summary,
-      }),
-      ApiBody({
-        type: CreateNameCardCommentDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -35,7 +35,7 @@ export const ApiDocs: SwaggerMethodDoc<NameCardCommentsController> = {
         summary,
       }),
       ApiBody({
-        type: CreateNameCardCommentDto,
+        type: DeleteNameCardCommentDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -47,7 +47,7 @@ export const ApiDocs: SwaggerMethodDoc<NameCardCommentsController> = {
         summary,
       }),
       ApiBody({
-        type: CreateNameCardCommentDto,
+        type: FixNameCardCommentDto,
       }),
       ApiBearerAuth('Authorization'),
     );
@@ -59,7 +59,7 @@ export const ApiDocs: SwaggerMethodDoc<NameCardCommentsController> = {
         summary,
       }),
       ApiBody({
-        type: CreateNameCardCommentDto,
+        type: PrivatizeNameCardCommentDto,
       }),
       ApiBearerAuth('Authorization'),
     );
