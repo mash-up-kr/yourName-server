@@ -85,9 +85,9 @@ export class NameCardCommentsService {
     await this.nameCardCommentRepository.update(id, { isPrivate });
   }
 
-  //TODO: 본인도 삭제 가능하게
   async deleteNameCardComment(id: number, userId: number) {
-    if (!(await this.#checkCommentInMyNameCard(userId, id))) {
+    const canDelete = await this.#checkCommentCanDelete(userId, id);
+    if (!canDelete) {
       throw new ForbiddenException();
     }
 
@@ -105,5 +105,27 @@ export class NameCardCommentsService {
     } else {
       return false;
     }
+  }
+
+  async #checkNameCardCommentWriter(
+    userId,
+    nameCardCommentId,
+  ): Promise<boolean> {
+    const nameCardComment = await this.nameCardCommentRepository.findOne(
+      nameCardCommentId,
+    );
+
+    if (nameCardComment.userId === userId) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async #checkCommentCanDelete(userId, nameCardCommentId): Promise<boolean> {
+    return (
+      (await this.#checkCommentInMyNameCard(userId, nameCardCommentId)) ||
+      (await this.#checkNameCardCommentWriter(userId, nameCardCommentId))
+    );
   }
 }

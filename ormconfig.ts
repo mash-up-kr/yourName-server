@@ -5,7 +5,7 @@ import { Collection } from './src/entities/collection.entity';
 import { Contact } from './src/entities/contact.entity';
 import { Image } from './src/entities/image.entity';
 import { NameCardContact } from './src/entities/name-card-contact.entity';
-import { NameCardComment } from 'src/entities/name-card-comment.entity';
+import { NameCardComment } from './src/entities/name-card-comment.entity';
 import { NameCardTmi } from './src/entities/name-card-tmi.entity';
 import { NameCard } from './src/entities/name-card.entity';
 import { PersonalSkill } from './src/entities/personal-skill.entity';
