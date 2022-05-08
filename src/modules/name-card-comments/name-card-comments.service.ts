@@ -20,6 +20,7 @@ export class NameCardCommentsService {
     private nameCardRepository: Repository<NameCard>,
   ) {}
 
+  //TODO: 랜덤 색상 추가
   async getNameCardComments(nameCardId: number, userId: number) {
     const comments = await this.nameCardCommentRepository.find({
       where: { nameCardId },
@@ -84,6 +85,7 @@ export class NameCardCommentsService {
     await this.nameCardCommentRepository.update(id, { isPrivate });
   }
 
+  //TODO: 본인도 삭제 가능하게
   async deleteNameCardComment(id: number, userId: number) {
     if (!(await this.#checkCommentInMyNameCard(userId, id))) {
       throw new ForbiddenException();

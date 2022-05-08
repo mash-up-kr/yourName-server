@@ -20,7 +20,7 @@ import { ApiDocs } from './name-card-comments.docs';
 import { NameCardCommentsService } from './name-card-comments.service';
 
 @ApiTags('NameCardComment - 명함 방명록')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('namecards/:nameCardId/comments')
 export class NameCardCommentsController {
   constructor(

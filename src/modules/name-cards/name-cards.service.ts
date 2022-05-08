@@ -59,6 +59,7 @@ export class NameCardService {
     private connection: Connection,
   ) {}
 
+  //TODO: 새로운 방명록 있는지 여부도 내려주기
   async getMyNameCards(userId: number): Promise<NameCardSchema[]> {
     const _nameCards = await this.nameCardRepository.find({
       where: { userId },
