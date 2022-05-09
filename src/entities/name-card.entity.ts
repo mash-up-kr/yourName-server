@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsOptional,
+  IsBoolean,
+} from 'class-validator';
 import {
   Column,
   Entity,
@@ -64,6 +70,12 @@ export class NameCard extends DateTimeEntity {
   @IsNumber()
   @Column({ nullable: true })
   imageId: number;
+
+  @ApiProperty({ example: '새로운 방명록 여부' })
+  @IsBoolean()
+  @IsNotEmpty()
+  @Column({ default: false })
+  newComment: boolean;
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, {

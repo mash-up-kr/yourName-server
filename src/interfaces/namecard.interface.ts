@@ -14,6 +14,7 @@ export interface NameCardSchema {
   tmis: TmiSchema[];
   personalSkills: PersonalSkillSchema[];
   commentCount?: number;
+  newComment: boolean;
 }
 
 export interface ParticularNameCardSchema {

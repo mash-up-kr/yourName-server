@@ -22,6 +22,10 @@ export class NameCardCommentsService {
 
   //TODO: 랜덤 색상 추가
   async getNameCardComments(nameCardId: number, userId: number) {
+    await this.nameCardRepository.update(nameCardId, {
+      newComment: false,
+    });
+
     const comments = await this.nameCardCommentRepository.find({
       where: { nameCardId },
       order: {
@@ -46,6 +50,10 @@ export class NameCardCommentsService {
     const result = await this.nameCardCommentRepository.save(
       createNameCardCommentData,
     );
+
+    await this.nameCardRepository.update(nameCardComment.nameCardId, {
+      newComment: true,
+    });
     return { nameCardCommentId: result.id };
   }
 

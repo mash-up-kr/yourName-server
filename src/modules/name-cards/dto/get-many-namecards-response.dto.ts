@@ -62,6 +62,12 @@ class NamecardResponseSchema extends PickType(NameCard, [
 
   @ApiProperty({ type: [PersonalSillResponseSchema] })
   personalSkills: PersonalSillResponseSchema[];
+
+  @ApiProperty()
+  commentCount: number;
+
+  @ApiProperty()
+  newComment: boolean;
 }
 
 class ListGetAllNamecardsResponseDto {

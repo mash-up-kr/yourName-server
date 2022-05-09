@@ -59,7 +59,6 @@ export class NameCardService {
     private connection: Connection,
   ) {}
 
-  //TODO: 새로운 방명록 있는지 여부도 내려주기
   async getMyNameCards(userId: number): Promise<NameCardSchema[]> {
     const _nameCards = await this.nameCardRepository.find({
       where: { userId },
@@ -99,6 +98,7 @@ export class NameCardService {
         tmis,
         personalSkills,
         commentCount: nameCard.comments.length,
+        newComment: nameCard.newComment,
       };
     });
 
@@ -151,6 +151,7 @@ export class NameCardService {
         tmis,
         personalSkills,
         commentCount: namecardToFind.comments.length,
+        newComment: namecardToFind.newComment,
       };
 
       const isAdded: boolean = await this.isAddedNameCard(
