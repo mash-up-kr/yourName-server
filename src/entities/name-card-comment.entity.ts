@@ -49,6 +49,12 @@ export class NameCardComment extends DateTimeEntity {
   @Column()
   nameCardId: number;
 
+  @ApiProperty({ example: '댓글 색깔' })
+  @IsString()
+  @IsNotEmpty()
+  @Column({ type: 'char', length: 7 })
+  bgColor: string;
+
   isMine?: boolean;
 
   @ManyToOne(() => User, (user) => user.comments)

@@ -6,6 +6,11 @@ import {
 } from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  fixedColor,
+  normalColors,
+  privateColor,
+} from 'src/constants/name-card-comment.constant';
 import { NameCardComment } from 'src/entities/name-card-comment.entity';
 import { NameCard } from 'src/entities/name-card.entity';
 import { Repository } from 'typeorm';
@@ -20,7 +25,6 @@ export class NameCardCommentsService {
     private nameCardRepository: Repository<NameCard>,
   ) {}
 
-  //TODO: 랜덤 색상 추가
   async getNameCardComments(nameCardId: number, userId: number) {
     await this.nameCardRepository.update(nameCardId, {
       newComment: false,
@@ -44,6 +48,7 @@ export class NameCardCommentsService {
   ) {
     const createNameCardCommentData = {
       userId,
+      bgColor: this.#randomColor(),
       ...nameCardComment,
     };
 
@@ -78,7 +83,10 @@ export class NameCardCommentsService {
       );
     }
 
-    await this.nameCardCommentRepository.update(id, { isFix });
+    await this.nameCardCommentRepository.update(id, {
+      isFix,
+      bgColor: isFix ? fixedColor : this.#randomColor(),
+    });
   }
 
   async privatizeNameCardComment(
@@ -90,7 +98,10 @@ export class NameCardCommentsService {
       throw new ForbiddenException();
     }
 
-    await this.nameCardCommentRepository.update(id, { isPrivate });
+    await this.nameCardCommentRepository.update(id, {
+      isPrivate,
+      bgColor: isPrivate ? privateColor : this.#randomColor(),
+    });
   }
 
   async deleteNameCardComment(id: number, userId: number) {
@@ -135,5 +146,9 @@ export class NameCardCommentsService {
       (await this.#checkCommentInMyNameCard(userId, nameCardCommentId)) ||
       (await this.#checkNameCardCommentWriter(userId, nameCardCommentId))
     );
+  }
+
+  #randomColor(): string {
+    return normalColors[Math.floor(Math.random() * normalColors.length)];
   }
 }
