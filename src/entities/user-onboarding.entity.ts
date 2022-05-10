@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsNotEmpty, IsString } from 'class-validator';
-import { userOnboardingStatusType } from 'src/types/onBoarding.types';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
@@ -16,27 +15,27 @@ export class UserOnboarding extends BaseEntity {
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  makeFirstNameCard: userOnboardingStatusType;
+  makeFirstNameCard: 'WAIT' | 'DONE_WAIT' | 'DONE';
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  saveMeetuMyAlbum: userOnboardingStatusType;
+  saveMeetuMyAlbum: 'WAIT' | 'DONE_WAIT' | 'DONE';
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  addFriendNameCard: userOnboardingStatusType;
+  addFriendNameCard: 'WAIT' | 'DONE_WAIT' | 'DONE';
 
   // @IsNotEmpty()
   // @IsString()
   // @Column({ default: 'WAIT' })
-  // makeNewCollection: userOnboardingStatusType;
+  // makeNewCollection: 'WAIT' | 'DONE_WAIT' | 'DONE';
 
   @IsNotEmpty()
   @IsString()
   @Column({ default: 'WAIT' })
-  makeThreeNameCards: userOnboardingStatusType;
+  makeThreeNameCards: 'WAIT' | 'DONE_WAIT' | 'DONE';
 
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @OneToOne(() => User, {

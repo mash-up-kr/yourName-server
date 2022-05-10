@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsOptional,
+  IsBoolean,
+} from 'class-validator';
 import {
   Column,
   Entity,
@@ -15,6 +21,7 @@ import { PersonalSkill } from './personal-skill.entity';
 import { DateTimeEntity } from './date-time.entity';
 import { Image } from './image.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { NameCardComment } from './name-card-comment.entity';
 
 @Entity({ name: 'name_card' })
 export class NameCard extends DateTimeEntity {
@@ -64,6 +71,12 @@ export class NameCard extends DateTimeEntity {
   @Column({ nullable: true })
   imageId: number;
 
+  @ApiProperty({ example: '새로운 방명록 여부' })
+  @IsBoolean()
+  @IsNotEmpty()
+  @Column({ default: false })
+  newComment: boolean;
+
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   @ManyToOne(() => User, {
     onDelete: 'CASCADE',
@@ -91,4 +104,10 @@ export class NameCard extends DateTimeEntity {
   @OneToOne(() => Image)
   @JoinColumn()
   image: Image;
+
+  @OneToMany(
+    () => NameCardComment,
+    (nameCardComment) => nameCardComment.nameCard,
+  )
+  comments: NameCardComment[];
 }

@@ -13,6 +13,8 @@ export interface NameCardSchema {
   contacts: ContactSchema[];
   tmis: TmiSchema[];
   personalSkills: PersonalSkillSchema[];
+  commentCount?: number;
+  newComment: boolean;
 }
 
 export interface ParticularNameCardSchema {

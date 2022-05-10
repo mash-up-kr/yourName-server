@@ -16,6 +16,7 @@ import { UsersModule } from './modules/users/users.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { IdCastInterceptor } from './interceptors/id-cast.interceptor';
+import { NameCardCommentsModule } from './modules/name-card-comments/name-card-comments.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { IdCastInterceptor } from './interceptors/id-cast.interceptor';
     TasksModule,
     CollectionModule,
     UsersModule,
+    NameCardCommentsModule,
   ],
   controllers: [AppController],
   providers: [

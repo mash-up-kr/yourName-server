@@ -1,9 +1,10 @@
-import { Column, Entity, OneToOne } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { BaseEntity } from './base.entity';
 import { UserOnboarding } from './user-onboarding.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { string } from 'joi';
+import { NameCardComment } from './name-card-comment.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -34,4 +35,7 @@ export class User extends BaseEntity {
 
   @OneToOne(() => UserOnboarding)
   onboarding?: UserOnboarding;
+
+  @OneToMany(() => NameCardComment, (nameCardComment) => nameCardComment.user)
+  comments: NameCardComment[];
 }
